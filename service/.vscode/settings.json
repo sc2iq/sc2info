@@ -1,0 +1,11 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+    "typescript.tsdk": "node_modules/typescript/lib",
+
+    "search.exclude": {
+        "**/build/**/*": true,
+        "**/node_modules": true
+    },
+    "appService.deploySubpath": "",
+    "appService.defaultWebAppToDeploy": "/subscriptions/dbe085e6-4448-4069-ab44-483eafb5c59b/resourceGroups/sc2info/providers/Microsoft.Web/sites/sc2info-wa"
+}

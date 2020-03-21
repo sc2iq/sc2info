@@ -1,0 +1,31 @@
+
+.search-all {
+    border-radius: 12px;
+    border: 3px solid #195889;
+    background-color: #040517;
+    display: flex;
+    padding: 0.25em;
+}
+
+.search-all__picture {
+    max-width: 80px;
+    padding: 0.5em;
+}
+
+.search-all__race {
+    padding: 0.5em;
+}
+
+.search-all__info {
+    flex: 1;
+    padding: 0.5em;
+    color: #53b4dc;
+}
+
+.search-all__name {
+    font-size: 3rem;
+}
+
+.search-all__name .match-string--matched {
+    color: rgba(255, 255, 255, 0.9);
+}

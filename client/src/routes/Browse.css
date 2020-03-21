@@ -1,0 +1,15 @@
+section {
+    padding: 2em 0;
+}
+
+.browse-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 150px);
+    grid-gap: 1em;
+}
+
+.browse-list a {
+    border: 1px solid var(--secondary);
+    padding: 1em;
+    display: block;
+}
