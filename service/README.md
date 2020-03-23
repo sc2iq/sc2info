@@ -1,2 +1,3 @@
-# sc2-api
-GraphQL API for StarCraft 2 units, buildings, weapons, and more.
+# SC2INFO Service
+
+GraphQL API for StarCraft 2 Units, Buildings, Weapons, and More.
