@@ -1,7 +1,5 @@
-import * as graphql from 'graphql'
-import { IBalanceData, default as getBalanceData } from '../balancedata'
-import Unit from '../schema/unit'
-import * as pagination from '../schema/pagination'
+import getBalanceData, { IBalanceData } from '../../balancedata'
+import * as pagination from '../pagination'
 
 function getNodeRelationships(node: any, depth: number, balanceData: IBalanceData) {
     if (depth <= 0) {
@@ -51,25 +49,8 @@ function getNodeRelationships(node: any, depth: number, balanceData: IBalanceDat
     return node
 }
 
-export default {
-    type: pagination.Page(Unit),
-    description: "Return the 'first' X number of items 'after' the specified cursor'",
-    args: {
-        depth: {
-            type: graphql.GraphQLInt,
-            description:
-                'Limits the depth of recursing when choosing to return fields which are other units. (Strengths, Weaknesses, Requires, Producedby, etc)',
-        },
-        first: {
-            type: graphql.GraphQLInt,
-            description: 'Limits the number of results returned in the page. Defaults to 10.',
-        },
-        after: {
-            type: graphql.GraphQLString,
-            description: 'The cursor value of an item returned in previous page. An alternative to in integer offset.',
-        },
-    },
-    async resolve(_: any, { depth = 0, first = 10, after }: { depth: number; first: number; after: string }) {
+const Query = {
+    units: async (_: any, { depth = 0, first = 10, after }: { depth: number; first: number; after: string }) => {
         const balanceData = await getBalanceData()
         let afterIndex: number = 0
 
@@ -116,4 +97,51 @@ export default {
             },
         }
     },
+
+    unit: async (_: any, { id }: any) => {
+        const balanceData = await getBalanceData()
+        const unit = balanceData.units.find(unit => unit.id === id)
+        if (!unit) {
+            throw new Error(`Not Found. Could not find unit with id matching: ${id}`)
+        }
+
+        if (unit.weapons && unit.weapons.length > 0 && typeof unit.weapons[0] === 'number') {
+            const weaponUnits = (unit.weapons as number[])
+                .map(unitId => balanceData.weapons.find(x => x.id === unitId))
+                .filter(x => x)
+
+            unit.weapons = weaponUnits
+        }
+
+        if (unit.upgrades && unit.upgrades.length > 0 && typeof unit.upgrades[0] === 'number') {
+            const upgrades = (unit.upgrades as number[])
+                .map(unitId => balanceData.upgrades.find(x => x.id === unitId))
+                .filter(x => x)
+
+            unit.upgrades = upgrades
+        }
+
+        return unit
+    },
+
+    unitsByOffset: async (_: any, { first = 10, offset = 0 }: { first: number; offset: number }) => {
+        if (first < 0) {
+            throw new Error(`argument: 'first' must not be less than 0. You passed: ${first}`)
+        }
+        if (offset < 0) {
+            throw new Error(`argument: 'offset' must not be less than 0. You passed: ${offset}`)
+        }
+
+        const balanceData = await getBalanceData()
+
+        return balanceData.units.slice(offset, offset + first)
+    },
+}
+
+const Mutation = {
+}
+
+export default {
+    Query,
+    Mutation,
 }

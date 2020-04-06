@@ -18,7 +18,7 @@ query search($searchValue: String) {
         item {
             name
             id
-            query
+            type
             icon
             race
         }

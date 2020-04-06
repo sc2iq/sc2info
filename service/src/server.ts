@@ -2,7 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import graphqlHttp from 'express-graphql'
 import { updateBalanceData } from './balancedata'
-import schema from './queries/root'
+import schema from './schema'
 import dotenv from 'dotenv'
 
 dotenv.config()

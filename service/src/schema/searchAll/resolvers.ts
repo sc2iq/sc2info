@@ -1,10 +1,9 @@
-import * as graphql from 'graphql'
-import { IBalanceData, default as getBalanceData } from '../balancedata'
+import getBalanceData, { IBalanceData } from '../../balancedata'
 import Fuse from 'fuse.js'
 
 interface IGenericSearchItem {
     name: string
-    query: string
+    type: 'unit' | 'weapon' | 'upgrade' | 'ability' | 'building'
     id: number
     icon: string
     race: string
@@ -13,7 +12,7 @@ interface IGenericSearchItem {
 function convertUnitToGenericSearchItem(unit: any): IGenericSearchItem {
     return {
         name: unit.meta.name,
-        query: 'unit',
+        type: 'unit',
         id: unit.id,
         icon: unit.meta.icon,
         race: unit.meta.race,
@@ -23,7 +22,7 @@ function convertUnitToGenericSearchItem(unit: any): IGenericSearchItem {
 function convertWeaponToGenericSearchItem(weapon: any): IGenericSearchItem {
     return {
         name: weapon.meta.name,
-        query: 'weapon',
+        type: 'weapon',
         id: weapon.id,
         icon: weapon.meta.icon,
         race: weapon.meta.race,
@@ -33,7 +32,7 @@ function convertWeaponToGenericSearchItem(weapon: any): IGenericSearchItem {
 function convertUpgradeToGenericSearchItem(upgrade: any): IGenericSearchItem {
     return {
         name: upgrade.meta.name,
-        query: 'upgrade',
+        type: 'upgrade',
         id: upgrade.id,
         icon: upgrade.meta.icon,
         race: upgrade.meta.race,
@@ -43,7 +42,7 @@ function convertUpgradeToGenericSearchItem(upgrade: any): IGenericSearchItem {
 function convertBuildingToGenericSearchItem(building: any): IGenericSearchItem {
     return {
         name: building.meta.name,
-        query: 'building',
+        type: 'building',
         id: building.id,
         icon: building.meta.icon,
         race: building.meta.race,
@@ -54,7 +53,7 @@ function convertAbilityToGenericSearchItem(ability: any): IGenericSearchItem {
     const command = ability.command[0]
     return {
         name: ability.id,
-        query: 'ability',
+        type: 'ability',
         id: -1, // TODO: ability.id, Type of id field is number so assigning string gets turned into null
         icon: command.meta.icon,
         race: command.meta.race,
@@ -69,40 +68,6 @@ function convertToGenericSearchList(balanceData: IBalanceData): IGenericSearchIt
         ...balanceData.buildings.map(convertBuildingToGenericSearchItem),
         ...balanceData.abilities.map(convertAbilityToGenericSearchItem),
     ]
-}
-
-const GenericSearchItem = new graphql.GraphQLObjectType({
-    name: 'GenericSearchItem',
-    description: 'Generic Search item',
-    fields: () => ({
-        name: { type: graphql.GraphQLString },
-        id: { type: graphql.GraphQLInt },
-        query: { type: graphql.GraphQLString },
-        icon: { type: graphql.GraphQLString },
-        race: { type: graphql.GraphQLString },
-    }),
-})
-
-const MatchType = new graphql.GraphQLObjectType({
-    name: 'FuseMatchType',
-    description: 'Generic Search item',
-    fields: () => ({
-        indices: { type: new graphql.GraphQLList(new graphql.GraphQLList(graphql.GraphQLInt)) },
-        key: { type: graphql.GraphQLString },
-        value: { type: graphql.GraphQLString },
-    }),
-})
-
-function GraphqlFuseResult(itemType: any) {
-    return new graphql.GraphQLObjectType({
-        name: 'GraphqlFuseResult',
-        description: 'Search item',
-        fields: () => ({
-            item: { type: itemType },
-            matches: { type: new graphql.GraphQLList(MatchType) },
-            score: { type: graphql.GraphQLFloat },
-        }),
-    })
 }
 
 let list: IGenericSearchItem[] = []
@@ -121,16 +86,88 @@ const options = {
 }
 let fuse = new Fuse(list, options)
 
-export default {
-    type: new graphql.GraphQLList(GraphqlFuseResult(GenericSearchItem)),
-    description: 'Serach everything (units, buildings, weapons, and upgrades) by name',
-    args: {
-        query: {
-            type: graphql.GraphQLString,
-            description: 'Search input',
-        },
+const Unit = {
+    __resolveType(obj: any, context: any, info: any) {
+        console.log(`Resolve Type: `, { obj, context, info })
+        if (obj.meta.name) {
+            return 'Unit'
+        }
+
+        return null
     },
-    async resolve(_: any, { query }: { query: string }) {
+}
+
+const Building = {
+    __resolveType(obj: any, context: any, info: any) {
+        console.log(`Resolve Type: `, { obj, context, info })
+        if (obj.meta.name) {
+            return 'Building'
+        }
+
+        return null
+    },
+}
+
+const Weapon = {
+    __resolveType(obj: any, context: any, info: any) {
+        console.log(`Resolve Type: `, { obj, context, info })
+        if (obj.meta.name) {
+            return 'Weapon'
+        }
+
+        return null
+    },
+}
+
+const Ability = {
+    __resolveType(obj: any, context: any, info: any) {
+        console.log(`Resolve Type: `, { obj, context, info })
+        if (obj.meta.name) {
+            return 'Ability'
+        }
+
+        return null
+    },
+}
+
+const Upgrade = {
+    __resolveType(obj: any, context: any, info: any) {
+        console.log(`Resolve Type: `, { obj, context, info })
+        if (obj.meta.name) {
+            return 'Upgrade'
+        }
+
+        return null
+    },
+}
+
+const SearchResult = {
+    __resolveType(obj: IGenericSearchItem) {
+        switch (obj.type) {
+            case "unit": {
+                return "Unit"
+            }
+            case "weapon": {
+                return "Weapon"
+            }
+            case "upgrade": {
+                return "Upgrade"
+            }
+            case "ability": {
+                return "Ability"
+            }
+            case "building": {
+                return "Building"
+            }
+        }
+
+        return null
+    },
+}
+
+const Query = {
+    searchAll: async (_: any, { query }: { query: string }) => {
+        // Build Fuse set on first request
         if (list.length === 0) {
             const balanceData = await getBalanceData()
             list = convertToGenericSearchList(balanceData)
@@ -141,4 +178,19 @@ export default {
 
         return fuseResults
     },
+}
+
+const Mutation = {
+}
+
+export default {
+    Unit,
+    Building,
+    Weapon,
+    Ability,
+    Upgrade,
+    SearchResult,
+
+    Query,
+    Mutation,
 }

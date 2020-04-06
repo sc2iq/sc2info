@@ -10,7 +10,7 @@
             "name": "Launch Program",
             "program": "${workspaceFolder}\\build\\server.js",
             "sourceMaps": true,
-            "console": "internalConsole",
+            "console": "integratedTerminal",
             "preLaunchTask": "build",
             "env": {
                 "NODE_ENV": "development"
