@@ -1,0 +1,30 @@
+{
+  "name": "@sc2/question-generator",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Generate questions base for SC2IQ.",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "tsc",
+    "prestart": "npm run build",
+    "start": "node .",
+    "prettier": "prettier --write src/**/*"
+  },
+  "keywords": [],
+  "author": "Matt Mazzola <mattmazzola@live.com> (https://github.com/mattmazzola)",
+  "license": "MIT",
+  "dependencies": {
+    "auth0": "^2.24.0",
+    "axios": "^0.19.0",
+    "node-fetch": "^2.6.0",
+    "dotenv": "^8.0.0"
+  },
+  "devDependencies": {
+    "@types/auth0": "^2.20.2",
+    "@types/node-fetch": "^2.5.7",
+    "@types/dotenv": "^6.1.1",
+    "@types/node": "^12.12.38",
+    "prettier": "^1.18.2",
+    "typescript": "^3.5.3"
+  }
+}

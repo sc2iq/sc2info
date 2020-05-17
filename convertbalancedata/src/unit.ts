@@ -40,26 +40,26 @@ export interface IParsedUnit extends IParsedEntity {
 }
 
 export interface IUnit extends IEntity {
-    meta: IMeta
-    life: IHealth
+    abilities: IAbility[]
     armor: IHealth
+    attributes: IAttribute[]
+    builds: IUnit[]
+    cost: ICost
+    life: IHealth
+    meta: IMeta
+    misc: IMisc
+    movement: IMovement
+    producer: IUnitReference
+    requires: IUnitReference[]
+    researches: IBuildingUpgrade[]
+    score: IScore
     shields: IHealth
     shieldArmor: IHealth
-    requires: IUnitReference[]
-    cost: ICost
-    movement: IMovement
-    score: IScore
-    misc: IMisc
-    producer: IUnitReference
-    attributes: IAttribute[]
     strengths: IUnitReference[]
-    weaknesses: IUnitReference[]
-    weapons: IWeapon[]
-    abilities: IAbility[]
-    builds: IUnit[]
     trains: IUnit[]
     upgrades: IUpgrade[]
-    researches: IBuildingUpgrade[]
+    weaknesses: IUnitReference[]
+    weapons: IWeapon[]
 }
 
 export interface IUnitNode extends IEntity {
@@ -77,6 +77,7 @@ export interface IUnitNode extends IEntity {
     requires: number[]
     researches: number[]
     score: IScore
+    shields?: IHealth
     shieldArmor: IHealth
     strengths: number[]
     trains: number[]
