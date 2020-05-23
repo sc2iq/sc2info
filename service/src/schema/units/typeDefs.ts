@@ -1,6 +1,10 @@
 import gql from "graphql-tag"
 
 const typeDefs = gql`
+    type RawUnitReference {
+        id: Int
+        name: String
+    }
 
     type RawUpgradeLevel {
         id: String
@@ -28,11 +32,11 @@ const typeDefs = gql`
         score: Score
         misc: Misc
         producer: Int
-        attributes: String
-        strengths: Unit
-        weaknesses: Unit
-        weapons: Weapon
-        abilities: String
+        # attributes: [String]
+        strengths: [RawUnitReference]
+        weaknesses: [RawUnitReference]
+        weapons: [Weapon]
+        # abilities: [String]
         # builds: [Unit]
         # trains: [Unit]
         upgrades: [RawUpgradeLevels]
