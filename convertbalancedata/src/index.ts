@@ -21,15 +21,14 @@ async function main(xmlFolder: string = './balancedata', outputFile: string = `$
     const units: Units = await xml2jsonAsync(xml)
     const unitsJson = JSON.stringify(units, null, '  ')
     const unprocessedUnitsFilename = outputFile.replace('.json', '.raw.json')
-    fs.promises.writeFile(unprocessedUnitsFilename, unitsJson, 'utf8')
+    await fs.promises.writeFile(unprocessedUnitsFilename, unitsJson, 'utf8')
 
     // Post Processed JSON
     const categorizedUnits = await postProcess(units)
     const categorizedUnitsJson = JSON.stringify(categorizedUnits, null, '  ')
 
     const finalJson = categorizedUnitsJson
-    fs.promises.writeFile(outputFile, finalJson, 'utf8')
-
+    await fs.promises.writeFile(outputFile, finalJson, 'utf8')
 }
 
 const argv = yargs

@@ -8,7 +8,36 @@ const query = `
     unit(id: $id) {
         id
         original {
-          upgrades {
+            strengths {
+              id
+              name
+            }
+            weaknesses {
+              id
+              name
+            }
+            weapons {
+              meta {
+                name
+                icon
+              }
+              misc {
+                range
+                speed
+                targets
+              }
+              effect {
+                max
+                death
+                radius
+                bonus {
+                  damage
+                  max
+                  type
+                }
+              }
+            }
+            upgrades {
               id
               name
               levels {
@@ -24,7 +53,7 @@ const query = `
                   vespene
                   time
                 }
-              } 
+            } 
           }
         }
         meta {

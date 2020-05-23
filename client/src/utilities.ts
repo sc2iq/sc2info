@@ -6,8 +6,8 @@ export interface IMatchSegement {
 }
 
 /**
- * This works by dividing the input text into segements by the match indicies
- * Initialy the input is a single unmatched segment, for every match we split the segments into parts.
+ * This works by dividing the input text into segments by the match indicies
+ * Initially the input is a single unmatched segment, for every match we split the segments into parts.
  * 
  * Example
  * ```
@@ -25,6 +25,8 @@ export interface IMatchSegement {
  *   'har' 'n' 'ess' 'real-' 'time'
  * 
  */
+// TODO: Change to single pass computation of slices based on indicies.
+// All indicies must be greater than or equal, and non 0 length pairs
 export const convertMatchedTextIntoMatchedSegements = <T>(inputText: string, matches: [number, number][]): IMatchSegement[] => {
     const initialSegments: IMatchSegement[] = [
         {
