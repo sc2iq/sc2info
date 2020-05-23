@@ -15,7 +15,7 @@
   border-top-left-radius: var(--radius);
   border-bottom-left-radius: var(--radius);
   color: var(--accent);
-  width: 30px;
+  width: 40px;
 }
 
 .search-input__control {
