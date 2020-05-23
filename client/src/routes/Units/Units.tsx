@@ -54,7 +54,7 @@ const Component: React.FC<Props> = ({ match }) => {
     return (
         <>
             <h1>
-                <NavLink to="/browse" >Browse</NavLink> > Units
+                <NavLink to="/browse" >Browse</NavLink> &gt; Units
             </h1>
             <p>Total Count: {unitsObject && unitsObject.totalCount}</p>
 

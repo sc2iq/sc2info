@@ -103,7 +103,7 @@ const Component: React.FC<Props> = ({ match }) => {
     return (
         <>
             <h1>
-                <NavLink to="/browse" >Browse</NavLink> > <NavLink to="/units" >Units</NavLink> > {unitName}
+                <NavLink to="/browse" >Browse</NavLink> &gt; <NavLink to="/units" >Units</NavLink> &gt; {unitName}
             </h1>
 
             <section>

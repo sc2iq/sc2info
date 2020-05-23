@@ -42,7 +42,7 @@ const Component: React.FC = () => {
     return (
         <>
             <h1>
-                <NavLink to="/browse" >Browse</NavLink> > Upgrades
+                <NavLink to="/browse" >Browse</NavLink> &gt; Upgrades
             </h1>
 
             <section>

@@ -94,7 +94,7 @@ const Component: React.FC<Props> = ({ match }) => {
     return (
         <>
             <h1>
-                <NavLink to="/browse" >Browse</NavLink> > <NavLink to="/buildings" >Buildings</NavLink> > {buildingName}
+                <NavLink to="/browse" >Browse</NavLink> &gt; <NavLink to="/buildings" >Buildings</NavLink> &gt; {buildingName}
             </h1>
 
             <section>
