@@ -28,7 +28,7 @@ app.get('/', (_, res) => {
     res.status(200).send(`sc2info api is running. ${new Date().toJSON()}`)
 })
 
-const port = process.env.PORT || 4000
+const port = process.env.PORT ?? 4000
 app.listen(port, () => {
     console.log(`GraphQL started on port: http://localhost:${port}/graphql`)
 })

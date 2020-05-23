@@ -105,7 +105,7 @@ const Query = {
             throw new Error(`Not Found. Could not find unit with id matching: ${id}`)
         }
 
-        if (unit.weapons && unit.weapons.length > 0 && typeof unit.weapons[0] === 'number') {
+        if (unit.weapons?.length > 0 && typeof unit.weapons[0] === 'number') {
             const weaponUnits = (unit.weapons as number[])
                 .map(unitId => balanceData.weapons.find(x => x.id === unitId))
                 .filter(x => x)
@@ -113,7 +113,7 @@ const Query = {
             unit.weapons = weaponUnits
         }
 
-        if (unit.upgrades && unit.upgrades.length > 0 && typeof unit.upgrades[0] === 'number') {
+        if (unit.upgrades?.length > 0 && typeof unit.upgrades[0] === 'number') {
             const upgrades = (unit.upgrades as number[])
                 .map(unitId => balanceData.upgrades.find(x => x.id === unitId))
                 .filter(x => x)
