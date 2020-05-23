@@ -54,7 +54,7 @@ const Component: React.FC = () => {
     }
 
     const pause = searchQuery.length <= 3
-    const [searchResultz] = urlq.useQuery({
+    const [searchResults] = urlq.useQuery({
         query,
         variables: {
             searchValue: searchQuery
@@ -100,22 +100,22 @@ const Component: React.FC = () => {
                 {pause
                     && <p>Search value must be greater than 3 characters.</p>}
 
-                {searchResultz.fetching
+                {searchResults.fetching
                     && <p>&nbsp;Loading...</p>}
 
-                {searchResultz.error
-                    ? <p>&nbsp;Error! {searchResultz.error.message}</p>
-                    : searchResultz.data
+                {searchResults.error
+                    ? <p>&nbsp;Error! {searchResults.error.message}</p>
+                    : searchResults.data
                     && <div className="search-all-list">
-                        {(searchResultz.data.searchAll as any[]).map((searchResult, i) => {
+                        {(searchResults.data.searchAll as any[]).map((searchResult, i) => {
                             let path = 'units'
-                            if (searchResult.item.query === 'upgrade') {
+                            if (searchResult.item.type === 'upgrade') {
                                 path = 'upgrades'
                             }
-                            else if (searchResult.item.query === 'weapon') {
+                            else if (searchResult.item.type === 'weapon') {
                                 path = 'weapons'
                             }
-                            else if (searchResult.item.query === 'building') {
+                            else if (searchResult.item.type === 'building') {
                                 path = 'buildings'
                             }
 

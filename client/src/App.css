@@ -2,7 +2,7 @@
   --fontFamily: "Roboto", "PT Sans", Arial, Helvetica, sans-serif;
   --background: #0C1828;
   --header: #1C2739;
-  --blueLinkLigh: #0D1F36;
+  --blueLinkLight: rgb(40, 74, 117);
   --nav: #030D19;
   --primary: #56CCF2;
   --searchBorder: #01698A;
@@ -21,8 +21,12 @@ h1, h2, h3, h4 {
 body {
   background: var(--background);
   color: var(--neutral);
-  margin: 0;
-  padding: 0;
+}
+
+#root {
+  display: grid;
+  grid-template: max-content 1fr max-content / auto;
+  height: 100vh;
 }
 
 a:link, a:visited {
@@ -31,7 +35,7 @@ a:link, a:visited {
 }
 
 .container {
-  max-width: 960px;
+  width: 960px;
   margin: 0 auto;
 }
 
@@ -42,7 +46,6 @@ a:link, a:visited {
 header {
   background-color: var(--header);
   color: var(--accent);
-  padding: 10px 0;
   text-align: center;
 }
 
@@ -112,7 +115,7 @@ a:visited.sc2info-navigation__link {
 }
 
 .sc2info-navigation__link.active {
-  background-color: var(--blueLinkLigh);
+  background-color: var(--blueLinkLight);
 }
 
 .full__info table tr td {

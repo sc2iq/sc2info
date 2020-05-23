@@ -12,20 +12,21 @@ import './App.css'
 
 const App: React.FC = () => {
   return (
-    <div className="sc2info">
+    <>
       <header>
-        <NavLink to="/" className="container text-center sc2info__homelink">
-          <h1>SC2INFO</h1>
+        <div>
+          <NavLink to="/" className="container text-center sc2info__homelink">
+            <h1>SC2INFO</h1>
+          </NavLink>
           <p>StarCraft 2 Info on units, buildings, weapons, and more.</p>
-        </NavLink>
-      </header>
-
-      <nav>
-        <div className="container sc2info-navigation">
-          <NavLink to="/" exact className="sc2info-navigation__link">Search</NavLink>
-          <NavLink to="/browse" className="sc2info-navigation__link" >Browse</NavLink>
         </div>
-      </nav>
+        <nav>
+          <div className="container sc2info-navigation">
+            <NavLink to="/" exact className="sc2info-navigation__link">Search</NavLink>
+            <NavLink to="/browse" className="sc2info-navigation__link" >Browse</NavLink>
+          </div>
+        </nav>
+      </header>
 
       <main className="container">
         <Switch>
@@ -50,7 +51,7 @@ const App: React.FC = () => {
           SC2INFO - StarCraft 2 Info on units, buildings, weapons, and more.  &nbsp;&nbsp;<a href="mailto:sc2info1@gmail.com">Contact</a>
         </div>
       </footer>
-    </div>
+    </>
   )
 }
 
