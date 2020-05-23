@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Switch, NavLink, Redirect } from "react-router-dom"
+import { Route, Switch, NavLink } from "react-router-dom"
 import Search from './routes/Search'
 import Browse from './routes/Browse'
 
