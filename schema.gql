@@ -62,12 +62,27 @@ type Effect {
   radius: Float!
 }
 
+"""GenericSearchItem"""
+type GenericSearchItem {
+  icon: String!
+  id: Int!
+  name: String!
+  race: String!
+  type: String!
+}
+
 """Unit health related stats"""
 type Health {
   delay: Int!
   max: Int!
   regenRate: Int!
   start: Int!
+}
+
+type MatchType {
+  indices: [[Int!]!]!
+  key: String!
+  value: String!
 }
 
 """metadata description"""
@@ -99,6 +114,13 @@ type Movement {
   turnRate: Float!
 }
 
+"""Information about current page"""
+type PageInfo {
+  endCursor: String!
+  hasNextPage: Boolean!
+  startCursor: String!
+}
+
 type Query {
   """Unit abilities such as Blink, PhaseShift, Stim"""
   abilities: [Ability!]!
@@ -109,6 +131,18 @@ type Query {
 
   """Buildings such as (Nexus, Barracks, Gateway, Pylon, etc)"""
   buildings: [Building!]!
+
+  """Search everything (units, buildings, weapons, and upgrades) by name"""
+  searchAll(query: String!): [SearchItem!]!
+
+  """A unit of Terran, Zerg, or Protoss."""
+  unit(id: Float!): Unit!
+
+  """Unit in SC2"""
+  units(after: String, depth: Int = 0, first: Int = 10): PageInfo!
+
+  """Paginated list of units with limit and offset."""
+  unitsByOffset(first: Int = 10, offset: Int = 0): [Unit!]!
   upgrade(id: String!): Upgrade!
 
   """List of upgrades such as (Stim, Speed, Blink)"""
@@ -119,10 +153,76 @@ type Query {
   weapons: [Weapon!]!
 }
 
+"""A un-processed unit of terran, zerg, or protoss."""
+type RawUnit {
+  abilities: [String!]!
+  armor: Health!
+  attributes: String!
+  cost: Cost!
+  id: Int!
+  life: Health!
+  meta: Metadata!
+  misc: Miscellaneous!
+  movement: Movement!
+  producer: Int!
+  requires: Int!
+  score: Score!
+  shieldArmor: Health!
+  strengths: [UnitReference!]!
+  upgrades: [RawUpgradeLevels!]!
+  weaknesses: [UnitReference!]!
+  weapons: [Weapon!]!
+}
+
+type RawUpgradeLevel {
+  cost: Cost!
+  id: String!
+  index: Int!
+  meta: Metadata!
+}
+
+type RawUpgradeLevels {
+  id: String!
+  levels: [RawUpgradeLevel!]!
+  name: String!
+}
+
 """Unit score related stats"""
 type Score {
   build: Int!
   kill: Int!
+}
+
+type SearchItem {
+  item: GenericSearchItem!
+  matches: [MatchType!]!
+  score: Float!
+}
+
+type Unit {
+  abilities: [String!]!
+  armor: Health!
+  attributes: [String!]!
+  cost: Cost!
+  id: Float!
+  life: Health!
+  meta: Metadata!
+  misc: Miscellaneous!
+  movement: Movement!
+  original: RawUnit!
+  producer: Float!
+  requires: [Int!]!
+  score: Score!
+  shieldArmor: Health!
+  strengths: [Unit!]!
+  upgrades: [Upgrade!]!
+  weaknesses: [Unit!]!
+  weapons: [Weapon!]!
+}
+
+type UnitReference {
+  id: Int!
+  name: String!
 }
 
 type Upgrade {

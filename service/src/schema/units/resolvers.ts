@@ -6,7 +6,7 @@ function getNodeRelationships(node: any, depth: number, balanceData: IBalanceDat
         return node
     }
 
-    if (node.strengths && node.strengths.length > 0 && typeof node.strengths[0] === 'number') {
+    if (node.strengths?.length > 0 && typeof node.strengths[0] === 'number') {
         const strengthsUnits = (node.strengths as number[])
             .map(unitId => balanceData.units.find(x => x.id === unitId))
             .filter(x => x)
@@ -16,7 +16,7 @@ function getNodeRelationships(node: any, depth: number, balanceData: IBalanceDat
 
     node.strengths.map((node: any) => getNodeRelationships(node, depth - 1, balanceData))
 
-    if (node.weaknesses && node.weaknesses.length > 0 && typeof node.weaknesses[0] === 'number') {
+    if (node.weaknesses?.length > 0 && typeof node.weaknesses[0] === 'number') {
         const weaknessUnits = (node.weaknesses as number[])
             .map(unitId => balanceData.units.find(x => x.id === unitId))
             .filter(x => x)
@@ -26,7 +26,7 @@ function getNodeRelationships(node: any, depth: number, balanceData: IBalanceDat
 
     node.weaknesses.map((node: any) => getNodeRelationships(node, depth - 1, balanceData))
 
-    if (node.weapons && node.weapons.length > 0 && typeof node.weapons[0] === 'number') {
+    if (node.weapons?.length > 0 && typeof node.weapons[0] === 'number') {
         const weaponUnits = (node.weapons as number[])
             .map(unitId => balanceData.weapons.find(x => x.id === unitId))
             .filter(x => x)
@@ -36,7 +36,7 @@ function getNodeRelationships(node: any, depth: number, balanceData: IBalanceDat
 
     node.weapons.map((node: any) => getNodeRelationships(node, depth - 1, balanceData))
 
-    if (node.upgrades && node.upgrades.length > 0 && typeof node.upgrades[0] === 'number') {
+    if (node.upgrades?.length > 0 && typeof node.upgrades[0] === 'number') {
         const upgrades = (node.upgrades as number[])
             .map(unitId => balanceData.upgrades.find(x => x.id === unitId))
             .filter(x => x)

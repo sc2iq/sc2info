@@ -93,7 +93,9 @@ const options = {
 let fuse = new Fuse(list, options)
 
 
-@ObjectType("Generic Search item")
+@ObjectType({
+    description: "GenericSearchItem"
+})
 export class GenericSearchItem {
     @Field()
     name: string
@@ -107,7 +109,7 @@ export class GenericSearchItem {
     race: string
 }
 
-@ObjectType("Match Type")
+@ObjectType("MatchType")
 export class MatchType {
     @Field(type => [[Int]])
     indices: number[][]
@@ -134,7 +136,7 @@ export const SearchResultUnion = createUnionType({
     types: () => [Unit, Building, Weapon, Ability, Upgrade] as const,
 })
 
-@ObjectType("Search Item")
+@ObjectType("SearchItem")
 export class FuseResult {
     @Field()
     item: GenericSearchItem
