@@ -9,10 +9,65 @@ type Ability {
   index: Float!
 }
 
+type Bonus {
+  damage: Int!
+  max: Int!
+  type: String!
+}
+
+"""Barracks, Gateway, Spawning Pool"""
+type Building {
+  abilities: [Float!]!
+  armor: Health!
+  attributes: [String!]!
+  cost: Cost!
+  id: Float!
+  index: Float!
+  life: Health!
+  meta: Metadata!
+  misc: Miscellaneous!
+  movement: Movement!
+  producer: Float!
+  requires: Float!
+  researches: [Float!]!
+  score: Score!
+  shieldArmor: Health!
+  strengths: [Float!]!
+  trains: [Float!]!
+  upgrades: [Float!]!
+  weaknesses: [Float!]!
+  weapons: [Float!]!
+}
+
 type Command {
   id: Float!
   index: Float!
   meta: Metadata!
+}
+
+type Cost {
+  minerals: Float!
+  supply: Float!
+  time: Float!
+  vespene: Float!
+}
+
+type Effect {
+  bonus: Bonus!
+  death: String!
+  id: String!
+  index: Int!
+  kind: String!
+  max: Int!
+  radius: Float!
+}
+
+"""Unit health related stats"""
+type Health {
+  delay: Int!
+  max: Int!
+  regenRate: Int!
+  start: Int!
 }
 
 """metadata description"""
@@ -20,19 +75,75 @@ type Metadata {
   hotkey: Float!
   icon: String!
   index: Float!
-  name: String!
+  name: String
   race: String!
   source: String!
   tooltip: Float!
 }
 
-type Query {
-  abilities: [Ability!]!
-  recipes: [Recipe!]!
+"""Unit miscellaneous related stats"""
+type Miscellaneous {
+  cargoSize: Int!
+  footprint: String!
+  radius: Float!
+  sightRadius: Float!
+  speed: Float!
+  supply: Int!
+  targets: String!
 }
 
-type Recipe {
-  averageRating: Float!
-  id: String!
-  title: String!
+type Movement {
+  acceleration: Float!
+  deceleration: Float!
+  speed: Float!
+  turnRate: Float!
+}
+
+type Query {
+  """Unit abilities such as Blink, PhaseShift, Stim"""
+  abilities: [Ability!]!
+
+  """Unit attributes such as (light, armored, mechanical)"""
+  attributes: [String!]!
+  building(id: Float!): Building!
+
+  """Buildings such as (Nexus, Barracks, Gateway, Pylon, etc)"""
+  buildings: [Building!]!
+  upgrade(id: String!): Upgrade!
+
+  """List of upgrades such as (Stim, Speed, Blink)"""
+  upgrades: [Upgrade!]!
+  weapon(id: Int!): Weapon!
+
+  """Weapons such as (Gauss Rifle, Thor Javeline Missile, Baneling Acid)"""
+  weapons: [Weapon!]!
+}
+
+"""Unit score related stats"""
+type Score {
+  build: Int!
+  kill: Int!
+}
+
+type Upgrade {
+  ability: Int!
+  cost: Cost!
+  id: Int!
+  index: Int!
+  meta: Metadata!
+}
+
+type Weapon {
+  effect: Effect!
+  id: Int!
+  index: Int!
+  meta: Metadata!
+  misc: WeaponMisc!
+}
+
+"""Weapon miscellaneous related stats"""
+type WeaponMisc {
+  range: Int!
+  speed: Float!
+  targets: String!
 }

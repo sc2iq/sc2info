@@ -4,7 +4,7 @@ import { ObjectType, Int, Float, Field } from "type-graphql"
     description: "metadata description",
 })
 export class Meta {
-    @Field()
+    @Field({ nullable: true })
     name: string
     @Field()
     icon: string
@@ -76,6 +76,7 @@ export class Misc {
     radius: number
     @Field(type => Int)
     cargoSize: number
+    @Field()
     footprint: string
     @Field(type => Float)
     sightRadius: number

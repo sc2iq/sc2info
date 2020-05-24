@@ -1,11 +1,11 @@
 import { ObjectType, Field, Int, createUnionType, Float, Resolver, Query, Arg } from "type-graphql"
-import getBalanceData, { IBalanceData } from '../../balancedata'
+import getBalanceData, { IBalanceData } from '../balancedata'
 import Fuse from 'fuse.js'
-import { Building } from "../buildings/buildings"
-import { Ability } from "../abilities/abilities"
-import { Weapon } from "../weapons/weapon"
-import { Upgrade } from "../upgrades/upgrades"
-import { Unit } from "../units/units"
+import { Building } from "./buildings"
+import { Ability } from "./abilities"
+import { Weapon } from "./weapons"
+import { Upgrade } from "./upgrades"
+import { Unit } from "./units"
 
 interface IGenericSearchItem {
     name: string

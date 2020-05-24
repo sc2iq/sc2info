@@ -1,5 +1,5 @@
 import { ObjectType, Field, Float } from "type-graphql"
-import { Unit } from "./units/units"
+import { Unit } from "./models/units"
 
 @ObjectType({
     description: "Information about current page"

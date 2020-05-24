@@ -70,6 +70,8 @@ export class BuildingResolver {
         description: "Buildings such as (Nexus, Barracks, Gateway, Pylon, etc)",
     })
     async buildings() {
+        const balanceData = await getBalanceData()
 
+        return balanceData.buildings
     }
 }
