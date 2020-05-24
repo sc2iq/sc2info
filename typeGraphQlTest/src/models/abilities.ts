@@ -1,25 +1,6 @@
 import { ObjectType, Field, ID, Resolver, Query } from "type-graphql"
-
-
-@ObjectType("Metadata", {
-    description: "metadata description",
-})
-export class Meta {
-    @Field()
-    name: string
-    @Field()
-    icon: string
-    @Field()
-    race: string
-    @Field()
-    hotkey: number
-    @Field()
-    source: string
-    @Field()
-    index: number
-    @Field()
-    tooltip: number
-}
+import getBalanceData from '../balancedata'
+import { Meta } from "./global"
 
 @ObjectType()
 export class Command {
@@ -44,8 +25,11 @@ export class Ability {
 @Resolver(of => Ability)
 export class AbilitiesResolver {
 
-    @Query(returns => [Ability])
+    @Query(returns => [Ability], {
+        description: "Unit abilities such as Blink, PhaseShift, Stim"
+    })
     async abilities() {
-        return []
+        const balanceData = await getBalanceData()
+        return balanceData.abilities
     }
 }

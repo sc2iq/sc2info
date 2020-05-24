@@ -1,7 +1,6 @@
 import "reflect-metadata"
 import { buildSchema } from "type-graphql"
-import { RecipeResolver } from "./resolvers/recipes"
-import { AbilitiesResolver } from "./schema/abilities/abilities"
+import { AbilitiesResolver } from "./models/abilities"
 import express from 'express'
 import cors from 'cors'
 import graphqlHttp from 'express-graphql'
@@ -13,7 +12,7 @@ process.on('unhandledRejection', error => {
 
 async function main() {
   const schema = await buildSchema({
-    resolvers: [RecipeResolver, AbilitiesResolver],
+    resolvers: [AbilitiesResolver],
     emitSchemaFile: true,
   })
 
