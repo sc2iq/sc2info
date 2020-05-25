@@ -29,7 +29,7 @@
     "url": "https://github.com/mattmazzola/sc2-convertbalancedata"
   },
   "dependencies": {
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "prettier": "^1.18.2",
     "xml2js": "^0.4.19",
     "xml2json": "^0.11.2",
