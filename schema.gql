@@ -4,246 +4,246 @@
 # -----------------------------------------------
 
 type Ability {
-  command: [Command!]!
-  id: ID!
-  index: Float!
+  command: [Command]
+  id: ID
+  index: Float
 }
 
 type Bonus {
-  damage: Int!
-  max: Int!
-  type: String!
+  damage: Int
+  max: Int
+  type: String
 }
 
 """Barracks, Gateway, Spawning Pool"""
 type Building {
-  abilities: [Float!]!
-  armor: Health!
-  attributes: [String!]!
-  cost: Cost!
-  id: Float!
-  index: Float!
-  life: Health!
-  meta: Metadata!
-  misc: Miscellaneous!
-  movement: Movement!
-  producer: Float!
-  requires: Float!
-  researches: [Float!]!
-  score: Score!
-  shieldArmor: Health!
-  strengths: [Float!]!
-  trains: [Float!]!
-  upgrades: [Float!]!
-  weaknesses: [Float!]!
-  weapons: [Float!]!
+  abilities: [String]
+  armor: Health
+  attributes: [String]
+  cost: Cost
+  id: Float
+  index: Float
+  life: Health
+  meta: Metadata
+  misc: Miscellaneous
+  movement: Movement
+  producer: Float
+  requires: [Float]
+  researches: [Float]
+  score: Score
+  shieldArmor: Health
+  strengths: [Float]
+  trains: [Float]
+  upgrades: [Float]
+  weaknesses: [Float]
+  weapons: [Float]
 }
 
 type Command {
-  id: Float!
-  index: Float!
-  meta: Metadata!
+  id: Float
+  index: Float
+  meta: Metadata
 }
 
 type Cost {
-  minerals: Float!
-  supply: Float!
-  time: Float!
-  vespene: Float!
+  minerals: Int
+  supply: Int
+  time: Int
+  vespene: Int
 }
 
 type Effect {
-  bonus: Bonus!
-  death: String!
-  id: String!
-  index: Int!
-  kind: String!
-  max: Int!
-  radius: Float!
+  bonus: Bonus
+  death: String
+  id: String
+  index: Int
+  kind: String
+  max: Int
+  radius: Float
 }
 
 """GenericSearchItem"""
 type GenericSearchItem {
-  icon: String!
-  id: Int!
-  name: String!
-  race: String!
-  type: String!
+  icon: String
+  id: Int
+  name: String
+  race: String
+  type: String
 }
 
 """Unit health related stats"""
 type Health {
-  delay: Int!
-  max: Int!
-  regenRate: Int!
-  start: Int!
+  delay: Int
+  max: Int
+  regenRate: Int
+  start: Int
 }
 
 type MatchType {
-  indices: [[Int!]!]!
-  key: String!
-  value: String!
+  indices: [[Int]]
+  key: String
+  value: String
 }
 
 """metadata description"""
 type Metadata {
-  hotkey: Float!
-  icon: String!
-  index: Float!
+  hotkey: Float
+  icon: String
+  index: Float
   name: String
-  race: String!
-  source: String!
-  tooltip: Float!
+  race: String
+  source: String
+  tooltip: Float
 }
 
 """Unit miscellaneous related stats"""
 type Miscellaneous {
-  cargoSize: Int!
-  footprint: String!
-  radius: Float!
-  sightRadius: Float!
-  speed: Float!
-  supply: Int!
-  targets: String!
+  cargoSize: Int
+  footprint: String
+  radius: Float
+  sightRadius: Float
+  speed: Float
+  supply: Int
+  targets: String
 }
 
 type Movement {
-  acceleration: Float!
-  deceleration: Float!
-  speed: Float!
-  turnRate: Float!
+  acceleration: Float
+  deceleration: Float
+  speed: Float
+  turnRate: Float
 }
 
 """Information about current page"""
 type PageInfo {
-  endCursor: String!
-  hasNextPage: Boolean!
-  startCursor: String!
+  endCursor: String
+  hasNextPage: Boolean
+  startCursor: String
 }
 
 type Query {
   """Unit abilities such as Blink, PhaseShift, Stim"""
-  abilities: [Ability!]!
+  abilities: [Ability]
 
   """Unit attributes such as (light, armored, mechanical)"""
-  attributes: [String!]!
-  building(id: Float!): Building!
+  attributes: [String]
+  building(id: Float): Building
 
   """Buildings such as (Nexus, Barracks, Gateway, Pylon, etc)"""
-  buildings: [Building!]!
+  buildings: [Building]
 
   """Search everything (units, buildings, weapons, and upgrades) by name"""
-  searchAll(query: String!): [SearchItem!]!
+  searchAll(query: String): [SearchItem]
 
   """A unit of Terran, Zerg, or Protoss."""
-  unit(id: Float!): Unit!
+  unit(id: Float): Unit
 
   """Unit in SC2"""
-  units(after: String, depth: Int = 0, first: Int = 10): PageInfo!
+  units(after: String, depth: Int = 0, first: Int = 10): PageInfo
 
   """Paginated list of units with limit and offset."""
-  unitsByOffset(first: Int = 10, offset: Int = 0): [Unit!]!
-  upgrade(id: String!): Upgrade!
+  unitsByOffset(first: Int = 10, offset: Int = 0): [Unit]
+  upgrade(id: String): Upgrade
 
   """List of upgrades such as (Stim, Speed, Blink)"""
-  upgrades: [Upgrade!]!
-  weapon(id: Int!): Weapon!
+  upgrades: [Upgrade]
+  weapon(id: Int): Weapon
 
   """Weapons such as (Gauss Rifle, Thor Javeline Missile, Baneling Acid)"""
-  weapons: [Weapon!]!
+  weapons: [Weapon]
 }
 
 """A un-processed unit of terran, zerg, or protoss."""
 type RawUnit {
-  abilities: [String!]!
-  armor: Health!
-  attributes: String!
-  cost: Cost!
-  id: Int!
-  life: Health!
-  meta: Metadata!
-  misc: Miscellaneous!
-  movement: Movement!
-  producer: Int!
-  requires: Int!
-  score: Score!
-  shieldArmor: Health!
-  strengths: [UnitReference!]!
-  upgrades: [RawUpgradeLevels!]!
-  weaknesses: [UnitReference!]!
-  weapons: [Weapon!]!
+  abilities: [String]
+  armor: Health
+  attributes: String
+  cost: Cost
+  id: Int
+  life: Health
+  meta: Metadata
+  misc: Miscellaneous
+  movement: Movement
+  producer: Int
+  requires: Int
+  score: Score
+  shieldArmor: Health
+  strengths: [UnitReference]
+  upgrades: [RawUpgradeLevels]
+  weaknesses: [UnitReference]
+  weapons: [Weapon]
 }
 
 type RawUpgradeLevel {
-  cost: Cost!
-  id: String!
-  index: Int!
-  meta: Metadata!
+  cost: Cost
+  id: String
+  index: Int
+  meta: Metadata
 }
 
 type RawUpgradeLevels {
-  id: String!
-  levels: [RawUpgradeLevel!]!
-  name: String!
+  id: String
+  levels: [RawUpgradeLevel]
+  name: String
 }
 
 """Unit score related stats"""
 type Score {
-  build: Int!
-  kill: Int!
+  build: Int
+  kill: Int
 }
 
 type SearchItem {
-  item: GenericSearchItem!
-  matches: [MatchType!]!
-  score: Float!
+  item: GenericSearchItem
+  matches: [MatchType]
+  score: Float
 }
 
 type Unit {
-  abilities: [String!]!
-  armor: Health!
-  attributes: [String!]!
-  cost: Cost!
-  id: Float!
-  life: Health!
-  meta: Metadata!
-  misc: Miscellaneous!
-  movement: Movement!
-  original: RawUnit!
-  producer: Float!
-  requires: [Int!]!
-  score: Score!
-  shieldArmor: Health!
-  strengths: [Unit!]!
-  upgrades: [Upgrade!]!
-  weaknesses: [Unit!]!
-  weapons: [Weapon!]!
+  abilities: [String]
+  armor: Health
+  attributes: [String]
+  cost: Cost
+  id: Int
+  life: Health
+  meta: Metadata
+  misc: Miscellaneous
+  movement: Movement
+  original: RawUnit
+  producer: Int
+  requires: [Int]
+  score: Score
+  shieldArmor: Health
+  strengths: [Unit]
+  upgrades: [Upgrade]
+  weaknesses: [Unit]
+  weapons: [Weapon]
 }
 
 type UnitReference {
-  id: Int!
-  name: String!
+  id: Int
+  name: String
 }
 
 type Upgrade {
-  ability: Int!
-  cost: Cost!
-  id: Int!
-  index: Int!
-  meta: Metadata!
+  ability: Int
+  cost: Cost
+  id: Int
+  index: Int
+  meta: Metadata
 }
 
 type Weapon {
-  effect: Effect!
-  id: Int!
-  index: Int!
-  meta: Metadata!
-  misc: WeaponMisc!
+  effect: Effect
+  id: Int
+  index: Int
+  meta: Metadata
+  misc: WeaponMisc
 }
 
 """Weapon miscellaneous related stats"""
 type WeaponMisc {
-  range: Int!
-  speed: Float!
-  targets: String!
+  range: Int
+  speed: Float
+  targets: String
 }
