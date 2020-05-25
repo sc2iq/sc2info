@@ -17,7 +17,8 @@ const schema = buildSchemaSync({
     WeaponsResolver,
     UpgradesResolver,
   ],
-  emitSchemaFile: true
+  emitSchemaFile: true,
+  nullableByDefault: true,
 })
 
 export default schema

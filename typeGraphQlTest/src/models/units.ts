@@ -67,7 +67,7 @@ class GraphPageInput {
     })
     first: number
 
-    @Field({ nullable: true })
+    @Field()
     after?: string
 }
 

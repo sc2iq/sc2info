@@ -8,7 +8,7 @@ import { Health, Cost, Movement, Score, Misc, Meta } from "./global"
 export class Building {
     @Field()
     id: number
-    @Field({ nullable: true })
+    @Field()
     index: number
     @Field()
     meta: Meta
@@ -16,13 +16,13 @@ export class Building {
     life: Health
     @Field()
     armor: Health
-    @Field({ nullable: true })
+    @Field()
     shieldArmor: Health
-    @Field(type => [Float], { nullable: true })
+    @Field(type => [Float])
     requires: number[]
-    @Field({ nullable: true })
+    @Field()
     cost: Cost
-    @Field({ nullable: true })
+    @Field()
     movement: Movement
     @Field()
     score: Score
@@ -42,9 +42,9 @@ export class Building {
     abilities: string[]
     // @Field(type => [number])
     // # builds: number[]
-    @Field(type => [Number], { nullable: true })
+    @Field(type => [Number])
     trains: number[]
-    @Field(type => [Number], { nullable: true })
+    @Field(type => [Number])
     upgrades: number[]
     @Field(type => [Number])
     researches: number[]
