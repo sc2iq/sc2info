@@ -18,9 +18,8 @@ export class Building {
     armor: Health
     @Field()
     shieldArmor: Health
-    @Field()
-    requires: number
-    @Field()
+    @Field(type => [Float], { nullable: true })
+    requires: number[]
     cost: Cost
     @Field()
     movement: Movement
@@ -38,7 +37,7 @@ export class Building {
     weaknesses: number[]
     @Field(type => [Number])
     weapons: number[]
-    @Field(type => [Number])
+    @Field(type => [String])
     abilities: string[]
     // @Field(type => [number])
     // # builds: number[]

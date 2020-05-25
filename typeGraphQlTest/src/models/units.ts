@@ -165,7 +165,7 @@ export class RawUnit {
 
 @ObjectType()
 export class Unit {
-    @Field()
+    @Field(type => Int)
     id: number
     @Field()
     original: RawUnit
@@ -187,7 +187,7 @@ export class Unit {
     score: Score
     @Field()
     misc: Misc
-    @Field()
+    @Field(type => Int)
     producer: number
     @Field(type => [String])
     attributes: string[]
