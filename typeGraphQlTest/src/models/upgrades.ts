@@ -11,7 +11,7 @@ export class Upgrade {
     index: number
     @Field()
     meta: Meta
-    @Field(type => Int)
+    @Field(type => Int, { nullable: true })
     ability: number
     @Field()
     cost: Cost

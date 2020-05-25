@@ -38,7 +38,7 @@ export class Effect {
     death: string
     @Field()
     kind: string
-    @Field()
+    @Field({ nullable: true })
     bonus: Bonus
 }
 
@@ -50,7 +50,7 @@ export class Weapon {
     index: number
     @Field()
     meta: Meta
-    @Field()
+    @Field({ nullable: true })
     misc: WeaponMisc
     @Field()
     effect: Effect

@@ -6,29 +6,29 @@ import { ObjectType, Int, Float, Field } from "type-graphql"
 export class Meta {
     @Field({ nullable: true })
     name: string
-    @Field()
+    @Field({ nullable: true })
     icon: string
-    @Field()
+    @Field({ nullable: true })
     race: string
-    @Field()
+    @Field({ nullable: true })
     hotkey: number
-    @Field()
+    @Field({ nullable: true })
     source: string
-    @Field()
+    @Field({ nullable: true })
     index: number
-    @Field()
+    @Field({ nullable: true })
     tooltip: number
 }
 
 @ObjectType()
 export class Cost {
-    @Field()
+    @Field(type => Int, { nullable: true })
     minerals: number
-    @Field()
+    @Field(type => Int, { nullable: true })
     vespene: number
-    @Field()
+    @Field(type => Int, { nullable: true })
     time: number
-    @Field()
+    @Field(type => Int, { nullable: true })
     supply: number
 }
 
@@ -40,9 +40,9 @@ export class Health {
     start: number
     @Field(type => Int)
     max: number
-    @Field(type => Int)
+    @Field(type => Int, { nullable: true })
     regenRate: number
-    @Field(type => Int)
+    @Field(type => Int, { nullable: true })
     delay: number
 }
 

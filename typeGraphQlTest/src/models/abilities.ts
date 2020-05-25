@@ -16,7 +16,7 @@ export class Command {
 export class Ability {
     @Field(type => ID)
     id: string
-    @Field()
+    @Field({ nullable: true })
     index: number
     @Field(type => [Command])
     command: Command[]
