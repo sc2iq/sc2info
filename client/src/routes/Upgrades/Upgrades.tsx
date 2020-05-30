@@ -29,14 +29,18 @@ const Component: React.FC = () => {
         query,
     })
 
-    const upgrades = response.data
-        ? (response.data.upgrades as any[])
-        : []
+    const upgrades: any[] = response.data?.upgrades ?? []
 
     const groups = {
-        terran: upgrades.filter(u => u.meta.icon.toLowerCase().includes("terran")).sort((a, b) => (a.meta.name as string).localeCompare(b.meta.name)),
-        zerg: upgrades.filter(u => u.meta.icon.toLowerCase().includes("zerg")).sort((a, b) => (a.meta.name as string).localeCompare(b.meta.name)),
-        protoss: upgrades.filter(u => u.meta.icon.toLowerCase().includes("protoss")).sort((a, b) => (a.meta.name as string).localeCompare(b.meta.name)),
+        terran: upgrades
+            .filter(u => u.meta.icon.toLowerCase().includes("terran"))
+            .sort((a, b) => (a.meta.name as string).localeCompare(b.meta.name)),
+        zerg: upgrades
+            .filter(u => u.meta.icon.toLowerCase().includes("zerg"))
+            .sort((a, b) => (a.meta.name as string).localeCompare(b.meta.name)),
+        protoss: upgrades
+            .filter(u => u.meta.icon.toLowerCase().includes("protoss"))
+            .sort((a, b) => (a.meta.name as string).localeCompare(b.meta.name)),
     }
 
     return (
