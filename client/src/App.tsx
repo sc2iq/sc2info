@@ -14,7 +14,7 @@ const App: React.FC = () => {
   return (
     <>
       <header>
-        <div>
+        <div className="sc2info__title">
           <NavLink to="/" className="container text-center sc2info__homelink">
             <h1>SC2INFO</h1>
           </NavLink>

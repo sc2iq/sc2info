@@ -74,6 +74,14 @@ footer {
   text-decoration: underline;
 }
 
+.sc2info__title {
+  padding: 0.75rem 0;
+}
+
+.sc2info__title p {
+  margin-top: 0;
+}
+
 .sc2info__homelink {
   cursor: pointer;
 }
