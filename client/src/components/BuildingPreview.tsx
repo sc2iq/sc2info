@@ -1,5 +1,6 @@
 import React from 'react'
 import './BuildingPreview.css'
+import { convertCamelCaseToSpacedCase } from '../utilities'
 
 type Props = {
     building: any
@@ -12,7 +13,7 @@ const Component: React.FC<Props> = ({ building }) => {
                 <img src={building.meta.icon} alt={building.id} width="80" height="80" />
             </div>
             <div className="building-preview__info">
-                {building.meta.name}
+                {convertCamelCaseToSpacedCase(building.meta.name)}
             </div>
         </div>
     )

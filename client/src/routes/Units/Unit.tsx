@@ -2,6 +2,7 @@ import React from 'react'
 import { NavLink, RouteComponentProps } from "react-router-dom"
 import * as urlq from 'urql'
 import UnitFull from '../../components/UnitFull'
+import { convertCamelCaseToSpacedCase } from '../../utilities'
 
 const query = `
   query unit($id: Int) {
@@ -125,7 +126,7 @@ const Component: React.FC<Props> = ({ match }) => {
         }
     })
 
-    const unitName = response.data?.unit?.meta?.name ?? ''
+    const unitName = convertCamelCaseToSpacedCase(response.data?.unit?.meta?.name ?? '')
 
     return (
         <>

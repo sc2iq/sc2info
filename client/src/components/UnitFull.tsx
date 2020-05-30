@@ -1,6 +1,7 @@
 import React from 'react'
 import RaceImg from './RaceImg'
 import './UnitFull.css'
+import { convertCamelCaseToSpacedCase } from '../utilities'
 
 type Props = {
     unit: any
@@ -116,7 +117,7 @@ const Component: React.FC<Props> = ({ unit }) => {
                             return <div key={i} className="unit-full__weapon">
                                 <img className="unit-full__weapon-img" src={u.meta.icon} alt={u.meta.name} />
                                 <div>
-                                    <h3>{u.meta.name}</h3>
+                                    <h3>{convertCamelCaseToSpacedCase(u.meta.name)}</h3>
                                     <div className="unit-full__weapon-stats">
                                         <div>Range</div><div>{u.misc.range}</div>
                                         <div>Speed</div><div>{u.misc.speed}</div>
@@ -161,7 +162,7 @@ const Component: React.FC<Props> = ({ unit }) => {
                     <h2>Strengths</h2>
                     <ul>
                         {(unit.original.strengths as any[]).map(strength =>
-                            <li key={strength.name}>{strength.name}</li>
+                            <li key={strength.name}>{convertCamelCaseToSpacedCase(strength.name)}</li>
                         )}
                     </ul>
                 </div>
@@ -169,7 +170,7 @@ const Component: React.FC<Props> = ({ unit }) => {
                     <h2>Weaknesses</h2>
                     <ul>
                         {(unit.original.weaknesses as any[]).map(strength =>
-                            <li key={strength.name}>{strength.name}</li>
+                            <li key={strength.name}>{convertCamelCaseToSpacedCase(strength.name)}</li>
                         )}
                     </ul>
                 </div>

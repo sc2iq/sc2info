@@ -1,5 +1,6 @@
 import React from 'react'
 import './UpgradePreview.css'
+import { convertCamelCaseToSpacedCase } from '../utilities'
 
 type Props = {
     upgrade: any
@@ -12,7 +13,7 @@ const Component: React.FC<Props> = ({ upgrade }) => {
                 <img src={upgrade.meta.icon} alt={upgrade.id} width="80" height="80" />
             </div>
             <div className="upgrade-preview__info">
-                {upgrade.meta.name}
+                {convertCamelCaseToSpacedCase(upgrade.meta.name)}
             </div>
         </div>
     )
