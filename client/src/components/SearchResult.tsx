@@ -15,7 +15,9 @@ const Component: React.FC<Props> = ({ searchAllResult }) => {
     return (
         <div className="search-all">
             <div className="search-all__picture">
-                <img src={searchAllResult.item.icon} alt={searchAllResult.item.name} width="80" height="80" />
+                <object data={searchAllResult.item.icon} type="image/png"  width="80" height="80" >
+                    <div>Image Not Found</div>
+                </object>
             </div>
             <div className="search-all__race">
                 <RaceImg race={searchAllResult.item.race} />
