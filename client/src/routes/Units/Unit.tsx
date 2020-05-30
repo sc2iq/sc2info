@@ -125,9 +125,7 @@ const Component: React.FC<Props> = ({ match }) => {
         }
     })
 
-    const unitName = response.data
-        ? response.data.unit && response.data.unit.meta && response.data.unit.meta.name
-        : ''
+    const unitName = response.data?.unit?.meta?.name ?? ''
 
     return (
         <>
@@ -139,7 +137,7 @@ const Component: React.FC<Props> = ({ match }) => {
                 {response.error
                     && <div>{response.error.name} {response.error.message}</div>}
 
-                {response.data && response.data.unit
+                {response.data?.unit
                     && <UnitFull unit={response.data.unit} />}
             </section>
         </>
