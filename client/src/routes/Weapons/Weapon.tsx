@@ -2,6 +2,7 @@ import React from 'react'
 import { NavLink, RouteComponentProps } from "react-router-dom"
 import * as urlq from 'urql'
 import WeaponFull from '../../components/WeaponFull'
+import { convertCamelCaseToSpacedCase } from '../../utilities'
 
 const query = `
 query weapon($id: Int) {
@@ -54,14 +55,12 @@ const Component: React.FC<Props> = ({ match }) => {
         }
     })
 
-    const name = response.data
-        ? response.data.weapon.meta.name
-        : ''
+    const weaponName = convertCamelCaseToSpacedCase(response.data?.weapon.meta.name ?? '')
 
     return (
         <>
             <h1>
-                <NavLink to="/browse" >Browse</NavLink> &gt; <NavLink to="/weapons" >Weapons</NavLink> &gt; {name}
+                <NavLink to="/browse" >Browse</NavLink> &gt; <NavLink to="/weapons" >Weapons</NavLink> &gt; {weaponName}
             </h1>
 
             <section>

@@ -38,19 +38,15 @@ const Component: React.FC<Props> = ({ match }) => {
         }
     })
 
-    const unitsObject = response.data
-        ? (response.data.units as any)
-        : null
-
-    const units = unitsObject
-        ? (unitsObject.edges as any[])
-        : []
+    const unitsObject = response.data?.units
+    const units: any[] = unitsObject?.edges ?? []
 
     const groups = {
         terran: units.map(u => u.node).filter(u => u.meta.race === "terran").sort((a, b) => (a.meta.name as string).localeCompare(b.meta.name)),
         zerg: units.map(u => u.node).filter(u => u.meta.race === "zerg").sort((a, b) => (a.meta.name as string).localeCompare(b.meta.name)),
         protoss: units.map(u => u.node).filter(u => u.meta.race === "protoss").sort((a, b) => (a.meta.name as string).localeCompare(b.meta.name)),
     }
+
     return (
         <>
             <h1>

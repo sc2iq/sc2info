@@ -29,9 +29,7 @@ const Component: React.FC = () => {
         query,
     })
 
-    const abilities = response.data
-        ? (response.data.abilities as any[])
-        : []
+    const abilities: any[] = response.data?.abilities ?? []
 
     const groupedAbilities = {
         terran: abilities.filter(x => x).filter(a => a.command[0].meta.race === "terran").sort((a, b) => (a.id as string).localeCompare(b.id)),

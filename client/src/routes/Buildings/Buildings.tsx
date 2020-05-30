@@ -80,9 +80,7 @@ const Component: React.FC<Props> = ({ match }) => {
     query,
   })
 
-  const buildings = response.data
-    ? (response.data.buildings as any[])
-    : []
+  const buildings: any[] = response.data?.buildings ?? []
 
   const groupedBuildings = {
     terran: buildings.filter(x => x).filter(b => b.meta.race === "terran").sort((a, b) => (a.meta.name as string).localeCompare(b.meta.name)),

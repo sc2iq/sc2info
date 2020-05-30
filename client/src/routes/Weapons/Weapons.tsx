@@ -43,9 +43,7 @@ const Component: React.FC<Props> = ({ match }) => {
     query,
   })
 
-  const weapons = response.data
-    ? (response.data.weapons as any[])
-    : []
+  const weapons: any[] = response.data?.weapons ?? []
 
   const groups = {
     terran: weapons.filter(w => w.meta.race === "terran").sort((a, b) => (a.meta.name as string).localeCompare(b.meta.name)),
