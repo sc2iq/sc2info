@@ -33,9 +33,7 @@ const Component: React.FC = () => {
     const onClickClear = () => {
         setSearchValue('')
         setQueryValue('')
-        if (searchIconRef.current) {
-            searchIconRef.current.focus()
-        }
+        searchIconRef.current?.focus()
     }
 
     const onChangeSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,15 +61,11 @@ const Component: React.FC = () => {
     })
 
     const onClickSearchIcon = () => {
-        if (searchIconRef.current) {
-            searchIconRef.current.focus()
-        }
+        searchIconRef.current?.focus()
     }
 
     React.useEffect(() => {
-        if (searchIconRef.current) {
-            searchIconRef.current.focus()
-        }
+        searchIconRef.current?.focus()
     }, [searchIconRef])
 
     return (
