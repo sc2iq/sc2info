@@ -79,7 +79,7 @@ const Component: React.FC = () => {
                         onChange={onChangeSearchInput}
                         onKeyDown={onKeyDownSearchInput}
                         ref={searchIconRef}
-                        placeholder="Search... zergling, hatchery, or guass rifle. (Must be greater than 2 characters)"
+                        placeholder="Search... zergling, hatchery, or guass rifle. (Must be at least 3 characters)"
                         spellCheck={false}
                         autoComplete="off"
                     />
