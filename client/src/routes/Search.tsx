@@ -51,7 +51,7 @@ const Component: React.FC = () => {
         }
     }
 
-    const pause = searchQuery.length <= 3
+    const pause = searchQuery.length < 3
     const [searchResults] = urlq.useQuery({
         query,
         variables: {
@@ -79,7 +79,7 @@ const Component: React.FC = () => {
                         onChange={onChangeSearchInput}
                         onKeyDown={onKeyDownSearchInput}
                         ref={searchIconRef}
-                        placeholder="Search..."
+                        placeholder="Search... zergling, hatchery, or guass rifle. (Must be greater than 2 characters)"
                         spellCheck={false}
                         autoComplete="off"
                     />
@@ -89,11 +89,9 @@ const Component: React.FC = () => {
                 </div>
             </div>
 
-            <h3>Results for: '{searchQuery}'</h3>
+            {searchQuery.length > 0
+                && <h3>Results for: '{searchQuery}'</h3>}
             <section>
-                {pause
-                    && <p>Search value must be greater than 3 characters.</p>}
-
                 {searchResults.fetching
                     && <p>&nbsp;Loading...</p>}
 
@@ -102,17 +100,7 @@ const Component: React.FC = () => {
                     : searchResults.data
                     && <div className="search-all-list">
                         {(searchResults.data.searchAll as any[]).map((searchResult, i) => {
-                            let path = 'units'
-                            if (searchResult.item.type === 'upgrade') {
-                                path = 'upgrades'
-                            }
-                            else if (searchResult.item.type === 'weapon') {
-                                path = 'weapons'
-                            }
-                            else if (searchResult.item.type === 'building') {
-                                path = 'buildings'
-                            }
-
+                            const path = getUrlPathFromUnitType(searchResult.item.type)
                             return <Link to={`/${path}/${searchResult.item.id}`} key={i}><SearchResult searchAllResult={searchResult} /></Link>
                         })}
                     </div>}
@@ -133,3 +121,17 @@ const Component: React.FC = () => {
 }
 
 export default Component
+
+function getUrlPathFromUnitType(type: string) {
+    let path = 'units'
+    if (type === 'upgrade') {
+        path = 'upgrades'
+    }
+    else if (type === 'weapon') {
+        path = 'weapons'
+    }
+    else if (type === 'building') {
+        path = 'buildings'
+    }
+    return path
+}
