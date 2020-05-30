@@ -136,7 +136,7 @@ const Component: React.FC<Props> = ({ unit }) => {
                     <div>
                         {(unit.original.upgrades as any[]).map((u, i) => {
                             return <div key={i} className="unit-full__upgrade">
-                                <h3>{u.name}</h3>
+                                <h3>{convertCamelCaseToSpacedCase(u.name)}</h3>
                                 <div className="unit-full__upgrade-levels">
 
                                     {(u.levels as any[]).map((l, j) => (
