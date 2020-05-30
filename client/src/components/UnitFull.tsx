@@ -2,6 +2,7 @@ import React from 'react'
 import RaceImg from './RaceImg'
 import './UnitFull.css'
 import { convertCamelCaseToSpacedCase } from '../utilities'
+import IconImage from './IconImage'
 
 type Props = {
     unit: any
@@ -12,7 +13,7 @@ const Component: React.FC<Props> = ({ unit }) => {
         <div className="unit-full">
             <div>
                 <RaceImg race={unit.meta.race} />
-                <img src={unit.meta.icon} alt={unit.id} width="150" height="150" />
+                <IconImage url={unit.meta.icon} width={150} height={150} />
             </div>
 
             <div className="unit-full__lift-cost">
@@ -140,7 +141,9 @@ const Component: React.FC<Props> = ({ unit }) => {
 
                                     {(u.levels as any[]).map((l, j) => (
                                         <div key={j}>
-                                            <div><img src={l.meta.icon} alt="icon" /></div>
+                                            <div>
+                                                <IconImage url={l.meta.icon} />
+                                            </div>
                                             <div className="unit-full__upgrade-stats">
                                                 {/* <div>{l.meta.name}</div> */}
                                                 <img src="https://sc2iq.blob.core.windows.net/sc2icons/Wireframe-General-MineralField.png" width={30} height={30} alt="Minerals" />

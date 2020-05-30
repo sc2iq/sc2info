@@ -1,6 +1,7 @@
 import React from 'react'
 import RaceImg from './RaceImg'
 import './BuildingFull.css'
+import IconImage from './IconImage'
 
 type Props = {
     building: any
@@ -12,7 +13,7 @@ const Component: React.FC<Props> = ({ building }) => {
         <div className="building-full">
             <div>
                 <RaceImg race={building.meta.race} />
-                <img src={building.meta.icon} alt={building.id} width="150" height="150" />
+                <IconImage url={building.meta.icon} width={150} height={150} />
             </div>
 
             <div>

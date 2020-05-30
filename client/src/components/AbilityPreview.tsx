@@ -1,6 +1,7 @@
 import React from 'react'
 import './AbilityPreview.css'
 import { convertCamelCaseToSpacedCase } from '../utilities'
+import IconImage from './IconImage'
 
 type Props = {
     ability: any
@@ -13,10 +14,10 @@ const Component: React.FC<Props> = ({ ability }) => {
                 (
                     <div key={i} className="ability-preview">
                         <div className="ability-preview__picture">
-                            <img src={c.meta.icon} alt={ability.id} width="80" height="80" />
+                            <IconImage url={c.meta.icon} />
                         </div>
                         <div className="ability-preview__info">
-                            {convertCamelCaseToSpacedCase(c.meta.name)}
+                            {convertCamelCaseToSpacedCase(c.meta.name ?? '')}
                         </div>
                     </div>
                 ))}

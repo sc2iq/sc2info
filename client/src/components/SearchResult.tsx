@@ -3,6 +3,7 @@ import RaceImg from './RaceImg'
 import FuseMatch from './FuseMatch'
 import { convertMatchedTextIntoMatchedSegements } from '../utilities'
 import './SearchResult.css'
+import IconImage from './IconImage'
 
 type Props = {
     searchAllResult: any
@@ -15,9 +16,7 @@ const Component: React.FC<Props> = ({ searchAllResult }) => {
     return (
         <div className="search-all">
             <div className="search-all__picture">
-                <object data={searchAllResult.item.icon} type="image/png"  width="80" height="80" >
-                    <div>Image Not Found</div>
-                </object>
+                <IconImage url={searchAllResult.item.icon} />
             </div>
             <div className="search-all__race">
                 <RaceImg race={searchAllResult.item.race} />

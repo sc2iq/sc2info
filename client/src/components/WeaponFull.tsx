@@ -1,6 +1,7 @@
 import React from 'react'
 import RaceImg from './RaceImg'
 import './WeaponFull.css'
+import IconImage from './IconImage'
 
 type Props = {
     weapon: any
@@ -11,7 +12,7 @@ const Component: React.FC<Props> = ({ weapon }) => {
         <div className="unit-full">
             <div>
                 <RaceImg race={weapon.meta.race} />
-                <img src={weapon.meta.icon} alt={weapon.id} width="150" height="150" />
+                <IconImage url={weapon.meta.icon} width={150} height={150} />
             </div>
 
             <div>

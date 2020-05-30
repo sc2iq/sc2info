@@ -1,5 +1,6 @@
 import React from 'react'
 import './UnitPreview.css'
+import IconImage from './IconImage'
 
 type Props = {
     unit: any
@@ -9,7 +10,7 @@ const Component: React.FC<Props> = ({ unit }) => {
     return (
         <div className="unit-preview">
             <div className="unit-preview__picture">
-                <img src={unit.meta.icon} alt={unit.id} width="80" height="80" />
+                <IconImage url={unit.meta.icon} />
             </div>
             <div className="unit-preview__info">
                 {unit.meta.name}
