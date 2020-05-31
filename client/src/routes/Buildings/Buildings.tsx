@@ -83,8 +83,13 @@ const Component: React.FC<Props> = ({ match }) => {
   const buildings: any[] = response.data?.buildings ?? []
 
   const groupedBuildings = {
-    terran: buildings.filter(x => x).filter(b => b.meta.race === "terran").sort((a, b) => (a.meta.name as string).localeCompare(b.meta.name)),
-    zerg: buildings.filter(x => x).filter(b => b.meta.race === "zerg"),
+    terran: buildings.filter(x => x)
+      .filter(b => b.meta.race === "terran")
+      .filter(b => b.meta.name.toLowerCase().includes("flying") === false)
+      .sort((a, b) => (a.meta.name as string).localeCompare(b.meta.name)),
+    zerg: buildings.filter(x => x)
+      .filter(b => b.meta.name.toLowerCase().includes("burrowed") === false)
+      .filter(b => b.meta.race === "zerg"),
     protoss: buildings.filter(x => x).filter(b => b.meta.race === "protoss"),
   }
 
@@ -97,7 +102,6 @@ const Component: React.FC<Props> = ({ match }) => {
       <section>
         {response.error
           && <div>{response.error.name} {response.error.message}</div>}
-
 
         <div className="race-lists">
           <div>
@@ -127,7 +131,7 @@ const Component: React.FC<Props> = ({ match }) => {
               }
             </div>
           </div>
-          
+
           <div>
             <h2>Protoss</h2>
             <div className="building-preview-list">

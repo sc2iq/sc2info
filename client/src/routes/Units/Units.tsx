@@ -42,9 +42,27 @@ const Component: React.FC<Props> = ({ match }) => {
     const units: any[] = unitsObject?.edges ?? []
 
     const groups = {
-        terran: units.map(u => u.node).filter(u => u.meta.race === "terran").sort((a, b) => (a.meta.name as string).localeCompare(b.meta.name)),
-        zerg: units.map(u => u.node).filter(u => u.meta.race === "zerg").sort((a, b) => (a.meta.name as string).localeCompare(b.meta.name)),
-        protoss: units.map(u => u.node).filter(u => u.meta.race === "protoss").sort((a, b) => (a.meta.name as string).localeCompare(b.meta.name)),
+        terran: units.map(u => u.node)
+            .filter(u => u.meta.race === "terran")
+            .filter(u => {
+                const remove = [/alternate/i, /nova/i, /preview/i, /sieged/, /AP/, /AA/].some(regex => regex.test(u.meta.name))
+                return !remove
+            })
+            .sort((a, b) => (a.meta.name as string).localeCompare(b.meta.name)),
+        zerg: units.map(u => u.node)
+            .filter(u => u.meta.race === "zerg")
+            .filter(u => {
+                const remove = [/burrowed/i, /escort/i, /placement/i, /cocoon/i, /missile/i, /changeling[zm]/i].some(regex => regex.test(u.meta.name))
+                return !remove
+            })
+            .sort((a, b) => (a.meta.name as string).localeCompare(b.meta.name)),
+        protoss: units.map(u => u.node)
+            .filter(u => u.meta.race === "protoss")
+            .filter(u => {
+                const remove = [/preview/i].some(regex => regex.test(u.meta.name))
+                return !remove
+            })
+            .sort((a, b) => (a.meta.name as string).localeCompare(b.meta.name)),
     }
 
     return (
