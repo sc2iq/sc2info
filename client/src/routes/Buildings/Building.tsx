@@ -2,6 +2,7 @@ import React from 'react'
 import { NavLink, RouteComponentProps } from "react-router-dom"
 import * as urlq from 'urql'
 import BuildingFull from '../../components/BuildingFull'
+import { convertCamelCaseToSpacedCase } from '../../utilities'
 
 const query = `
 query building($id: Int) {
@@ -87,9 +88,7 @@ const Component: React.FC<Props> = ({ match }) => {
         }
     })
 
-    const buildingName = response.data
-        ? response.data.building.meta.name
-        : ''
+    const buildingName = convertCamelCaseToSpacedCase(response.data?.building.meta.name ?? '')
 
     return (
         <>
