@@ -3,6 +3,9 @@
 Generate Questions from the balance data. Used for SC2INFO bot.
 
 ## Question Types
+
+For each type, we go through JSON structure and questions for each area and property.
+
 ### Building
 #### armor
 

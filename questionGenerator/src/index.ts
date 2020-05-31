@@ -4,9 +4,9 @@ import * as models from './models'
 import * as client from './services/client'
 
 import fs from 'fs'
-import questionGenerator from './generator'
+import questionGenerator from './generator/generator'
 import { ICategorizedUnits } from '@sc2/convertbalancedata'
-import generate from './generator'
+import generate from './generator/generator'
 
 process.on('unhandledRejection', (reason) => {
     throw reason
