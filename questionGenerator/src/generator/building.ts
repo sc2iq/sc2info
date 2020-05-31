@@ -176,7 +176,7 @@ export function generateBuildingQuestions(building: unit.IUnitNode): models.Ques
 
             const question: models.QuestionInput = {
                 id: `${building.id}-building-shields`,
-                question: `What is the shields of ${article} ${camelCaseToNormal(name)}?.`,
+                question: `What is the shield amount of ${article} ${camelCaseToNormal(name)}?.`,
                 answer1: `${answer1}`,
                 answer2: `${answer2}`,
                 answer3: `${answer3}`,

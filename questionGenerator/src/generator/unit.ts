@@ -236,7 +236,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.QuestionInpu
 
             const question: models.QuestionInput = {
                 id: `${unit.id}-unit-shieldarmor`,
-                question: `What are the shield armor of ${article} ${camelCaseToNormal(name)}?.`,
+                question: `What is the shield armor of ${article} ${camelCaseToNormal(name)}?.`,
                 answer1: `${answer1}`,
                 answer2: `${answer2}`,
                 answer3: `${answer3}`,
