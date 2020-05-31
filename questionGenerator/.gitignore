@@ -3,4 +3,6 @@
 
 .env
 npm-debug.log*
+
 balancedata.json
+questionInputs.json
