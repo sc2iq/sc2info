@@ -23,34 +23,16 @@ const authenticationClient = new auth0.AuthenticationClient({
     clientSecret: process.env.CLIENT_SECRET,
 })
 
-const dryRun = true
-
 async function main() {
     const balanceDataFile = await fs.promises.readFile('balancedata.json', 'utf8')
     const balanceDataJson: ICategorizedUnits = JSON.parse(balanceDataFile)
 
     const questionInputs = generate(balanceDataJson)
 
-    await fs.promises.writeFile(`questionInputs.json`, JSON.stringify(questionInputs, null, 4), '')
-    console.log(`Generated ${questionInputs.length} Questions`, { questionInputs })
-
-    if (dryRun) {
-        return
-    }
-
-    try {
-        const tokenResponse = await authenticationClient.clientCredentialsGrant({ audience: 'https://sc2iq.com/api' })
-
-        for (const questionInput of questionInputs) {
-            const savedQuestion = await client.postQuestion(tokenResponse.access_token, questionInput)
-            console.log(`Saved Question: ${savedQuestion.id} ${Date.now()}`)
-        }
-    }
-    catch (e) {
-        const error: Error = e
-        console.log({ error })
-        process.exit(1)
-    }
+    const fileName = `questionInputs.json`
+    await fs.promises.writeFile(fileName, JSON.stringify(questionInputs, null, 4), '')
+    console.log(`Generated ${questionInputs.length} questions.`)
+    console.log(`Saved as ${fileName}.`)
 }
 
 main()
