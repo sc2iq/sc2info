@@ -1,6 +1,7 @@
 import { unit, ICategorizedUnits } from '@sc2/convertbalancedata'
 import * as models from '../models'
 import { getPrecedingArticle, getNumberVariances, camelCaseToNormal, getOtherAttributes } from './utilities'
+import { sc2InfoUrlBase } from '../constants'
 
 export function generateWeaponQuestions(weapon: unit.IWeapon): models.QuestionInput[] {
     const questions: models.QuestionInput[] = []
@@ -29,7 +30,7 @@ export function generateWeaponQuestions(weapon: unit.IWeapon): models.QuestionIn
                     `damage`,
                 ],
                 difficulty: 1,
-                source: `https://sc2info.surge.sh/weapons/${weapon.id}`
+                source: `${sc2InfoUrlBase}/weapons/${weapon.id}`
             }
 
             questions.push(question)
@@ -57,7 +58,7 @@ export function generateWeaponQuestions(weapon: unit.IWeapon): models.QuestionIn
                         `damage`,
                     ],
                     difficulty: 1,
-                    source: `https://sc2info.surge.sh/weapons/${weapon.id}`
+                    source: `${sc2InfoUrlBase}/weapons/${weapon.id}`
                 }
 
                 questions.push(question)
@@ -85,7 +86,7 @@ export function generateWeaponQuestions(weapon: unit.IWeapon): models.QuestionIn
                         `attribute`,
                     ],
                     difficulty: 1,
-                    source: `https://sc2info.surge.sh/weapons/${weapon.id}`
+                    source: `${sc2InfoUrlBase}/weapons/${weapon.id}`
                 }
 
                 questions.push(question)
@@ -115,7 +116,7 @@ export function generateWeaponQuestions(weapon: unit.IWeapon): models.QuestionIn
                     `range`,
                 ],
                 difficulty: 1,
-                source: `https://sc2info.surge.sh/weapons/${weapon.id}`
+                source: `${sc2InfoUrlBase}/weapons/${weapon.id}`
             }
 
             questions.push(question)
@@ -142,7 +143,7 @@ export function generateWeaponQuestions(weapon: unit.IWeapon): models.QuestionIn
                     `speed`,
                 ],
                 difficulty: 1,
-                source: `https://sc2info.surge.sh/weapons/${weapon.id}`
+                source: `${sc2InfoUrlBase}/weapons/${weapon.id}`
             }
 
             questions.push(question)

@@ -1,6 +1,7 @@
 import { unit, ICategorizedUnits } from '@sc2/convertbalancedata'
 import * as models from '../models'
 import { getPrecedingArticle, getNumberVariances, camelCaseToNormal, getRaceFromName } from './utilities'
+import { sc2InfoUrlBase } from '../constants'
 
 export function generateBuildingUpgradeQuestions(upgrade: unit.IBuildingUpgrade): models.QuestionInput[] {
     const questions: models.QuestionInput[] = []
@@ -29,7 +30,7 @@ export function generateBuildingUpgradeQuestions(upgrade: unit.IBuildingUpgrade)
                     `minerals`,
                 ],
                 difficulty: 1,
-                source: `https://sc2info.surge.sh/upgrades/${upgrade.id}`
+                source: `${sc2InfoUrlBase}/upgrades/${upgrade.id}`
             }
 
             questions.push(question)
@@ -58,7 +59,7 @@ export function generateBuildingUpgradeQuestions(upgrade: unit.IBuildingUpgrade)
                     `vespene`,
                 ],
                 difficulty: 1,
-                source: `https://sc2info.surge.sh/upgrades/${upgrade.id}`
+                source: `${sc2InfoUrlBase}/upgrades/${upgrade.id}`
             }
 
             questions.push(question)
@@ -94,7 +95,7 @@ export function generateBuildingUpgradeQuestions(upgrade: unit.IBuildingUpgrade)
                     `vespene`,
                 ],
                 difficulty: 1,
-                source: `https://sc2info.surge.sh/upgrades/${upgrade.id}`
+                source: `${sc2InfoUrlBase}/upgrades/${upgrade.id}`
             }
 
             const race = getRaceFromName(name)
@@ -127,7 +128,7 @@ export function generateBuildingUpgradeQuestions(upgrade: unit.IBuildingUpgrade)
                     `time`,
                 ],
                 difficulty: 1,
-                source: `https://sc2info.surge.sh/upgrades/${upgrade.id}`
+                source: `${sc2InfoUrlBase}/upgrades/${upgrade.id}`
             }
 
             questions.push(question)

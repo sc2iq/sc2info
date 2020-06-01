@@ -1,0 +1,1 @@
+export const sc2InfoUrlBase = `https://www.sc2info.com`

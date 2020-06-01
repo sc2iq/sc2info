@@ -1,6 +1,7 @@
 import { unit, ICategorizedUnits } from '@sc2/convertbalancedata'
 import * as models from '../models'
 import { getPrecedingArticle, getNumberVariances, camelCaseToNormal } from './utilities'
+import { sc2InfoUrlBase } from '../constants'
 
 export function generateBuildingQuestions(building: unit.IUnitNode): models.QuestionInput[] {
     const questions: models.QuestionInput[] = []
@@ -31,7 +32,7 @@ export function generateBuildingQuestions(building: unit.IUnitNode): models.Ques
                     `armor`,
                 ],
                 difficulty: 1,
-                source: `https://sc2info.surge.sh/buildings/${building.id}`
+                source: `${sc2InfoUrlBase}/buildings/${building.id}`
             }
 
             questions.push(question)
@@ -63,7 +64,7 @@ export function generateBuildingQuestions(building: unit.IUnitNode): models.Ques
                     `minerals`,
                 ],
                 difficulty: 1,
-                source: `https://sc2info.surge.sh/buildings/${building.id}`
+                source: `${sc2InfoUrlBase}/buildings/${building.id}`
             }
 
             questions.push(question)
@@ -91,7 +92,7 @@ export function generateBuildingQuestions(building: unit.IUnitNode): models.Ques
                     `vespene`,
                 ],
                 difficulty: 1,
-                source: `https://sc2info.surge.sh/buildings/${building.id}`
+                source: `${sc2InfoUrlBase}/buildings/${building.id}`
             }
 
             questions.push(question)
@@ -125,7 +126,7 @@ export function generateBuildingQuestions(building: unit.IUnitNode): models.Ques
                     `cost`,
                 ],
                 difficulty: 1,
-                source: `https://sc2info.surge.sh/buildings/${building.id}`
+                source: `${sc2InfoUrlBase}/buildings/${building.id}`
             }
 
             questions.push(question)
@@ -156,7 +157,7 @@ export function generateBuildingQuestions(building: unit.IUnitNode): models.Ques
                     `life`,
                 ],
                 difficulty: 1,
-                source: `https://sc2info.surge.sh/buildings/${building.id}`
+                source: `${sc2InfoUrlBase}/buildings/${building.id}`
             }
 
             questions.push(question)
@@ -187,7 +188,7 @@ export function generateBuildingQuestions(building: unit.IUnitNode): models.Ques
                     `shields`,
                 ],
                 difficulty: 1,
-                source: `https://sc2info.surge.sh/buildings/${building.id}`
+                source: `${sc2InfoUrlBase}/buildings/${building.id}`
             }
 
             questions.push(question)
@@ -217,7 +218,7 @@ export function generateBuildingQuestions(building: unit.IUnitNode): models.Ques
                     `armor`,
                 ],
                 difficulty: 1,
-                source: `https://sc2info.surge.sh/buildings/${building.id}`
+                source: `${sc2InfoUrlBase}/buildings/${building.id}`
             }
 
             questions.push(question)
@@ -246,7 +247,7 @@ export function generateBuildingQuestions(building: unit.IUnitNode): models.Ques
                     `radius`,
                 ],
                 difficulty: 1,
-                source: `https://sc2info.surge.sh/buildings/${building.id}`
+                source: `${sc2InfoUrlBase}/buildings/${building.id}`
             }
 
             questions.push(question)

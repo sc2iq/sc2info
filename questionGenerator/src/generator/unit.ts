@@ -1,6 +1,7 @@
 import { unit, ICategorizedUnits } from '@sc2/convertbalancedata'
 import * as models from '../models'
 import { getPrecedingArticle, getNumberVariances, camelCaseToNormal } from './utilities'
+import { sc2InfoUrlBase } from '../constants'
 
 export function generateUnitQuestions(unit: unit.IUnitNode): models.QuestionInput[] {
     const questions: models.QuestionInput[] = []
@@ -32,7 +33,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.QuestionInpu
                     `armor`,
                 ],
                 difficulty: 1,
-                source: `https://sc2info.surge.sh/units/${unit.id}`
+                source: `${sc2InfoUrlBase}/units/${unit.id}`
             }
 
             questions.push(question)
@@ -65,7 +66,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.QuestionInpu
                     `minerals`,
                 ],
                 difficulty: 1,
-                source: `https://sc2info.surge.sh/unit/${unit.id}`
+                source: `${sc2InfoUrlBase}/unit/${unit.id}`
             }
 
             questions.push(question)
@@ -94,7 +95,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.QuestionInpu
                     `vespene`,
                 ],
                 difficulty: 1,
-                source: `https://sc2info.surge.sh/units/${unit.id}`
+                source: `${sc2InfoUrlBase}/units/${unit.id}`
             }
 
             questions.push(question)
@@ -129,7 +130,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.QuestionInpu
                     `cost`,
                 ],
                 difficulty: 1,
-                source: `https://sc2info.surge.sh/units/${unit.id}`
+                source: `${sc2InfoUrlBase}/units/${unit.id}`
             }
 
             questions.push(question)
@@ -158,7 +159,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.QuestionInpu
                     `supply`,
                 ],
                 difficulty: 1,
-                source: `https://sc2info.surge.sh/units/${unit.id}`
+                source: `${sc2InfoUrlBase}/units/${unit.id}`
             }
 
             questions.push(question)
@@ -187,7 +188,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.QuestionInpu
                     `time`,
                 ],
                 difficulty: 1,
-                source: `https://sc2info.surge.sh/units/${unit.id}`
+                source: `${sc2InfoUrlBase}/units/${unit.id}`
             }
 
             questions.push(question)
@@ -218,7 +219,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.QuestionInpu
                     `shields`,
                 ],
                 difficulty: 1,
-                source: `https://sc2info.surge.sh/units/${unit.id}`
+                source: `${sc2InfoUrlBase}/units/${unit.id}`
             }
 
             questions.push(question)
@@ -248,7 +249,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.QuestionInpu
                     `armor`,
                 ],
                 difficulty: 1,
-                source: `https://sc2info.surge.sh/units/${unit.id}`
+                source: `${sc2InfoUrlBase}/units/${unit.id}`
             }
 
             questions.push(question)
@@ -279,7 +280,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.QuestionInpu
                     `radius`,
                 ],
                 difficulty: 1,
-                source: `https://sc2info.surge.sh/units/${unit.id}`
+                source: `${sc2InfoUrlBase}/units/${unit.id}`
             }
 
             questions.push(question)
@@ -309,7 +310,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.QuestionInpu
                     `radius`,
                 ],
                 difficulty: 1,
-                source: `https://sc2info.surge.sh/units/${unit.id}`
+                source: `${sc2InfoUrlBase}/units/${unit.id}`
             }
 
             questions.push(question)
@@ -340,7 +341,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.QuestionInpu
                     `speed`,
                 ],
                 difficulty: 1,
-                source: `https://sc2info.surge.sh/units/${unit.id}`
+                source: `${sc2InfoUrlBase}/units/${unit.id}`
             }
 
             questions.push(question)
@@ -369,7 +370,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.QuestionInpu
                     `acceleration`,
                 ],
                 difficulty: 1,
-                source: `https://sc2info.surge.sh/units/${unit.id}`
+                source: `${sc2InfoUrlBase}/units/${unit.id}`
             }
 
             questions.push(question)
@@ -399,7 +400,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.QuestionInpu
                     `turnRate`,
                 ],
                 difficulty: 1,
-                source: `https://sc2info.surge.sh/units/${unit.id}`
+                source: `${sc2InfoUrlBase}/units/${unit.id}`
             }
 
             questions.push(question)
