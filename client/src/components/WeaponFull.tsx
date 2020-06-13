@@ -16,7 +16,7 @@ const Component: React.FC<Props> = ({ weapon }) => {
             </div>
 
             <div>
-                <h2>Miscallaneous</h2>
+                <h2>Miscellaneous</h2>
                 <div className="unit-full__section">
                     <div>Range</div>
                     <div>{weapon.misc.range}</div>

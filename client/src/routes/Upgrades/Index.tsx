@@ -1,6 +1,7 @@
 import React from 'react'
 import { Switch, Route, RouteComponentProps } from "react-router-dom"
 import Upgrades from './Upgrades'
+import Upgrade from './Upgrade'
 
 type Props = RouteComponentProps
 const Component: React.FC<Props> = ({ match }) => {
@@ -8,6 +9,7 @@ const Component: React.FC<Props> = ({ match }) => {
         <>
             <Switch>
                 <Route exact path={`${match.url}`} component={Upgrades} />
+                <Route path={`${match.url}/:upgradeId`} component={Upgrade} />
             </Switch>
         </>
     )

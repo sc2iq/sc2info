@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink } from "react-router-dom"
+import { NavLink, Link, RouteComponentProps } from "react-router-dom"
 import * as urlq from 'urql'
 import UpgradePreview from '../../components/UpgradePreview'
 
@@ -22,8 +22,9 @@ const query = `
   }
 }
 `
+type Props = RouteComponentProps
 
-const Component: React.FC = () => {
+const Component: React.FC<Props> = ({ match }) => {
 
     const [response] = urlq.useQuery({
         query,
@@ -59,7 +60,9 @@ const Component: React.FC = () => {
                         <h2>Terran</h2>
                         <div className="building-preview-list">
                             {groups.terran.map((upgrade, i) =>
-                                <UpgradePreview key={i} upgrade={upgrade} />
+                                <Link key={i} to={`${match.url}/${upgrade.id}`}>
+                                    <UpgradePreview key={i} upgrade={upgrade} />
+                                </Link>
                             )}
                         </div>
                     </div>
@@ -68,7 +71,10 @@ const Component: React.FC = () => {
                         <h2>Zerg</h2>
                         <div className="building-preview-list">
                             {groups.zerg.map((upgrade, i) =>
-                                <UpgradePreview key={i} upgrade={upgrade} />
+                                <Link key={i} to={`${match.url}/${upgrade.id}`}>
+
+                                    <UpgradePreview key={i} upgrade={upgrade} />
+                                </Link>
                             )}
                         </div>
                     </div>
@@ -77,7 +83,9 @@ const Component: React.FC = () => {
                         <h2>Protoss</h2>
                         <div className="building-preview-list">
                             {groups.protoss.map((upgrade, i) =>
-                                <UpgradePreview key={i} upgrade={upgrade} />
+                                <Link key={i} to={`${match.url}/${upgrade.id}`}>
+                                    <UpgradePreview key={i} upgrade={upgrade} />
+                                </Link>
                             )}
                         </div>
                     </div>
