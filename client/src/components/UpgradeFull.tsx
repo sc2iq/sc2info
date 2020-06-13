@@ -1,5 +1,4 @@
 import React from 'react'
-import RaceImg from './RaceImg'
 import './UpgradeFull.css'
 import IconImage from './IconImage'
 
@@ -11,7 +10,6 @@ const Component: React.FC<Props> = ({ upgrade }) => {
     return (
         <div className="unit-full">
             <div>
-                {/* <RaceImg race={upgrade.meta.race} /> */}
                 <IconImage url={upgrade.meta.icon} width={150} height={150} />
             </div>
 
