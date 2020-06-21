@@ -47,9 +47,10 @@ export interface Units {
     unit: unit.IParsedUnit[]
 }
 
-export async function postProcess(parsedUnits: Units): Promise<ICategorizedUnits> {
+export function postProcess(parsedUnits: Units): ICategorizedUnits {
     const genericUnits = parsedUnits.unit
         .map(parsedUnit => unit.convertUnit(parsedUnit))
+
     const nonNeutralUnits = genericUnits
         .filter(unit => unit.meta.race !== 'neutral')
         .filter(unit => !unit.meta.icon || !unit.meta.icon.includes('btn-missing-kaeo'))

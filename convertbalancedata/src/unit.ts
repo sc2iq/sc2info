@@ -1,10 +1,7 @@
 import * as _ from 'lodash'
+import * as utils from './utilities'
 
 export interface IEntity {
-    id: number
-}
-
-export interface IParsedEntity {
     id: string
 }
 
@@ -12,11 +9,7 @@ export interface IUnitReference extends IEntity {
     name: string
 }
 
-export interface IParsedUnitReference extends IParsedEntity {
-    name: string
-}
-
-export interface IParsedUnit extends IParsedEntity {
+export interface IParsedUnit extends IEntity {
     meta: IParsedMeta
     life: IParsedHealth
     armor: IParsedHealth
@@ -27,7 +20,7 @@ export interface IParsedUnit extends IParsedEntity {
     movement: IParsedMovement
     score: IParsedScore
     misc: IParsedMisc
-    producer: IParsedUnitReference
+    producer: IUnitReference
     attributes: IParsedAttributes
     strengths: IParsedStrengths
     weaknesses: IParsedWeaknesses
@@ -67,29 +60,29 @@ export interface IUnitNode extends IEntity {
     abilities: string[]
     armor: IHealth
     attributes: string[]
-    builds: number[]
+    builds: string[]
     cost: ICost
     life: IHealth
     meta: IMeta
     misc: IMisc
     movement: IMovement
-    producer: number
-    requires: number[]
-    researches: number[]
+    producer: string
+    requires: string[]
+    researches: string[]
     score: IScore
     shields?: IHealth
     shieldArmor: IHealth
-    strengths: number[]
-    trains: number[]
-    upgrades: number[]
-    weaknesses: number[]
-    weapons: number[]
+    strengths: string[]
+    trains: string[]
+    upgrades: string[]
+    weaknesses: string[]
+    weapons: string[]
 }
 
 export function convertUnit(parsedUnit: IParsedUnit): IUnit {
-    const id = parsedUnit.meta && parseInt(parsedUnit.meta.name)
+    const id = parsedUnit.id
     const meta = parsedUnit.meta && convertMeta(parsedUnit.meta)
-    meta.name = parsedUnit.id
+    meta.name = parsedUnit.id && utils.convertCamelCaseToSpacedCase(parsedUnit.id)
 
     let requires: any[] = []
     if (parsedUnit.requires) {
@@ -102,26 +95,33 @@ export function convertUnit(parsedUnit: IParsedUnit): IUnit {
     }
 
     const life = parsedUnit.life && convertHealth(parsedUnit.life)
+
+    const defaultHealth = {
+        start: 0,
+        max: 0,
+        regenRate: 0,
+        delay: 0,
+    }
+
     const shields = parsedUnit.shields
         ? convertHealth(parsedUnit.shields)
-        : {
-            start: 0,
-            max: 0,
-            regenRate: 0,
-            delay: 0,
-        }
+        : defaultHealth
+
     const armor = parsedUnit.armor && convertHealth(parsedUnit.armor)
     const shieldArmor = parsedUnit.shieldArmor && convertHealth(parsedUnit.shieldArmor)
     const cost = parsedUnit.cost && convertCost(parsedUnit.cost)
     const movement = parsedUnit.movement && convertMovement(parsedUnit.movement)
     const score = parsedUnit.score && convertScore(parsedUnit.score)
     const misc = parsedUnit.misc && convertMisc(parsedUnit.misc)
+
+    const defaultUnitReference = {
+        id: 'DefaultUnitReferenceId',
+        name: 'DefaultUnitReferenceName',
+    }
     const producer = parsedUnit.producer
         ? convertUnitReference(parsedUnit.producer)
-        : {
-            id: -1,
-            name: '',
-        }
+        : defaultUnitReference
+
     const attributes = parsedUnit.attributes ? convertOneOrMore(parsedUnit.attributes.attribute) : []
     const strengths = parsedUnit.strengths ? convertOneOrMore(parsedUnit.strengths.unit).map(convertUnitReference) : []
     const weaknesses = parsedUnit.weaknesses
@@ -364,12 +364,12 @@ export interface IAttribute {
 }
 
 export interface IParsedStrengths {
-    unit: IParsedUnitReference[]
+    unit: IUnitReference[]
 }
 
 export interface IParsedRequires {
-    unit?: IParsedUnitReference | IParsedUnitReference[]
-    upgrade?: IParsedUnitReference | IParsedUnitReference[]
+    unit?: IUnitReference | IUnitReference[]
+    upgrade?: IUnitReference | IUnitReference[]
 }
 
 export interface IParsedBuilds {
@@ -380,10 +380,10 @@ export interface IParsedTrains {
     unit: IParsedUnit[]
 }
 
-export function convertUnitReference(parsedUnitReference: IParsedUnitReference): IUnitReference {
+export function convertUnitReference(parsedUnitReference: IUnitReference): IUnitReference {
     // Note: Raw JSON has this backwards, change is intentional
     return {
-        id: parseInt(parsedUnitReference.name),
+        id: parsedUnitReference.id,
         name: parsedUnitReference.id,
     }
 }
@@ -393,14 +393,14 @@ export function convertOneOrMore<T>(parsedInput: T | T[]): T[] {
 }
 
 export interface IParsedWeaknesses {
-    unit: IParsedUnitReference[]
+    unit: IUnitReference[]
 }
 
 export interface IParsedWeapons {
     weapon: IParsedWeapon[]
 }
 
-export interface IParsedWeapon {
+export interface IParsedWeapon extends IEntity {
     id: string
     index: string
     meta: IParsedMeta
@@ -408,19 +408,18 @@ export interface IParsedWeapon {
     effect: IParsedEffect
 }
 
-export interface IWeapon {
-    unitId: number
-    id: number
+export interface IWeapon extends IEntity {
+    unitId: string
     index: number
     meta: IMeta
     misc: IWeaponMisc
     effect: IEffect
 }
 
-export function convertWeapon(parsedWeapon: IParsedWeapon, unitId: number): IWeapon {
-    const id = parsedWeapon.meta && parseInt(parsedWeapon.meta.name)
+export function convertWeapon(parsedWeapon: IParsedWeapon, unitId: string): IWeapon {
+    const id = parsedWeapon.id
     const meta = parsedWeapon.meta && convertMeta(parsedWeapon.meta)
-    meta.name = parsedWeapon.id
+    meta.name = parsedWeapon.id && utils.convertCamelCaseToSpacedCase(parsedWeapon.id)
 
     return {
         unitId,
@@ -452,8 +451,7 @@ export function convertWeaponMisc(parsedWeaponMisc: IParsedWeaponMisc): IWeaponM
     }
 }
 
-export interface IParsedEffect {
-    id: string
+export interface IParsedEffect extends IEntity {
     index: string
     radius: string
     damage: string
@@ -463,8 +461,7 @@ export interface IParsedEffect {
     bonus: IParsedBonus
 }
 
-export interface IEffect {
-    id: string
+export interface IEffect extends IEntity {
     index: number
     radius: number
     max: number
@@ -509,26 +506,22 @@ export interface IParsedAbilities {
     ability: IParsedAbility[]
 }
 
-export interface IParsedAbility {
-    id: string
+export interface IParsedAbility extends IEntity {
     index: string
     command: IParsedCommand | IParsedCommand[]
 }
 
-export interface IParsedCommand {
-    id: string
+export interface IParsedCommand extends IEntity {
     index: string
     meta: IParsedMeta
 }
 
-export interface IAbility {
-    id: string
+export interface IAbility extends IEntity {
     index: number
     command: ICommand[]
 }
 
-export interface ICommand {
-    id: number
+export interface ICommand extends IEntity {
     index: number
     meta: IMeta
 }
@@ -544,9 +537,9 @@ export function convertAbility(parsedAbility: IParsedAbility): IAbility {
 }
 
 export function convertCommand(parsedCommand: IParsedCommand): ICommand {
-    const id = parseInt(parsedCommand.meta.name)
+    const id = parsedCommand.id
     const meta = convertMeta(parsedCommand.meta)
-    meta.name = parsedCommand.id
+    meta.name = parsedCommand.id && utils.convertCamelCaseToSpacedCase(parsedCommand.id)
 
     return {
         id,
@@ -559,8 +552,7 @@ export interface IParsedUpgrades {
     upgrade: IParsedUpgrade[]
 }
 
-export interface IParsedUpgrade {
-    id: string
+export interface IParsedUpgrade extends IEntity {
     index: string
     level: IParsedUpgradeLevel | IParsedUpgradeLevel[]
 }
@@ -569,8 +561,7 @@ export interface IParsedBuildingUpgrades {
     upgrade: IParsedBuildingUpgrade[]
 }
 
-export interface IUpgrade {
-    id: number
+export interface IUpgrade extends IEntity {
     name: string
     index: number
     levels: IUpgradeLevel[]
@@ -582,7 +573,7 @@ export function convertUpgrade(parsedUpgrade: IParsedUpgrade): IUpgrade {
         : []
 
     const firstLevel = levels[0]
-    const id = parseIntNullable(firstLevel.meta.name)
+    const id = parsedUpgrade.id
 
     return {
         id,
@@ -592,15 +583,13 @@ export function convertUpgrade(parsedUpgrade: IParsedUpgrade): IUpgrade {
     }
 }
 
-export interface IParsedUpgradeLevel {
-    id: string
+export interface IParsedUpgradeLevel extends IEntity {
     index: string
     requires: IParsedLevelRequires
     meta: IParsedMeta
     cost: IParsedCost
 }
-export interface IUpgradeLevel {
-    id: number
+export interface IUpgradeLevel extends IEntity {
     index: number
     requires: ILevelRequires
     meta: IMeta
@@ -608,10 +597,10 @@ export interface IUpgradeLevel {
 }
 
 export function convertUpgradeLevel(parsedUpgradeLevel: IParsedUpgradeLevel, name: string = ''): IUpgradeLevel {
-    const id = parseInt(parsedUpgradeLevel.meta.name)
+    const id = parsedUpgradeLevel.id
     const meta = convertMeta(parsedUpgradeLevel.meta)
     meta.name = typeof parsedUpgradeLevel.id === 'string'
-        ? parsedUpgradeLevel.id
+        ? utils.convertCamelCaseToSpacedCase(parsedUpgradeLevel.id)
         : name
 
     return {
@@ -624,8 +613,8 @@ export function convertUpgradeLevel(parsedUpgradeLevel: IParsedUpgradeLevel, nam
 }
 
 export interface IParsedLevelRequires {
-    upgrade: IParsedUnitReference
-    unit: IParsedUnitReference
+    upgrade: IUnitReference
+    unit: IUnitReference
 }
 
 export interface ILevelRequires {
@@ -640,16 +629,14 @@ export function convertLevelRequires(parsedLevelRequires: IParsedLevelRequires):
     }
 }
 
-export interface IParsedBuildingUpgrade {
-    id: string
+export interface IParsedBuildingUpgrade extends IEntity {
     index: string
     ability: string
     meta: IParsedMeta
     cost: IParsedCost
 }
 
-export interface IBuildingUpgrade {
-    id: number
+export interface IBuildingUpgrade extends IEntity {
     index: number
     ability: number
     meta: IMeta
@@ -657,9 +644,9 @@ export interface IBuildingUpgrade {
 }
 
 export function convertBuildingUpgrade(parsedBuildingUpgrade: IParsedBuildingUpgrade): IBuildingUpgrade {
-    const id = parseInt(parsedBuildingUpgrade.meta.name)
+    const id = parsedBuildingUpgrade.id
     const meta = convertMeta(parsedBuildingUpgrade.meta)
-    meta.name = parsedBuildingUpgrade.id
+    meta.name = parsedBuildingUpgrade.id && utils.convertCamelCaseToSpacedCase(parsedBuildingUpgrade.id)
 
     return {
         id,

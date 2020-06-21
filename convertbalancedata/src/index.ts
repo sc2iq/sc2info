@@ -19,14 +19,17 @@ async function main(xmlFolder: string = './balancedata', outputFile: string = `$
     // Raw JSON
     const xml = await mergeXml(xmlFolder)
     const units: Units = await xml2jsonAsync(xml)
+
+    // Output Pre-Processed (.raw.json) file from xml2json.
     const unitsJson = JSON.stringify(units, null, '  ')
     const unprocessedUnitsFilename = outputFile.replace('.json', '.raw.json')
     await fs.promises.writeFile(unprocessedUnitsFilename, unitsJson, 'utf8')
 
-    // Post Processed JSON
-    const categorizedUnits = await postProcess(units)
-    const categorizedUnitsJson = JSON.stringify(categorizedUnits, null, '  ')
+    // Processed JSON
+    const categorizedUnits = postProcess(units)
 
+    // Write Processed JSON (.json)
+    const categorizedUnitsJson = JSON.stringify(categorizedUnits, null, '  ')
     const finalJson = categorizedUnitsJson
     await fs.promises.writeFile(outputFile, finalJson, 'utf8')
 }
