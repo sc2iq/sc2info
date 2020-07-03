@@ -5,7 +5,7 @@ import WeaponFull from '../../components/WeaponFull'
 import { convertCamelCaseToSpacedCase } from '../../utilities'
 
 const query = `
-query weapon($id: Int) {
+query weapon($id: String) {
   weapon(id: $id) {
     id
     index

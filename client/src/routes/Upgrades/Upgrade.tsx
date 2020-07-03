@@ -5,7 +5,7 @@ import UpgradeFull from '../../components/UpgradeFull'
 import { convertCamelCaseToSpacedCase } from '../../utilities'
 
 const query = `
-query upgrade($id: Int) {
+query upgrade($id: String) {
     upgrade(id: $id) {
       id
       meta {
