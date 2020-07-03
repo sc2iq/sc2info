@@ -6,7 +6,7 @@
         "**/build/**/*": true,
         "**/node_modules": true
     },
-    "appService.defaultWebAppToDeploy": "/subscriptions/dbe085e6-4448-4069-ab44-483eafb5c59b/resourceGroups/global-rg/providers/Microsoft.Web/sites/sc2info",
-    "appService.deploySubpath": "",
-    "appService.showBuildDuringDeployPrompt": false
+    "appService.deploySubpath": ".",
+    "appService.showBuildDuringDeployPrompt": false,
+    "appService.defaultWebAppToDeploy": "/subscriptions/dbe085e6-4448-4069-ab44-483eafb5c59b/resourceGroups/global-rg/providers/Microsoft.Web/sites/sc2info"
 }
