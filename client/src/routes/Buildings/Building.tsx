@@ -5,7 +5,7 @@ import BuildingFull from '../../components/BuildingFull'
 import { convertCamelCaseToSpacedCase } from '../../utilities'
 
 const query = `
-query building($id: Int) {
+query building($id: String) {
     building(id: $id) {
       id
       index
