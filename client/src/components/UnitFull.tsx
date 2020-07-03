@@ -8,7 +8,51 @@ type Props = {
     unit: any
 }
 
+type AbilityDisplay = {
+    name: string
+    icon: string
+    attributes: [string, string][]
+}
+
 const UnitFull: React.FC<Props> = ({ unit }) => {
+
+    const abilities = (unit.original.abilities as any[])
+        .reduce<AbilityDisplay[]>((abilitiesGroup: AbilityDisplay[], ability: any) => {
+            const remove = [/stop/i, /move/i, /attack/i,].some(regex => regex.test(ability.id))
+            if (remove) {
+                return abilitiesGroup
+            }
+
+            const abilityCommands = (ability?.command ?? [])
+                .map((command: any) => {
+                    let name = ability.id
+                    if (command.id !== 'Execute') {
+                        name += ` - ${command.id}`
+                    }
+
+                    let attributes: [string, string][] = [
+                        ['Cooldown', command?.cost?.cooldown ?? ''],
+                        ['Energy', command?.cost?.energy ?? ''],
+                        ['Range', command?.misc?.range ?? ''],
+                        ['Radius', command?.effect?.radius ?? ''],
+                    ]
+
+                    attributes = attributes.filter(([key, value]) => value !== '')
+
+                    const unitAbility: AbilityDisplay = {
+                        name: convertCamelCaseToSpacedCase(name),
+                        icon: command.meta.icon,
+                        attributes,
+                    }
+
+                    return unitAbility
+                })
+
+            abilitiesGroup.push(...abilityCommands)
+
+            return abilitiesGroup
+        }, [])
+
     return (
         <div className="unit-full">
             <div>
@@ -113,7 +157,7 @@ const UnitFull: React.FC<Props> = ({ unit }) => {
             <div className="unit-full-50-50">
                 <div>
                     <h2>Weapons</h2>
-                    <div>
+                    <div className="unit-full__list">
                         {((unit.original?.weapons as any[]) ?? []).map((u, i) => {
                             return <div key={i} className="unit-full__weapon">
                                 <img className="unit-full__weapon-img" src={u.meta.icon} alt={u.meta.name} />
@@ -125,6 +169,26 @@ const UnitFull: React.FC<Props> = ({ unit }) => {
                                         <div>Targets</div><div>{u.misc.targets}</div>
                                         <div>Max</div><div>{u.effect.max}</div>
                                         <div>Kind</div><div>{u.effect.kind}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        })}
+                    </div>
+
+                    <h2>Abilities</h2>
+                    <div className="unit-full__list">
+                        {abilities.map(ability => {
+                            return <div key={ability.name} className="unit-full__weapon">
+                                <img className="unit-full__weapon-img" src={ability.icon} alt={ability.name} />
+                                <div>
+                                    <h3>{ability.name}</h3>
+                                    <div className="unit-full__weapon-stats">
+                                        {ability.attributes.map(([key, value], i) => 
+                                            <React.Fragment key={i}>
+                                                <div>{key}</div>
+                                                <div>{value}</div>
+                                            </React.Fragment>
+                                        )}
                                     </div>
                                 </div>
                             </div>

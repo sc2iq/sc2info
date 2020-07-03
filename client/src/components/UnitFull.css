@@ -12,6 +12,11 @@
     margin: 0.25em 0;
 }
 
+.unit-full__list {
+    display: grid;
+    grid-gap: 1rem;
+}
+
 .unit-full__lift-cost {
     display: grid;
     grid-template-columns: 60% 40%;
