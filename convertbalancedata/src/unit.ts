@@ -514,6 +514,25 @@ export interface IParsedAbility extends IEntity {
 export interface IParsedCommand extends IEntity {
     index: string
     meta: IParsedMeta
+    misc: IParsedCommandMisc
+    cost: IParsedCommandCost
+    effect: IParsedCommandEffect
+}
+
+export interface IParsedCommandMisc {
+    range: string
+}
+
+export interface IParsedCommandCost {
+    energy: string
+    cooldown: string
+    time: string
+}
+
+export interface IParsedCommandEffect {
+    id: string
+    index: string
+    radius: string
 }
 
 export interface IAbility extends IEntity {
@@ -521,9 +540,28 @@ export interface IAbility extends IEntity {
     command: ICommand[]
 }
 
+export interface ICommandMisc {
+    range: number
+}
+
+export interface ICommandCost {
+    energy: number
+    cooldown: number
+    time: number
+}
+
+export interface ICommandEffect {
+    id: string
+    index: number
+    radius: number
+}
+
 export interface ICommand extends IEntity {
     index: number
     meta: IMeta
+    misc?: ICommandMisc
+    cost?: ICommandCost
+    effect?: ICommandEffect
 }
 
 export function convertAbility(parsedAbility: IParsedAbility): IAbility {
@@ -545,6 +583,31 @@ export function convertCommand(parsedCommand: IParsedCommand): ICommand {
         id,
         index: parseIntNullable(parsedCommand.index),
         meta,
+        misc: parsedCommand.misc ? convertCommandMisc(parsedCommand.misc) : undefined,
+        cost: parsedCommand.cost ? convertCommandCost(parsedCommand.cost) : undefined,
+        effect: parsedCommand.effect ? convertCommandEffect(parsedCommand.effect) : undefined,
+    }
+}
+
+function convertCommandMisc(parsedCommandMisc: IParsedCommandMisc): ICommandMisc {
+    return {
+        range: parseIntNullable(parsedCommandMisc.range)
+    }
+}
+
+function convertCommandCost(parsedCommandCost: IParsedCommandCost): ICommandCost {
+    return {
+        cooldown: parseIntNullable(parsedCommandCost.energy),
+        energy: parseIntNullable(parsedCommandCost.energy),
+        time: parseFloatNullable(parsedCommandCost.time),
+    }
+}
+
+function convertCommandEffect(parsedCommandEffect: IParsedCommandEffect): ICommandEffect {
+    return {
+        id: parsedCommandEffect.id,
+        index: parseIntNullable(parsedCommandEffect.index),
+        radius: parseFloatNullable(parsedCommandEffect.radius),
     }
 }
 

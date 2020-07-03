@@ -13,7 +13,7 @@ export {
     unit
 }
 
-async function main(xmlFolder: string = './balancedata', outputFile: string = `${xmlFolder}.json`) {
+async function main(xmlFolder: string = './balancedata.4.12.1', outputFile: string = `${xmlFolder}.json`) {
     fs.existsSync(xmlFolder)
 
     // Raw JSON
