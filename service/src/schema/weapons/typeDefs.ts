@@ -2,7 +2,7 @@ import gql from "graphql-tag"
 
 const typeDefs = gql`
     type Weapon {
-        id: Int
+        id: String
         index: Int
         meta: Meta
         misc: WeaponMisc
@@ -36,7 +36,7 @@ const typeDefs = gql`
         "Weapons such as (Gauss Rifle, Thor Javeline Missile, Baneling Acid)"
         weapons: [Weapon!]!
 
-        weapon(id: Int): Weapon
+        weapon(id: String): Weapon
     }
 `
 

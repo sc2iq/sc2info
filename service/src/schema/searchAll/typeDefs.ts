@@ -4,7 +4,7 @@ const typeDefs = gql`
     "Generic Search item"
     type GenericSearchItem {
         name: String
-        id: Int
+        id: String
         type: String
         icon: String
         race: String

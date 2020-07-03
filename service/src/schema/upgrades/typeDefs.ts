@@ -2,7 +2,7 @@ import gql from "graphql-tag"
 
 const typeDefs = gql`
     type Upgrade {
-        id: Int
+        id: String
         index: Int
         meta: Meta
         ability: Int
@@ -13,7 +13,7 @@ const typeDefs = gql`
         "List of upgrades such as (Stim, Speed, Blink)"
         upgrades: [Upgrade!]!
 
-        upgrade(id: Int): Upgrade
+        upgrade(id: String): Upgrade
     }
 `
 

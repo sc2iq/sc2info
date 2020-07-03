@@ -2,27 +2,27 @@ import gql from "graphql-tag"
 
 const typeDefs = gql`
     type Building {
-        id: Int
+        id: String
         index: Int
         meta: Meta
         life: Health
         armor: Health
         shieldArmor: Health
-        requires: Int
+        requires: String
         cost: Cost
         movement: Movement
         score: Score
         misc: Misc
-        producer: Int
+        producer: String
         attributes: [String]
-        strengths: [Int]
-        weaknesses: [Int]
-        weapons: [Int]
+        strengths: [String]
+        weaknesses: [String]
+        weapons: [String]
         abilities: [String]
-        # builds: [Int]
-        trains: [Int]
-        upgrades: [Int]
-        researches: [Int]
+        # builds: [String]
+        trains: [String]
+        upgrades: [String]
+        researches: [String]
     }
 
     type Cost {
@@ -65,7 +65,7 @@ const typeDefs = gql`
     }
 
     extend type Query {
-        building(id: Int): Building
+        building(id: String): Building
 
         "Buildings such as (Nexus, Barracks, Gateway, Pylon, etc)"
         buildings: [Building!]!
