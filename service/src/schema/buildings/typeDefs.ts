@@ -8,7 +8,7 @@ const typeDefs = gql`
         life: Health
         armor: Health
         shieldArmor: Health
-        requires: String
+        requires: [String]
         cost: Cost
         movement: Movement
         score: Score
