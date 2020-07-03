@@ -2,7 +2,7 @@ import gql from "graphql-tag"
 
 const typeDefs = gql`
     type RawUnitReference {
-        id: Int
+        id: String
         name: String
     }
 
@@ -21,22 +21,22 @@ const typeDefs = gql`
 
     "A un-processed unit of terran, zerg, or protoss."
     type RawUnit {
-        id: Int
+        id: String
         meta: Meta
         life: Health
         armor: Health
         shieldArmor: Health
-        requires: Int
+        requires: String
         cost: Cost
         movement: Movement
         score: Score
         misc: Misc
-        producer: Int
+        producer: String
         # attributes: [String]
         strengths: [RawUnitReference]
         weaknesses: [RawUnitReference]
         weapons: [Weapon]
-        # abilities: [String]
+        abilities: [Ability]
         # builds: [Unit]
         # trains: [Unit]
         upgrades: [RawUpgradeLevels]
@@ -44,18 +44,18 @@ const typeDefs = gql`
     }
 
     type Unit {
-        id: Int
+        id: String
         original: RawUnit
         meta: Meta
         life: Health
         armor: Health
         shieldArmor: Health
-        requires: [Int]
+        requires: [String]
         cost: Cost
         movement: Movement
         score: Score
         misc: Misc
-        producer: Int
+        producer: String
         attributes: [String]
         strengths: [Unit]
         weaknesses: [Unit]
@@ -69,7 +69,7 @@ const typeDefs = gql`
 
     extend type Query {
         "A unit of Terran, Zerg, or Protoss."
-        unit(id: Int): Unit
+        unit(id: String): Unit
 
         "Unit in SC2"
         units(depth: Int, first: Int, after: String): Page

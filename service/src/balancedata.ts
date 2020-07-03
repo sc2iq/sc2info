@@ -13,8 +13,11 @@ export interface IBalanceData {
     attributes: any[]
 }
 
-const defaultBlobUrl = 'https://sc2iq.blob.core.windows.net/balancedatajson/balancedata.json'
-const balanceDataUrl = process.env.BLOB_URL || defaultBlobUrl
+const balanceDataLocalFilePath = process.env.BALANCE_DATA_LOCAL_FILE_PATH
+const balanceDataUrl = process.env.BLOB_URL
+if (balanceDataUrl === undefined) {
+    throw new Error(`Balance data url must be defined. Please check you're environment variables.`)
+}
 
 let balanceData: IBalanceData
 
@@ -27,11 +30,15 @@ export async function getBalanceData(): Promise<IBalanceData> {
     }
 
     if (isDevelopment) {
-        const file = await fs.promises.readFile('./balancedata.json', 'utf8')
+        if (balanceDataLocalFilePath === undefined) {
+            throw new Error(`Balance data local file path must be defined. Please check you're environment variables.`)
+        }
+
+        const file = await fs.promises.readFile(balanceDataLocalFilePath, 'utf8')
         balanceData = JSON.parse(file)
     }
     else {
-        const response = await fetch(balanceDataUrl)
+        const response = await fetch(balanceDataUrl!)
         const json = await response.json()
         if (!response.ok) {
             throw new Error(`Error during request for balance data: ${response.status}: ${response.statusText}`)
@@ -44,7 +51,7 @@ export async function getBalanceData(): Promise<IBalanceData> {
 }
 
 export async function updateBalanceData(): Promise<void> {
-    const response = await fetch(balanceDataUrl)
+    const response = await fetch(balanceDataUrl!)
     const json = await response.json()
     if (!response.ok) {
         throw new Error(`Error refreshing balance data. ${response.status}: ${response.statusText}`)

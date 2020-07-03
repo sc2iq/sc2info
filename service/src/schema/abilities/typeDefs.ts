@@ -8,9 +8,12 @@ const typeDefs = gql`
     }
 
     type Command {
-        id: Int
+        id: String
         index: Int
         meta: Meta
+        misc: AbilityMisc
+        cost: AbilityCost
+        effect: AbilityEffect
     }
 
     "Unit metadata"
@@ -22,6 +25,22 @@ const typeDefs = gql`
         source: String
         index: Int
         tooltip: Int
+    }
+
+    type AbilityMisc {
+        range: Int
+    }
+
+    type AbilityCost {
+        energy: Int
+        cooldown: Int
+        time: Float
+    }
+
+    type AbilityEffect {
+        id: String
+        index: Int
+        radius: Float
     }
 
     extend type Query {
