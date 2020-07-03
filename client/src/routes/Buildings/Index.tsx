@@ -4,7 +4,7 @@ import Buildings from './Buildings'
 import Building from './Building'
 
 type Props = RouteComponentProps
-const Component: React.FC<Props> = ({ match }) => {
+const BuildingsIndexRoute: React.FC<Props> = ({ match }) => {
     return (
         <>
             <Switch>
@@ -15,4 +15,4 @@ const Component: React.FC<Props> = ({ match }) => {
     )
 }
 
-export default Component 
+export default BuildingsIndexRoute 

@@ -7,7 +7,7 @@ type Props = {
     building: any
 }
 
-const Component: React.FC<Props> = ({ building }) => {
+const BuildingFull: React.FC<Props> = ({ building }) => {
 
     return (
         <div className="building-full">
@@ -74,4 +74,4 @@ const Component: React.FC<Props> = ({ building }) => {
     )
 }
 
-export default Component
+export default BuildingFull

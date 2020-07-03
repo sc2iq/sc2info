@@ -7,7 +7,7 @@ type Props = {
     weapon: any
 }
 
-const Component: React.FC<Props> = ({ weapon }) => {
+const WeaponPreview: React.FC<Props> = ({ weapon }) => {
     return (
         <div className="weapon-preview">
             <div className="weapon-preview__picture">
@@ -20,5 +20,5 @@ const Component: React.FC<Props> = ({ weapon }) => {
     )
 }
 
-export default Component
+export default WeaponPreview
 

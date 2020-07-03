@@ -8,7 +8,7 @@ type Props = {
     unit: any
 }
 
-const Component: React.FC<Props> = ({ unit }) => {
+const UnitFull: React.FC<Props> = ({ unit }) => {
     return (
         <div className="unit-full">
             <div>
@@ -184,4 +184,4 @@ const Component: React.FC<Props> = ({ unit }) => {
     )
 }
 
-export default Component
+export default UnitFull

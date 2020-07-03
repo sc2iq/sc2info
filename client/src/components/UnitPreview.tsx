@@ -7,7 +7,7 @@ type Props = {
     unit: any
 }
 
-const Component: React.FC<Props> = ({ unit }) => {
+const UnitPreview: React.FC<Props> = ({ unit }) => {
     return (
         <div className="unit-preview">
             <div className="unit-preview__picture">
@@ -20,5 +20,5 @@ const Component: React.FC<Props> = ({ unit }) => {
     )
 }
 
-export default Component
+export default UnitPreview
 

@@ -7,7 +7,7 @@ type Props = {
     weapon: any
 }
 
-const Component: React.FC<Props> = ({ weapon }) => {
+const WeaponFull: React.FC<Props> = ({ weapon }) => {
     return (
         <div className="unit-full">
             <div>
@@ -53,4 +53,4 @@ const Component: React.FC<Props> = ({ weapon }) => {
     )
 }
 
-export default Component
+export default WeaponFull

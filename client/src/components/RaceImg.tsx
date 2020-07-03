@@ -6,15 +6,15 @@ type Props = {
     height?: number
 }
 
-const Component: React.FC<Props> = ({ race, width, height }) => {
+const RaceImage: React.FC<Props> = ({ race, width, height }) => {
     return (
         <img className="race-img" alt={race} src={`https://sc2iq.blob.core.windows.net/sc2icons/race_${race}.png`} width={width} height={height} />
     )
 }
 
-Component.defaultProps = {
+RaceImage.defaultProps = {
     width: 80,
     height: 80,
 }
 
-export default Component
+export default RaceImage

@@ -7,7 +7,7 @@ type Props = {
     ability: any
 }
 
-const Component: React.FC<Props> = ({ ability }) => {
+const AbilityPreview: React.FC<Props> = ({ ability }) => {
     return (
         <>
             {(ability.command as any[]).map((c, i) =>
@@ -25,6 +25,6 @@ const Component: React.FC<Props> = ({ ability }) => {
     )
 }
 
-export default Component
+export default AbilityPreview
 
 

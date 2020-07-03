@@ -26,7 +26,7 @@ query search($searchValue: String) {
 }
 `
 
-const Component: React.FC = () => {
+const Search: React.FC = () => {
     const searchIconRef = React.useRef<HTMLInputElement>(null)
     const [searchValue, setSearchValue] = React.useState('')
     const [searchQuery, setQueryValue] = React.useState(searchValue)
@@ -120,7 +120,7 @@ const Component: React.FC = () => {
     )
 }
 
-export default Component
+export default Search
 
 function getUrlPathFromUnitType(type: string) {
     let path = 'units'

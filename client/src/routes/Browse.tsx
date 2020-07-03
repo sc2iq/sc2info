@@ -2,7 +2,7 @@ import React from 'react'
 import { NavLink } from "react-router-dom"
 import './Browse.css'
 
-const Component: React.FC = () => {
+const Browse: React.FC = () => {
     return (
         <>
             <h1>Browse</h1>
@@ -45,4 +45,4 @@ const Component: React.FC = () => {
     )
 }
 
-export default Component
+export default Browse

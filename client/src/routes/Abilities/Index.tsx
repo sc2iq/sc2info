@@ -3,7 +3,7 @@ import { Switch, Route, RouteComponentProps } from "react-router-dom"
 import Abilities from './Abilities'
 
 type Props = RouteComponentProps
-const Component: React.FC<Props> = ({ match }) => {
+const AbilitiesRouteIndex: React.FC<Props> = ({ match }) => {
     return (
         <>
             <Switch>
@@ -13,4 +13,4 @@ const Component: React.FC<Props> = ({ match }) => {
     )
 }
 
-export default Component 
+export default AbilitiesRouteIndex 

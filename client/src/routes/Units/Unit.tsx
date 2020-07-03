@@ -25,7 +25,6 @@ const query = `
                   cooldown
                 }
                 effect {
-                  
                   radius
                 }
               }
@@ -139,7 +138,7 @@ type MatchParams = {
 
 type Props = RouteComponentProps<MatchParams>
 
-const Component: React.FC<Props> = ({ match }) => {
+const UnitRoute: React.FC<Props> = ({ match }) => {
   const [response] = urlq.useQuery({
     query,
     variables: {
@@ -166,4 +165,4 @@ const Component: React.FC<Props> = ({ match }) => {
   )
 }
 
-export default Component  
+export default UnitRoute  

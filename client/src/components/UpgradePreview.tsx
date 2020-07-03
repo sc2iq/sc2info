@@ -7,7 +7,7 @@ type Props = {
     upgrade: any
 }
 
-const Component: React.FC<Props> = ({ upgrade }) => {
+const UnitPreview: React.FC<Props> = ({ upgrade }) => {
     return (
         <div className="upgrade-preview">
             <div className="upgrade-preview__picture">
@@ -20,4 +20,4 @@ const Component: React.FC<Props> = ({ upgrade }) => {
     )
 }
 
-export default Component
+export default UnitPreview

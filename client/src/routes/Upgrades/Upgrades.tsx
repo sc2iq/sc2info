@@ -24,7 +24,7 @@ const query = `
 `
 type Props = RouteComponentProps
 
-const Component: React.FC<Props> = ({ match }) => {
+const UpgradesRoute: React.FC<Props> = ({ match }) => {
 
     const [response] = urlq.useQuery({
         query,
@@ -95,4 +95,4 @@ const Component: React.FC<Props> = ({ match }) => {
     )
 }
 
-export default Component 
+export default UpgradesRoute 

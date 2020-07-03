@@ -7,7 +7,7 @@ type Props = {
     building: any
 }
 
-const Component: React.FC<Props> = ({ building }) => {
+const BuildingPreview: React.FC<Props> = ({ building }) => {
     return (
         <div className="building-preview">
             <div className="building-preview__picture">
@@ -20,6 +20,6 @@ const Component: React.FC<Props> = ({ building }) => {
     )
 }
 
-export default Component
+export default BuildingPreview
 
 

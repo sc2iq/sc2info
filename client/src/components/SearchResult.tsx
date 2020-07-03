@@ -9,7 +9,7 @@ type Props = {
     searchAllResult: any
 }
 
-const Component: React.FC<Props> = ({ searchAllResult }) => { 
+const SearchResult: React.FC<Props> = ({ searchAllResult }) => { 
     const match = searchAllResult.matches[0]
     const indices = match ? match.indices : []
     const matches = convertMatchedTextIntoMatchedSegements(searchAllResult.item.name, indices)
@@ -29,4 +29,4 @@ const Component: React.FC<Props> = ({ searchAllResult }) => {
     )
 }
 
-export default Component
+export default SearchResult

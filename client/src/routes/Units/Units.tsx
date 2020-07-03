@@ -28,7 +28,7 @@ query ($first: Int, $after: String ) {
 `
 
 type Props = RouteComponentProps
-const Component: React.FC<Props> = ({ match }) => {
+const UnitsRoute: React.FC<Props> = ({ match }) => {
 
     const [response] = urlq.useQuery({
         query,
@@ -45,21 +45,21 @@ const Component: React.FC<Props> = ({ match }) => {
         terran: units.map(u => u.node)
             .filter(u => u.meta.race === "terran")
             .filter(u => {
-                const remove = [/alternate/i, /nova/i, /preview/i, /sieged/, /AP/, /AA/].some(regex => regex.test(u.meta.name))
+                const remove = [/alternate/i, /nova/i, /preview/i, /sieged/, /AP/, /AA/, /missile/i].some(regex => regex.test(u.meta.name))
                 return !remove
             })
             .sort((a, b) => (a.meta.name as string).localeCompare(b.meta.name)),
         zerg: units.map(u => u.node)
             .filter(u => u.meta.race === "zerg")
             .filter(u => {
-                const remove = [/burrowed/i, /escort/i, /placement/i, /cocoon/i, /missile/i, /changeling[zm]/i].some(regex => regex.test(u.meta.name))
+                const remove = [/burrowed/i, /escort/i, /placement/i, /cocoon/i, /missile/i, /changeling[zm]/i, /Siege/i,].some(regex => regex.test(u.meta.name))
                 return !remove
             })
             .sort((a, b) => (a.meta.name as string).localeCompare(b.meta.name)),
         protoss: units.map(u => u.node)
             .filter(u => u.meta.race === "protoss")
             .filter(u => {
-                const remove = [/preview/i].some(regex => regex.test(u.meta.name))
+                const remove = [/preview/i, /Siege/i,].some(regex => regex.test(u.meta.name))
                 return !remove
             })
             .sort((a, b) => (a.meta.name as string).localeCompare(b.meta.name)),
@@ -82,7 +82,7 @@ const Component: React.FC<Props> = ({ match }) => {
                         <div className="building-preview-list">
                             {groups.terran.map((unit, i) => {
                                 return (
-                                    <Link to={`${match.url}/${unit.id}`}>
+                                    <Link to={`${match.url}/${unit.id}`} key={unit.id}>
                                         <UnitPreview unit={unit} />
                                     </Link>
                                 )
@@ -96,7 +96,7 @@ const Component: React.FC<Props> = ({ match }) => {
                         <div className="building-preview-list">
                             {groups.zerg.map((unit, i) => {
                                 return (
-                                    <Link to={`${match.url}/${unit.id}`}>
+                                    <Link to={`${match.url}/${unit.id}`} key={unit.id}>
                                         <UnitPreview unit={unit} />
                                     </Link>
                                 )
@@ -110,7 +110,7 @@ const Component: React.FC<Props> = ({ match }) => {
                         <div className="building-preview-list">
                             {groups.protoss.map((unit, i) => {
                                 return (
-                                    <Link to={`${match.url}/${unit.id}`}>
+                                    <Link to={`${match.url}/${unit.id}`} key={unit.id}>
                                         <UnitPreview unit={unit} />
                                     </Link>
                                 )
@@ -124,4 +124,4 @@ const Component: React.FC<Props> = ({ match }) => {
     )
 }
 
-export default Component 
+export default UnitsRoute 

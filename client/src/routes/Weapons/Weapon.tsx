@@ -46,7 +46,7 @@ type MatchParams = {
 
 type Props = RouteComponentProps<MatchParams>
 
-const Component: React.FC<Props> = ({ match }) => {
+const WeaponRoute: React.FC<Props> = ({ match }) => {
 
     const [response] = urlq.useQuery({
         query,
@@ -74,4 +74,4 @@ const Component: React.FC<Props> = ({ match }) => {
     )
 }
 
-export default Component
+export default WeaponRoute

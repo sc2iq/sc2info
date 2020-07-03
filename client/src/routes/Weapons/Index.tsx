@@ -4,7 +4,7 @@ import Weapons from './Weapons'
 import Weapon from './Weapon'
 
 type Props = RouteComponentProps
-const Component: React.FC<Props> = ({ match }) => {
+const WeaponsRouteIndex: React.FC<Props> = ({ match }) => {
     return (
         <>
             <Switch>
@@ -15,4 +15,4 @@ const Component: React.FC<Props> = ({ match }) => {
     )
 }
 
-export default Component
+export default WeaponsRouteIndex

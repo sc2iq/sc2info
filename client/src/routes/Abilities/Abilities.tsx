@@ -24,7 +24,7 @@ const query = `
 }
 `
 
-const Component: React.FC = () => {
+const AbilitiesRoute: React.FC = () => {
     const [response] = urlq.useQuery({
         query,
     })
@@ -80,4 +80,4 @@ const Component: React.FC = () => {
     )
 }
 
-export default Component 
+export default AbilitiesRoute 

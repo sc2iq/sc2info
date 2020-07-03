@@ -6,7 +6,7 @@ type Props = {
     upgrade: any
 }
 
-const Component: React.FC<Props> = ({ upgrade }) => {
+const UnitFull: React.FC<Props> = ({ upgrade }) => {
     return (
         <div className="unit-full">
             <div>
@@ -30,4 +30,4 @@ const Component: React.FC<Props> = ({ upgrade }) => {
     )
 }
 
-export default Component
+export default UnitFull
