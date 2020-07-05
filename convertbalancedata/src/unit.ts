@@ -597,7 +597,7 @@ function convertCommandMisc(parsedCommandMisc: IParsedCommandMisc): ICommandMisc
 
 function convertCommandCost(parsedCommandCost: IParsedCommandCost): ICommandCost {
     return {
-        cooldown: parseIntNullable(parsedCommandCost.energy),
+        cooldown: parseIntNullable(parsedCommandCost.cooldown),
         energy: parseIntNullable(parsedCommandCost.energy),
         time: parseFloatNullable(parsedCommandCost.time),
     }
