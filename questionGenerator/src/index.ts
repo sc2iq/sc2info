@@ -24,13 +24,14 @@ const authenticationClient = new auth0.AuthenticationClient({
 })
 
 async function main() {
-    const balanceDataFile = await fs.promises.readFile('balancedata.json', 'utf8')
+    const balanceDataFile = await fs.promises.readFile('balancedata.4.12.1.json', 'utf8')
     const balanceDataJson: ICategorizedUnits = JSON.parse(balanceDataFile)
 
     const questionInputs = generate(balanceDataJson)
+    questionInputs.forEach(q => q.id = q.id?.toLowerCase())
 
     const fileName = `questionInputs.json`
-    await fs.promises.writeFile(fileName, JSON.stringify(questionInputs, null, 4), '')
+    await fs.promises.writeFile(fileName, JSON.stringify(questionInputs, null, 4))
     console.log(`Generated ${questionInputs.length} questions.`)
     console.log(`Saved as ${fileName}.`)
 }

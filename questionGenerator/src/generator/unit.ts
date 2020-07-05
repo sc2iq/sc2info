@@ -376,6 +376,177 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.QuestionInpu
             questions.push(question)
         }
 
+
+        unit.original.abilities?.forEach(ability => {
+            ability.command.forEach(command => {
+
+                let abilityName = ability.id ? camelCaseToNormal(ability.id) : ''
+                if (command.meta.name !== 'Execute') {
+                    const commandName = command.meta.name ? camelCaseToNormal(command.meta.name) : ''
+                    abilityName = `${abilityName} ${commandName}`
+                }
+
+                if (command.cost?.cooldown && command.cost.cooldown !== -1) {
+                    const [
+                        answer1,
+                        answer2,
+                        answer3,
+                        answer4,
+                    ] = getNumberVariances(command.cost?.cooldown)
+
+                    const question: models.QuestionInput = {
+                        id: `${unit.id}-unit-abilities-${ability.id}-${command.meta.name}`,
+                        question: `What is the cooldown duration of the ${name} ability ${abilityName}?`,
+                        answer1: `${answer1}`,
+                        answer2: `${answer2}`,
+                        answer3: `${answer3}`,
+                        answer4: `${answer4}`,
+                        tags: [
+                            `${unit.meta.name}`,
+                            `${unit.meta.race}`,
+                            `unit`,
+                            `movement`,
+                            `ability`,
+                            `cost`,
+                            `cooldown`,
+                            `${abilityName}`,
+                        ],
+                        difficulty: 1,
+                        source: `${sc2InfoUrlBase}/units/${unit.id}`
+                    }
+
+                    questions.push(question)
+                }
+
+                if (command.cost?.energy && command.cost.energy !== -1) {
+                    const [
+                        answer1,
+                        answer2,
+                        answer3,
+                        answer4,
+                    ] = getNumberVariances(command.cost?.energy)
+
+                    const question: models.QuestionInput = {
+                        id: `${unit.id}-unit-abilities-${ability.id}-${command.meta.name}`,
+                        question: `What is the energy cost of the ${name} ability ${abilityName}?`,
+                        answer1: `${answer1}`,
+                        answer2: `${answer2}`,
+                        answer3: `${answer3}`,
+                        answer4: `${answer4}`,
+                        tags: [
+                            `${unit.meta.name}`,
+                            `${unit.meta.race}`,
+                            `unit`,
+                            `movement`,
+                            `ability`,
+                            `cost`,
+                            `energy`,
+                            `${abilityName}`,
+                        ],
+                        difficulty: 1,
+                        source: `${sc2InfoUrlBase}/units/${unit.id}`
+                    }
+
+                    questions.push(question)
+                }
+
+                if (command.cost?.time && command.cost.time !== -1) {
+                    const [
+                        answer1,
+                        answer2,
+                        answer3,
+                        answer4,
+                    ] = getNumberVariances(command.cost?.time)
+
+                    const question: models.QuestionInput = {
+                        id: `${unit.id}-unit-abilities-${ability.id}-${command.meta.name}`,
+                        question: `What is the time cost of the ${name} ability ${abilityName}?`,
+                        answer1: `${answer1}`,
+                        answer2: `${answer2}`,
+                        answer3: `${answer3}`,
+                        answer4: `${answer4}`,
+                        tags: [
+                            `${unit.meta.name}`,
+                            `${unit.meta.race}`,
+                            `unit`,
+                            `movement`,
+                            `ability`,
+                            `cost`,
+                            `time`,
+                            `${abilityName}`,
+                        ],
+                        difficulty: 1,
+                        source: `${sc2InfoUrlBase}/units/${unit.id}`
+                    }
+
+                    questions.push(question)
+                }
+
+                if (command.effect?.radius && command.effect.radius !== -1) {
+                    const [
+                        answer1,
+                        answer2,
+                        answer3,
+                        answer4,
+                    ] = getNumberVariances(command.effect?.radius)
+
+                    const question: models.QuestionInput = {
+                        id: `${unit.id}-unit-abilities-${ability.id}-${command.meta.name}`,
+                        question: `What is the radius of the ${name} ability ${abilityName}?`,
+                        answer1: `${answer1}`,
+                        answer2: `${answer2}`,
+                        answer3: `${answer3}`,
+                        answer4: `${answer4}`,
+                        tags: [
+                            `${unit.meta.name}`,
+                            `${unit.meta.race}`,
+                            `unit`,
+                            `movement`,
+                            `ability`,
+                            `effect`,
+                            `radius`,
+                            `${abilityName}`,
+                        ],
+                        difficulty: 1,
+                        source: `${sc2InfoUrlBase}/units/${unit.id}`
+                    }
+
+                    questions.push(question)
+                }
+
+                if (command.misc?.range && command.misc.range !== -1) {
+                    const [
+                        answer1,
+                        answer2,
+                        answer3,
+                        answer4,
+                    ] = getNumberVariances(command.misc?.range)
+
+                    const question: models.QuestionInput = {
+                        id: `${unit.id}-unit-abilities-${ability.id}-${command.meta.name}`,
+                        question: `What is the range of the ${name} ability ${abilityName}?`,
+                        answer1: `${answer1}`,
+                        answer2: `${answer2}`,
+                        answer3: `${answer3}`,
+                        answer4: `${answer4}`,
+                        tags: [
+                            `${unit.meta.name}`,
+                            `${unit.meta.race}`,
+                            `unit`,
+                            `movement`,
+                            `ability`,
+                            `range`,
+                            `${abilityName}`,
+                        ],
+                        difficulty: 1,
+                        source: `${sc2InfoUrlBase}/units/${unit.id}`
+                    }
+
+                    questions.push(question)
+                }
+            })
+        })
+
         // Don't include, to obscure?
         if (false && unit.movement.turnRate) {
             const [
