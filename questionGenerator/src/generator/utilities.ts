@@ -1,4 +1,3 @@
-
 export function getNumberVariances(n: number): [number, number, number, number] {
     let answer1 = n
     let answer2: number

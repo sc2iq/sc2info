@@ -3,6 +3,8 @@ import auth0 from "auth0"
 import fs from 'fs'
 import { ICategorizedUnits } from '@sc2/convertbalancedata'
 import generate from './generator/generator'
+import * as models from './models'
+import { createLudownContentString } from './services/ludown'
 
 process.on('unhandledRejection', (reason) => {
     throw reason
@@ -24,38 +26,10 @@ async function main() {
     console.log(`Reading file ${inputFileName} ...`)
     const balanceDataFile = await fs.promises.readFile(inputFileName, 'utf8')
     const balanceDataJson: ICategorizedUnits = JSON.parse(balanceDataFile)
-
     const generateResult = generate(balanceDataJson)
 
-
     // Generate LU Down file
-    const luisLudownContent: string = `
-> LUIS application information
-> !# @app.name = sc2info-bot
-> !# @app.desc = Detect units, buildings, weapons, and more
-> !# @app.versionId = 0.1
-> !# @app.culture = en-us
-> !# @app.luis_schema_version = 7.0.0
-> !# @app.tokenizerVersion = 1.0.0
-
-> # Intent definitions
-${Object.entries(generateResult.luisIntentsWithUtterances).map(([intentName, intentUtterances]) =>
-        `# ${intentName}
-${intentUtterances.map(iu => `- ${iu}`).join(`\n`)}
-`).join(`\n`)}
-
-> # Entity definitions
-${generateResult.luisEntities.map(le => `@ ml "${le}"`).join('\n\n')}
-
-> # PREBUILT Entity definitions
-
-> # Phrase list definitions
-
-> # List entities
-
-> # RegEx entities
-`
-
+    const luisLudownContent: string = createLudownContentString(generateResult.luisEntities, generateResult.luisIntentsWithUtterances)
     const luDownFileName = `sc2info-bot.lu`
     await fs.promises.writeFile(luDownFileName, luisLudownContent)
     console.log(`
@@ -67,8 +41,22 @@ ${generateResult.luisEntities.length} entities,
 Saved as '${luDownFileName}'.
 `)
 
+    // Generate QnA KnowledgeBase question inputs file
+    const kbQuestionFileName = `qnaKnowledgeBase.json`
+    const kbModel: models.qna.KnowledgeBaseCreate = {
+        name: 'SC2 KB Questions from Balancedata',
+        qnaList: generateResult.kbQuestions,
+    }
+    
+    await fs.promises.writeFile(kbQuestionFileName, JSON.stringify(kbModel, null, 4))
+    console.log(`
+Generated ${generateResult.kbQuestions.length} QnA Knowledge Base questions.
+
+Saved as '${kbQuestionFileName}'.
+`)
+
     // Generate question inputs file
-    const questionInputs = generateResult.questions
+    const questionInputs = generateResult.sc2iqQuestions
     questionInputs.forEach(q => q.id = q.id?.toLowerCase())
     const questionInputsFileName = `questionInputs.json`
     await fs.promises.writeFile(questionInputsFileName, JSON.stringify(questionInputs, null, 4))
@@ -80,4 +68,3 @@ Saved as '${questionInputsFileName}'.
 }
 
 main()
-

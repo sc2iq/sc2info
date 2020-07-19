@@ -1,10 +1,10 @@
-import { unit, ICategorizedUnits } from '@sc2/convertbalancedata'
+import { unit } from '@sc2/convertbalancedata'
 import * as models from '../models'
 import { getPrecedingArticle, getNumberVariances, camelCaseToNormal, getRaceFromName } from './utilities'
 import { sc2InfoUrlBase } from '../constants'
 
-export function generateBuildingUpgradeQuestions(upgrade: unit.IBuildingUpgrade): models.QuestionInput[] {
-    const questions: models.QuestionInput[] = []
+export function generateBuildingUpgradeQuestions(upgrade: unit.IBuildingUpgrade): models.sc2iq.QuestionInput[] {
+    const questions: models.sc2iq.QuestionInput[] = []
 
     if (upgrade.cost) {
         if (upgrade.cost.minerals) {
@@ -16,7 +16,7 @@ export function generateBuildingUpgradeQuestions(upgrade: unit.IBuildingUpgrade)
             ] = getNumberVariances(upgrade.cost.minerals)
 
             const name = upgrade.meta.name
-            const question: models.QuestionInput = {
+            const question: models.sc2iq.QuestionInput = {
                 id: `${upgrade.id}-upgrade-cost-minerals`,
                 question: `What is the mineral cost of the upgrade ${camelCaseToNormal(name)}?.`,
                 answer1: `${answer1}`,
@@ -45,7 +45,7 @@ export function generateBuildingUpgradeQuestions(upgrade: unit.IBuildingUpgrade)
             ] = getNumberVariances(upgrade.cost.vespene)
 
             const name = upgrade.meta.name
-            const question: models.QuestionInput = {
+            const question: models.sc2iq.QuestionInput = {
                 id: `${upgrade.id}-upgrade-cost-vespene`,
                 question: `What is the vespene cost of the upgrade ${camelCaseToNormal(name)}?.`,
                 answer1: `${answer1}`,
@@ -81,7 +81,7 @@ export function generateBuildingUpgradeQuestions(upgrade: unit.IBuildingUpgrade)
             ] = getNumberVariances(upgrade.cost.vespene)
 
             const name = upgrade.meta.name
-            const question: models.QuestionInput = {
+            const question: models.sc2iq.QuestionInput = {
                 id: `${upgrade.id}-upgrade-cost`,
                 question: `What is the cost of the ${name} upgrade?`,
                 answer1: `${minerals1} / ${vespene1}`,
@@ -115,7 +115,7 @@ export function generateBuildingUpgradeQuestions(upgrade: unit.IBuildingUpgrade)
             ] = getNumberVariances(upgrade.cost.time)
 
             const name = upgrade.meta.name
-            const question: models.QuestionInput = {
+            const question: models.sc2iq.QuestionInput = {
                 id: `${upgrade.id}-upgrade-cost-time`,
                 question: `How long does upgrade ${name} take research?.`,
                 answer1: `${answer1}`,

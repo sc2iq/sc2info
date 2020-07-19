@@ -1,10 +1,10 @@
-import { unit, ICategorizedUnits } from '@sc2/convertbalancedata'
+import { unit } from '@sc2/convertbalancedata'
 import * as models from '../models'
 import { getPrecedingArticle, getNumberVariances, camelCaseToNormal } from './utilities'
 import { sc2InfoUrlBase } from '../constants'
 
-export function generateBuildingQuestions(building: unit.IUnitNode): models.QuestionInput[] {
-    const questions: models.QuestionInput[] = []
+export function generateBuildingQuestions(building: unit.IUnitNode): models.sc2iq.QuestionInput[] {
+    const questions: models.sc2iq.QuestionInput[] = []
     const name = building.meta.name
     const article = getPrecedingArticle(name)
 
@@ -19,7 +19,7 @@ export function generateBuildingQuestions(building: unit.IUnitNode): models.Ques
                 answer4,
             ] = getNumberVariances(building.armor.max)
 
-            const question: models.QuestionInput = {
+            const question: models.sc2iq.QuestionInput = {
                 id: `${building.id}-building-armor`,
                 question: `What is the armor of ${article} ${camelCaseToNormal(name)}?.`,
                 answer1: `${answer1}`,
@@ -50,7 +50,7 @@ export function generateBuildingQuestions(building: unit.IUnitNode): models.Ques
                 answer4,
             ] = getNumberVariances(building.cost.minerals)
 
-            const question: models.QuestionInput = {
+            const question: models.sc2iq.QuestionInput = {
                 id: `${building.id}-building-cost-minerals`,
                 question: `What is the mineral cost of ${article} ${camelCaseToNormal(name)}?.`,
                 answer1: `${answer1}`,
@@ -78,7 +78,7 @@ export function generateBuildingQuestions(building: unit.IUnitNode): models.Ques
                 answer4,
             ] = getNumberVariances(building.cost.vespene)
 
-            const question: models.QuestionInput = {
+            const question: models.sc2iq.QuestionInput = {
                 id: `${building.id}-building-cost-vespene`,
                 question: `What is the vespene cost of ${article} ${camelCaseToNormal(name)}?.`,
                 answer1: `${answer1}`,
@@ -113,7 +113,7 @@ export function generateBuildingQuestions(building: unit.IUnitNode): models.Ques
                 vespene4,
             ] = getNumberVariances(building.cost.vespene)
 
-            const question: models.QuestionInput = {
+            const question: models.sc2iq.QuestionInput = {
                 id: `${building.id}-building-cost`,
                 question: `What is the cost of ${article} ${camelCaseToNormal(name)}?`,
                 answer1: `${minerals1} / ${vespene1}`,
@@ -144,7 +144,7 @@ export function generateBuildingQuestions(building: unit.IUnitNode): models.Ques
                 answer4,
             ] = getNumberVariances(building.life.max)
 
-            const question: models.QuestionInput = {
+            const question: models.sc2iq.QuestionInput = {
                 id: `${building.id}-building-life`,
                 question: `What is the health of ${article} ${camelCaseToNormal(name)}?.`,
                 answer1: `${answer1}`,
@@ -175,7 +175,7 @@ export function generateBuildingQuestions(building: unit.IUnitNode): models.Ques
                 answer4,
             ] = getNumberVariances(building.shields.max)
 
-            const question: models.QuestionInput = {
+            const question: models.sc2iq.QuestionInput = {
                 id: `${building.id}-building-shields`,
                 question: `What is the shield amount of ${article} ${camelCaseToNormal(name)}?.`,
                 answer1: `${answer1}`,
@@ -204,7 +204,7 @@ export function generateBuildingQuestions(building: unit.IUnitNode): models.Ques
                 answer4,
             ] = getNumberVariances(building.shieldArmor.max)
 
-            const question: models.QuestionInput = {
+            const question: models.sc2iq.QuestionInput = {
                 id: `${building.id}-building-shieldarmor`,
                 question: `What is the shield armor of ${article} ${camelCaseToNormal(name)}?.`,
                 answer1: `${answer1}`,
@@ -234,7 +234,7 @@ export function generateBuildingQuestions(building: unit.IUnitNode): models.Ques
                 answer4,
             ] = getNumberVariances(building.misc.radius)
 
-            const question: models.QuestionInput = {
+            const question: models.sc2iq.QuestionInput = {
                 id: `${building.id}-building-radius`,
                 question: `What is the radius of ${article} ${camelCaseToNormal(name)}?.`,
                 answer1: `${answer1}`,

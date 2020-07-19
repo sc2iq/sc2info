@@ -29,17 +29,22 @@ export default function generate(balanceData: ICategorizedUnits): models.Generat
     const luisIntentsWithUtterances: Record<string, string[]> = {}
     questionsUnits.forEach(qu => Object.assign(luisIntentsWithUtterances, qu.luisIntentsWithUtterances))
 
-    const questions: models.QuestionInput[] = [
-        ...questionsUnits.flatMap(qu => qu.questions),
+    const sc2iqQuestions: models.sc2iq.QuestionInput[] = [
+        ...questionsUnits.flatMap(qu => qu.sc2iqQuestions),
         ...questionsBuildings,
         ...questionsBuildingUpgrades,
         ...questionsWeapons,
         // ...questionsUpgrades,
     ]
 
+    const kbQuestions: models.qna.Question[] = [
+        ...questionsUnits.flatMap(qu => qu.kbQuestions),
+    ]
+
     return {
         luisEntities,
         luisIntentsWithUtterances,
-        questions,
+        sc2iqQuestions,
+        kbQuestions,
     }
 }

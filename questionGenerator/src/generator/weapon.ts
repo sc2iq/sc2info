@@ -1,10 +1,10 @@
-import { unit, ICategorizedUnits } from '@sc2/convertbalancedata'
+import { unit } from '@sc2/convertbalancedata'
 import * as models from '../models'
 import { getPrecedingArticle, getNumberVariances, camelCaseToNormal, getOtherAttributes } from './utilities'
 import { sc2InfoUrlBase } from '../constants'
 
-export function generateWeaponQuestions(weapon: unit.IWeapon): models.QuestionInput[] {
-    const questions: models.QuestionInput[] = []
+export function generateWeaponQuestions(weapon: unit.IWeapon): models.sc2iq.QuestionInput[] {
+    const questions: models.sc2iq.QuestionInput[] = []
     const name = weapon.meta.name
     const article = getPrecedingArticle(name)
 
@@ -17,7 +17,7 @@ export function generateWeaponQuestions(weapon: unit.IWeapon): models.QuestionIn
                 answer4,
             ] = getNumberVariances(weapon.effect.max)
 
-            const question: models.QuestionInput = {
+            const question: models.sc2iq.QuestionInput = {
                 id: `${weapon.id}-weapon-damage`,
                 question: `What is the damage of ${article} ${camelCaseToNormal(name)}?.`,
                 answer1: `${answer1}`,
@@ -45,7 +45,7 @@ export function generateWeaponQuestions(weapon: unit.IWeapon): models.QuestionIn
                     answer4,
                 ] = getNumberVariances(weapon.effect.bonus?.max)
 
-                const question: models.QuestionInput = {
+                const question: models.sc2iq.QuestionInput = {
                     id: `${weapon.id}-weapon-bonus-damage`,
                     question: `What is the bonus damage of the ${weapon.meta.name} weapon?.`,
                     answer1: `${answer1}`,
@@ -72,7 +72,7 @@ export function generateWeaponQuestions(weapon: unit.IWeapon): models.QuestionIn
                     answer4,
                 ] = getOtherAttributes(weapon.effect.bonus?.type)
 
-                const question: models.QuestionInput = {
+                const question: models.sc2iq.QuestionInput = {
                     id: `${weapon.id}-weapon-bonus-target`,
                     question: `What unit attribute does the ${weapon.meta.name} weapon do bonus damage to?.`,
                     answer1: `${answer1}`,
@@ -103,7 +103,7 @@ export function generateWeaponQuestions(weapon: unit.IWeapon): models.QuestionIn
                 answer4,
             ] = getNumberVariances(weapon.misc.range)
 
-            const question: models.QuestionInput = {
+            const question: models.sc2iq.QuestionInput = {
                 id: `${weapon.id}-weapon-range`,
                 question: `What is range of the ${weapon.meta.name} weapon?.`,
                 answer1: `${answer1}`,
@@ -130,7 +130,7 @@ export function generateWeaponQuestions(weapon: unit.IWeapon): models.QuestionIn
                 answer4,
             ] = getNumberVariances(weapon.misc.speed)
 
-            const question: models.QuestionInput = {
+            const question: models.sc2iq.QuestionInput = {
                 id: `${weapon.id}-weapon-speed`,
                 question: `What is speed of the ${weapon.meta.name} weapon?.`,
                 answer1: `${answer1}`,

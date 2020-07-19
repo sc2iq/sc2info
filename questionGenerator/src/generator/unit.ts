@@ -1,22 +1,23 @@
-import { unit, ICategorizedUnits } from '@sc2/convertbalancedata'
+import { unit } from '@sc2/convertbalancedata'
 import * as models from '../models'
 import { getPrecedingArticle, getNumberVariances, camelCaseToNormal } from './utilities'
 import { sc2InfoUrlBase } from '../constants'
 
-
-type GenerateResult = {
-    luisEntities: string[]
-    luisIntentsWithUtterances: Record<string, string[]>
-    questions: models.QuestionInput[]
-}
-
-export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
-    const questions: models.QuestionInput[] = []
+export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResult {
+    const sc2iqQuestions: models.sc2iq.QuestionInput[] = []
+    const kbQuestions: models.qna.Question[] = []
     const luisEntities: string[] = []
     const luisIntentsWithUtterances: Record<string, string[]> = {}
     const name = unit.meta.name
     const article = getPrecedingArticle(name)
-
+    const source = 'SC2 Balance Data'
+    const metadata = [
+        {
+            name: 'race',
+            value: unit.meta.race,
+        }
+    ]
+    
     // unit.abilities
 
     if (unit.armor) {
@@ -28,9 +29,9 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                 answer4,
             ] = getNumberVariances(unit.armor.max)
 
-            const question: models.QuestionInput = {
+            const question: models.sc2iq.QuestionInput = {
                 id: `${unit.id}-unit-armor`,
-                question: `What is the armor of ${article} ${camelCaseToNormal(name)}?.`,
+                question: `What is the armor of ${article} ${name}?`,
                 answer1: `${answer1}`,
                 answer2: `${answer2}`,
                 answer3: `${answer3}`,
@@ -45,14 +46,30 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                 source: `${sc2InfoUrlBase}/units/${unit.id}`
             }
 
+            // Add sc2iq question
+            sc2iqQuestions.push(question)
+
+            // Add LU down data
             const unitEntity = unit.id.toLowerCase()
             const utterances: string[] = [
-                `What is the {@armor = armor} of ${article} {@${unitEntity} = ${camelCaseToNormal(name)}}?`,
-                `How much {@armor = armor} does the {@${unitEntity} = ${camelCaseToNormal(name)}} have?`
+                `What is the {@armor = armor} of ${article} {@${unitEntity} = ${name}}?`,
+                `How much {@armor = armor} does the {@${unitEntity} = ${name}} have?`
             ]
             luisEntities.push(unitEntity)
             luisIntentsWithUtterances[`${unit.id.toLowerCase()}-armor`] = utterances
-            questions.push(question)
+
+            // Add knowledge base question
+            const kbQuestion: models.qna.Question = {
+                answer: `${name} has ${answer1} armor.`,
+                source,
+                questions: [
+                    `What is the armor of ${article} ${name}?`,
+                    `${name} armor?`,
+                ],
+                metadata,
+            }
+
+            kbQuestions.push(kbQuestion)
         }
     }
 
@@ -67,7 +84,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                 answer4,
             ] = getNumberVariances(unit.cost.minerals)
 
-            const question: models.QuestionInput = {
+            const question: models.sc2iq.QuestionInput = {
                 id: `${unit.id}-unit-cost-minerals`,
                 question: `What is the mineral cost of ${article} ${camelCaseToNormal(name)}?.`,
                 answer1: `${answer1}`,
@@ -85,7 +102,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                 source: `${sc2InfoUrlBase}/unit/${unit.id}`
             }
 
-            questions.push(question)
+            sc2iqQuestions.push(question)
         }
 
         if (unit.cost.vespene) {
@@ -96,7 +113,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                 answer4,
             ] = getNumberVariances(unit.cost.vespene)
 
-            const question: models.QuestionInput = {
+            const question: models.sc2iq.QuestionInput = {
                 id: `${unit.id}-unit-cost-vespene`,
                 question: `What is the vespene cost of ${article} ${camelCaseToNormal(name)}?.`,
                 answer1: `${answer1}`,
@@ -114,7 +131,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                 source: `${sc2InfoUrlBase}/units/${unit.id}`
             }
 
-            questions.push(question)
+            sc2iqQuestions.push(question)
         }
 
         if (unit.cost.minerals && unit.cost.vespene) {
@@ -132,7 +149,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                 vespene4,
             ] = getNumberVariances(unit.cost.vespene)
 
-            const question: models.QuestionInput = {
+            const question: models.sc2iq.QuestionInput = {
                 id: `${unit.id}-unit-cost`,
                 question: `What is the cost of ${article} ${camelCaseToNormal(name)}?`,
                 answer1: `${minerals1} / ${vespene1}`,
@@ -149,7 +166,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                 source: `${sc2InfoUrlBase}/units/${unit.id}`
             }
 
-            questions.push(question)
+            sc2iqQuestions.push(question)
         }
 
         if (unit.cost.supply) {
@@ -160,7 +177,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                 answer4,
             ] = getNumberVariances(unit.cost.supply)
 
-            const question: models.QuestionInput = {
+            const question: models.sc2iq.QuestionInput = {
                 id: `${unit.id}-unit-cost-supply`,
                 question: `What is the supply cost of ${article} ${camelCaseToNormal(name)}?`,
                 answer1: `${answer1}`,
@@ -178,7 +195,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                 source: `${sc2InfoUrlBase}/units/${unit.id}`
             }
 
-            questions.push(question)
+            sc2iqQuestions.push(question)
         }
 
         if (unit.cost.time) {
@@ -189,7 +206,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                 answer4,
             ] = getNumberVariances(unit.cost.time)
 
-            const question: models.QuestionInput = {
+            const question: models.sc2iq.QuestionInput = {
                 id: `${unit.id}-unit-cost-time`,
                 question: `How many game seconds does it take to build ${article} ${camelCaseToNormal(name)}?`,
                 answer1: `${answer1}`,
@@ -207,7 +224,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                 source: `${sc2InfoUrlBase}/units/${unit.id}`
             }
 
-            questions.push(question)
+            sc2iqQuestions.push(question)
         }
     }
 
@@ -222,7 +239,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                 answer4,
             ] = getNumberVariances(unit.shields.max)
 
-            const question: models.QuestionInput = {
+            const question: models.sc2iq.QuestionInput = {
                 id: `${unit.id}-unit-shields`,
                 question: `What is the shields of ${article} ${camelCaseToNormal(name)}?.`,
                 answer1: `${answer1}`,
@@ -238,7 +255,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                 source: `${sc2InfoUrlBase}/units/${unit.id}`
             }
 
-            questions.push(question)
+            sc2iqQuestions.push(question)
         }
     }
 
@@ -251,7 +268,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                 answer4,
             ] = getNumberVariances(unit.shieldArmor.max)
 
-            const question: models.QuestionInput = {
+            const question: models.sc2iq.QuestionInput = {
                 id: `${unit.id}-unit-shieldarmor`,
                 question: `What is the shield armor of ${article} ${camelCaseToNormal(name)}?.`,
                 answer1: `${answer1}`,
@@ -268,7 +285,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                 source: `${sc2InfoUrlBase}/units/${unit.id}`
             }
 
-            questions.push(question)
+            sc2iqQuestions.push(question)
         }
     }
 
@@ -281,7 +298,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                 answer4,
             ] = getNumberVariances(unit.misc.radius)
 
-            const question: models.QuestionInput = {
+            const question: models.sc2iq.QuestionInput = {
                 id: `${unit.id}-unit-misc-radius`,
                 question: `What is the radius of ${article} ${camelCaseToNormal(name)}?`,
                 answer1: `${answer1}`,
@@ -299,7 +316,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                 source: `${sc2InfoUrlBase}/units/${unit.id}`
             }
 
-            questions.push(question)
+            sc2iqQuestions.push(question)
         }
 
         if (unit.misc.sightRadius) {
@@ -310,7 +327,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                 answer4,
             ] = getNumberVariances(unit.misc.sightRadius)
 
-            const question: models.QuestionInput = {
+            const question: models.sc2iq.QuestionInput = {
                 id: `${unit.id}-unit-misc-sightradius`,
                 question: `What is the sight radius of ${article} ${camelCaseToNormal(name)}?`,
                 answer1: `${answer1}`,
@@ -329,7 +346,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                 source: `${sc2InfoUrlBase}/units/${unit.id}`
             }
 
-            questions.push(question)
+            sc2iqQuestions.push(question)
         }
     }
 
@@ -342,7 +359,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                 answer4,
             ] = getNumberVariances(unit.movement.speed)
 
-            const question: models.QuestionInput = {
+            const question: models.sc2iq.QuestionInput = {
                 id: `${unit.id}-unit-movement-speed`,
                 question: `What is the speed of ${article} ${camelCaseToNormal(name)}?`,
                 answer1: `${answer1}`,
@@ -360,7 +377,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                 source: `${sc2InfoUrlBase}/units/${unit.id}`
             }
 
-            questions.push(question)
+            sc2iqQuestions.push(question)
         }
 
         if (unit.movement.acceleration) {
@@ -371,7 +388,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                 answer4,
             ] = getNumberVariances(unit.movement.speed)
 
-            const question: models.QuestionInput = {
+            const question: models.sc2iq.QuestionInput = {
                 id: `${unit.id}-unit-movement-acceleration`,
                 question: `What is the acceleration of ${article} ${camelCaseToNormal(name)}?`,
                 answer1: `${answer1}`,
@@ -389,7 +406,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                 source: `${sc2InfoUrlBase}/units/${unit.id}`
             }
 
-            questions.push(question)
+            sc2iqQuestions.push(question)
         }
 
 
@@ -410,7 +427,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                         answer4,
                     ] = getNumberVariances(command.cost?.cooldown)
 
-                    const question: models.QuestionInput = {
+                    const question: models.sc2iq.QuestionInput = {
                         id: `${unit.id}-unit-abilities-${ability.id}-${command.meta.name}`,
                         question: `What is the cooldown duration of the ${name} ability ${abilityName}?`,
                         answer1: `${answer1}`,
@@ -431,7 +448,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                         source: `${sc2InfoUrlBase}/units/${unit.id}`
                     }
 
-                    questions.push(question)
+                    sc2iqQuestions.push(question)
                 }
 
                 if (command.cost?.energy && command.cost.energy !== -1) {
@@ -442,7 +459,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                         answer4,
                     ] = getNumberVariances(command.cost?.energy)
 
-                    const question: models.QuestionInput = {
+                    const question: models.sc2iq.QuestionInput = {
                         id: `${unit.id}-unit-abilities-${ability.id}-${command.meta.name}`,
                         question: `What is the energy cost of the ${name} ability ${abilityName}?`,
                         answer1: `${answer1}`,
@@ -463,7 +480,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                         source: `${sc2InfoUrlBase}/units/${unit.id}`
                     }
 
-                    questions.push(question)
+                    sc2iqQuestions.push(question)
                 }
 
                 if (command.cost?.time && command.cost.time !== -1) {
@@ -474,7 +491,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                         answer4,
                     ] = getNumberVariances(command.cost?.time)
 
-                    const question: models.QuestionInput = {
+                    const question: models.sc2iq.QuestionInput = {
                         id: `${unit.id}-unit-abilities-${ability.id}-${command.meta.name}`,
                         question: `What is the time cost of the ${name} ability ${abilityName}?`,
                         answer1: `${answer1}`,
@@ -495,7 +512,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                         source: `${sc2InfoUrlBase}/units/${unit.id}`
                     }
 
-                    questions.push(question)
+                    sc2iqQuestions.push(question)
                 }
 
                 if (command.effect?.radius && command.effect.radius !== -1) {
@@ -506,7 +523,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                         answer4,
                     ] = getNumberVariances(command.effect?.radius)
 
-                    const question: models.QuestionInput = {
+                    const question: models.sc2iq.QuestionInput = {
                         id: `${unit.id}-unit-abilities-${ability.id}-${command.meta.name}`,
                         question: `What is the radius of the ${name} ability ${abilityName}?`,
                         answer1: `${answer1}`,
@@ -527,7 +544,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                         source: `${sc2InfoUrlBase}/units/${unit.id}`
                     }
 
-                    questions.push(question)
+                    sc2iqQuestions.push(question)
                 }
 
                 if (command.misc?.range && command.misc.range !== -1) {
@@ -538,7 +555,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                         answer4,
                     ] = getNumberVariances(command.misc?.range)
 
-                    const question: models.QuestionInput = {
+                    const question: models.sc2iq.QuestionInput = {
                         id: `${unit.id}-unit-abilities-${ability.id}-${command.meta.name}`,
                         question: `What is the range of the ${name} ability ${abilityName}?`,
                         answer1: `${answer1}`,
@@ -558,7 +575,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                         source: `${sc2InfoUrlBase}/units/${unit.id}`
                     }
 
-                    questions.push(question)
+                    sc2iqQuestions.push(question)
                 }
             })
         })
@@ -572,7 +589,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                 answer4,
             ] = getNumberVariances(unit.movement.turnRate)
 
-            const question: models.QuestionInput = {
+            const question: models.sc2iq.QuestionInput = {
                 id: `${unit.id}-unit-movement-turnrate`,
                 question: `What is the turn rate of ${article} ${camelCaseToNormal(name)}?`,
                 answer1: `${answer1}`,
@@ -590,13 +607,14 @@ export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
                 source: `${sc2InfoUrlBase}/units/${unit.id}`
             }
 
-            questions.push(question)
+            sc2iqQuestions.push(question)
         }
     }
 
     return {
         luisEntities,
         luisIntentsWithUtterances,
-        questions,
+        sc2iqQuestions,
+        kbQuestions,
     }
 }

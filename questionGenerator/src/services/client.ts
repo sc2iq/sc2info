@@ -16,7 +16,7 @@ export const getKey = async (): Promise<string> => {
 }
 
 // Questions
-export const getQuestions = async (state?: models.QuestionState): Promise<models.Question[]> => {
+export const getQuestions = async (state?: models.sc2iq.QuestionState): Promise<models.sc2iq.Question[]> => {
     const path = `/questions${state ? `?state=${state}` : ''}`
     const response = await fetch(`${basedUrl}${path}`, {
         headers: {
@@ -32,12 +32,12 @@ export const getQuestions = async (state?: models.QuestionState): Promise<models
     throw new Error(`Error when attempting to GET ${path}`)
 }
 
-export const getRandomQuestions = get<models.Question[]>('/questions/random')
-export const getQuestion = getById<models.QuestionWithDetails>('/questions')
-export const postQuestion = post<models.QuestionInput, models.Question>('/questions')
+export const getRandomQuestions = get<models.sc2iq.Question[]>('/questions/random')
+export const getQuestion = getById<models.sc2iq.QuestionWithDetails>('/questions')
+export const postQuestion = post<models.sc2iq.QuestionInput, models.sc2iq.Question>('/questions')
 
-export const setQuestionState = async (token: string, questionId: string, state: models.QuestionState.APPROVED | models.QuestionState.REJECTED): Promise<models.Question> => {
-    let subPath = state === models.QuestionState.APPROVED
+export const setQuestionState = async (token: string, questionId: string, state: models.sc2iq.QuestionState.APPROVED | models.sc2iq.QuestionState.REJECTED): Promise<models.sc2iq.Question> => {
+    let subPath = state === models.sc2iq.QuestionState.APPROVED
         ? `approve`
         : `reject`
 
@@ -59,7 +59,7 @@ export const setQuestionState = async (token: string, questionId: string, state:
     throw new Error(`Error when attempting to ${method} ${path}.`)
 }
 
-export const postQuestionsSearch = async (search: models.Search): Promise<models.Question[]> => {
+export const postQuestionsSearch = async (search: models.sc2iq.Search): Promise<models.sc2iq.Question[]> => {
     const path = `/questions/search`
     const response = await fetch(`${basedUrl}${path}`, {
         method: 'POST',
@@ -79,7 +79,7 @@ export const postQuestionsSearch = async (search: models.Search): Promise<models
 }
 
 // Polls
-export const getPolls = async (state?: models.PollState): Promise<models.Poll[]> => {
+export const getPolls = async (state?: models.sc2iq.PollState): Promise<models.sc2iq.Poll[]> => {
     const path = `/polls${state ? `?state=${state}` : ''}`
     const response = await fetch(`${basedUrl}${path}`, {
         headers: {
@@ -95,9 +95,9 @@ export const getPolls = async (state?: models.PollState): Promise<models.Poll[]>
     throw new Error(`Error when attempting to GET ${path}`)
 }
 
-export const getPoll = getById<models.PollWithDetails>('/polls')
-export const postPoll = post<models.PollInput, models.Poll>('/polls')
-export const postPollsSearch = async (search: models.Search): Promise<models.Poll[]> => {
+export const getPoll = getById<models.sc2iq.PollWithDetails>('/polls')
+export const postPoll = post<models.sc2iq.PollInput, models.sc2iq.Poll>('/polls')
+export const postPollsSearch = async (search: models.sc2iq.Search): Promise<models.sc2iq.Poll[]> => {
     const path = `/polls/search`
     const response = await fetch(`${basedUrl}${path}`, {
         method: 'POST',
@@ -116,8 +116,8 @@ export const postPollsSearch = async (search: models.Search): Promise<models.Pol
     throw new Error(`Error when attempting to POST ${path}.`)
 }
 
-export const setPollState = async (token: string, pollId: string, state: models.PollState.APPROVED | models.PollState.REJECTED): Promise<models.Poll> => {
-    let subPath = state === models.PollState.APPROVED
+export const setPollState = async (token: string, pollId: string, state: models.sc2iq.PollState.APPROVED | models.sc2iq.PollState.REJECTED): Promise<models.sc2iq.Poll> => {
+    let subPath = state === models.sc2iq.PollState.APPROVED
         ? `approve`
         : `reject`
 
@@ -140,17 +140,17 @@ export const setPollState = async (token: string, pollId: string, state: models.
 }
 
 // Scores
-export const getScores = get<models.Score[]>('/scores')
-export const getScore = getById<models.Score>('/scores')
-export const postScore = post<models.ScoreInput, models.Score>('/scores')
+export const getScores = get<models.sc2iq.Score[]>('/scores')
+export const getScore = getById<models.sc2iq.Score>('/scores')
+export const postScore = post<models.sc2iq.ScoreInput, models.sc2iq.Score>('/scores')
 
 // Users
-export const getUsers = get<models.User[]>('/users')
-export const getUser = getById<models.User>('/users')
-export const postUser = post<models.UserInput, models.User>('/users')
+export const getUsers = get<models.sc2iq.User[]>('/users')
+export const getUser = getById<models.sc2iq.User>('/users')
+export const postUser = post<models.sc2iq.UserInput, models.sc2iq.User>('/users')
 
 // Profile
-export const verify = getWithToken<models.AccessToken>('/verify')
+export const verify = getWithToken<models.sc2iq.AccessToken>('/verify')
 export const getUserInfo = async (token: string) => {
     const response = await fetch(`https://sc2iq.auth0.com/userinfo`, {
         headers: {
