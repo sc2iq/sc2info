@@ -3,8 +3,17 @@ import * as models from '../models'
 import { getPrecedingArticle, getNumberVariances, camelCaseToNormal } from './utilities'
 import { sc2InfoUrlBase } from '../constants'
 
-export function generateUnitQuestions(unit: unit.IUnitNode): models.QuestionInput[] {
+
+type GenerateResult = {
+    luisEntities: string[]
+    luisIntentsWithUtterances: Record<string, string[]>
+    questions: models.QuestionInput[]
+}
+
+export function generateUnitQuestions(unit: unit.IUnitNode): GenerateResult {
     const questions: models.QuestionInput[] = []
+    const luisEntities: string[] = []
+    const luisIntentsWithUtterances: Record<string, string[]> = {}
     const name = unit.meta.name
     const article = getPrecedingArticle(name)
 
@@ -36,6 +45,13 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.QuestionInpu
                 source: `${sc2InfoUrlBase}/units/${unit.id}`
             }
 
+            const unitEntity = unit.id.toLowerCase()
+            const utterances: string[] = [
+                `What is the {@armor = armor} of ${article} {@${unitEntity} = ${camelCaseToNormal(name)}}?`,
+                `How much {@armor = armor} does the {@${unitEntity} = ${camelCaseToNormal(name)}} have?`
+            ]
+            luisEntities.push(unitEntity)
+            luisIntentsWithUtterances[`${unit.id.toLowerCase()}-armor`] = utterances
             questions.push(question)
         }
     }
@@ -578,5 +594,9 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.QuestionInpu
         }
     }
 
-    return questions
+    return {
+        luisEntities,
+        luisIntentsWithUtterances,
+        questions,
+    }
 }

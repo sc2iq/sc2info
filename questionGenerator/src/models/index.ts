@@ -174,3 +174,9 @@ export type AccessToken = {
     scope: string
     permissions: string[]
 }
+
+export type GenerateResult = {
+    luisEntities: string[]
+    luisIntentsWithUtterances: Record<string, string[]>
+    questions: QuestionInput[]
+}

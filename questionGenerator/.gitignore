@@ -4,5 +4,6 @@
 .env
 npm-debug.log*
 
+*.lu
 balancedata.*
 questionInputs.json
