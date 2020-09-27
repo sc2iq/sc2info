@@ -5,8 +5,8 @@
   },
   "version": "1.0.0",
   "description": "Extract features from a phrase and resolve to answers. E.g. Barracks cost? 150 minerals.",
-  "types": "./build/index.d.ts",
-  "main": "./build/index.js",
+  "types": "build/index.d.ts",
+  "main": "build/index.js",
   "scripts": {
     "prestart": "npm run build",
     "start": "node ./build/demo.js",
