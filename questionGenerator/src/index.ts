@@ -32,6 +32,8 @@ async function main() {
     const luisLudownContent: string = createLudownContentString(generateResult.luisEntities, generateResult.luisIntentsWithUtterances)
     const luDownFileName = `sc2info-bot.lu`
     await fs.promises.writeFile(luDownFileName, luisLudownContent)
+    await fs.promises.writeFile(`../luisModelCreator/${luDownFileName}`, luisLudownContent)
+
     console.log(`
 Generated:
 ${Object.keys(generateResult.luisIntentsWithUtterances).length} intents,
@@ -39,32 +41,32 @@ ${Object.values(generateResult.luisIntentsWithUtterances).flat().length} utteran
 ${generateResult.luisEntities.length} entities,
 
 Saved as '${luDownFileName}'.
-`)
+`.trimStart())
 
     // Generate QnA KnowledgeBase question inputs file
     const kbQuestionFileName = `qnaKnowledgeBase.json`
     const kbModel: models.qna.KnowledgeBaseCreate = {
-        name: 'SC2 KB Questions from Balancedata',
+        name: 'SC2 KB Questions from Balanced Data',
         qnaList: generateResult.kbQuestions,
     }
     
     await fs.promises.writeFile(kbQuestionFileName, JSON.stringify(kbModel, null, 4))
+
     console.log(`
 Generated ${generateResult.kbQuestions.length} QnA Knowledge Base questions.
-
 Saved as '${kbQuestionFileName}'.
-`)
+`.trimStart())
 
     // Generate question inputs file
     const questionInputs = generateResult.sc2iqQuestions
     questionInputs.forEach(q => q.id = q.id?.toLowerCase())
     const questionInputsFileName = `questionInputs.json`
     await fs.promises.writeFile(questionInputsFileName, JSON.stringify(questionInputs, null, 4))
+    
     console.log(`
 Generated ${questionInputs.length} questions.
-
 Saved as '${questionInputsFileName}'.
-`)
+`.trimStart())
 }
 
 main()

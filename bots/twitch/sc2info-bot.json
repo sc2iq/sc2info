@@ -1,0 +1,155 @@
+{
+  "luis_schema_version": "7.0.0",
+  "intents": [
+    {
+      "name": "marine-attack",
+      "features": []
+    },
+    {
+      "name": "marine-cost-gas",
+      "features": []
+    },
+    {
+      "name": "marine-health",
+      "features": []
+    },
+    {
+      "name": "None",
+      "features": []
+    }
+  ],
+  "entities": [
+    {
+      "name": "cost-minerals",
+      "children": [],
+      "roles": [
+        "sad"
+      ],
+      "features": []
+    },
+    {
+      "name": "cost-vespene",
+      "children": [],
+      "roles": [],
+      "features": []
+    },
+    {
+      "name": "property",
+      "children": [],
+      "roles": [],
+      "features": []
+    },
+    {
+      "name": "unit",
+      "children": [],
+      "roles": [],
+      "features": []
+    }
+  ],
+  "hierarchicals": [],
+  "composites": [],
+  "closedLists": [],
+  "prebuiltEntities": [],
+  "utterances": [
+    {
+      "text": "how much damage does a marine do?",
+      "intent": "marine-attack",
+      "entities": [
+        {
+          "entity": "unit",
+          "startPos": 23,
+          "endPos": 28,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "how much gas does a marine cost?",
+      "intent": "marine-cost-gas",
+      "entities": []
+    },
+    {
+      "text": "how much health does a marine have?",
+      "intent": "marine-health",
+      "entities": [
+        {
+          "entity": "property",
+          "startPos": 9,
+          "endPos": 14,
+          "children": []
+        },
+        {
+          "entity": "unit",
+          "startPos": 23,
+          "endPos": 28,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "marine gas",
+      "intent": "marine-cost-gas",
+      "entities": [
+        {
+          "entity": "cost-vespene",
+          "startPos": 7,
+          "endPos": 9,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "marine health",
+      "intent": "marine-health",
+      "entities": [
+        {
+          "entity": "unit",
+          "startPos": 0,
+          "endPos": 5,
+          "children": []
+        },
+        {
+          "entity": "property",
+          "startPos": 7,
+          "endPos": 12,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "marine hit points",
+      "intent": "marine-health",
+      "entities": [
+        {
+          "entity": "property",
+          "startPos": 7,
+          "endPos": 16,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "marine vespene",
+      "intent": "marine-cost-gas",
+      "entities": [
+        {
+          "entity": "cost-vespene",
+          "startPos": 7,
+          "endPos": 13,
+          "children": []
+        }
+      ]
+    }
+  ],
+  "versionId": "0.1",
+  "name": "sc2info-bot",
+  "desc": "Detect units, buildings, weapons, and more",
+  "culture": "en-us",
+  "tokenizerVersion": "1.0.0",
+  "patternAnyEntities": [],
+  "regex_entities": [],
+  "phraselists": [],
+  "regex_features": [],
+  "patterns": [],
+  "settings": []
+}

@@ -6,18 +6,18 @@ import { sc2InfoUrlBase } from '../constants'
 export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResult {
     const sc2iqQuestions: models.sc2iq.QuestionInput[] = []
     const kbQuestions: models.qna.Question[] = []
-    const luisEntities: string[] = []
-    const luisIntentsWithUtterances: Record<string, string[]> = {}
+    const luisEntities: string[] = ['property', 'unit']
+    const questionIntent = 'question'
+    const luisIntentsWithUtterances: Record<string, string[]> = { [questionIntent]: [] }
     const name = unit.meta.name
     const article = getPrecedingArticle(name)
-    const source = 'SC2 Balance Data'
     const metadata = [
         {
             name: 'race',
             value: unit.meta.race,
         }
     ]
-    
+
     // unit.abilities
 
     if (unit.armor) {
@@ -29,6 +29,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResu
                 answer4,
             ] = getNumberVariances(unit.armor.max)
 
+            const source = `${sc2InfoUrlBase}/units/${unit.id}`
             const question: models.sc2iq.QuestionInput = {
                 id: `${unit.id}-unit-armor`,
                 question: `What is the armor of ${article} ${name}?`,
@@ -43,20 +44,18 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResu
                     `armor`,
                 ],
                 difficulty: 1,
-                source: `${sc2InfoUrlBase}/units/${unit.id}`
+                source
             }
 
             // Add sc2iq question
             sc2iqQuestions.push(question)
 
             // Add LU down data
-            const unitEntity = unit.id.toLowerCase()
             const utterances: string[] = [
-                `What is the {@armor = armor} of ${article} {@${unitEntity} = ${name}}?`,
-                `How much {@armor = armor} does the {@${unitEntity} = ${name}} have?`
+                `What is the {@property = armor} of ${article} {@unit = ${name}}?`,
+                `How much {@property = armor} does the {@unit = ${name}} have?`
             ]
-            luisEntities.push(unitEntity)
-            luisIntentsWithUtterances[`${unit.id.toLowerCase()}-armor`] = utterances
+            luisIntentsWithUtterances[questionIntent].push(...utterances)
 
             // Add knowledge base question
             const kbQuestion: models.qna.Question = {
@@ -84,6 +83,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResu
                 answer4,
             ] = getNumberVariances(unit.cost.minerals)
 
+            const source = `${sc2InfoUrlBase}/unit/${unit.id}`
             const question: models.sc2iq.QuestionInput = {
                 id: `${unit.id}-unit-cost-minerals`,
                 question: `What is the mineral cost of ${article} ${camelCaseToNormal(name)}?.`,
@@ -99,10 +99,32 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResu
                     `minerals`,
                 ],
                 difficulty: 1,
-                source: `${sc2InfoUrlBase}/unit/${unit.id}`
+                source
             }
 
+            // Add sc2iq question
             sc2iqQuestions.push(question)
+
+            // Add LU down data
+            const utterances: string[] = [
+                `What is the {@property = mineral cost} of ${article} {@unit = ${name}}?`,
+                `How many {@property = minerals} does the {@unit = ${name}} cost?`
+            ]
+            luisIntentsWithUtterances[questionIntent].push(...utterances)
+
+            // Add knowledge base question
+            const kbQuestion: models.qna.Question = {
+                answer: `${name} costs ${answer1} minerals.`,
+                source,
+                questions: [
+                    `What is the mineral cost of ${article} ${name}?`,
+                    `How many minerals does the ${name} cost?`,
+                    `${name} minerals?`,
+                ],
+                metadata,
+            }
+
+            kbQuestions.push(kbQuestion)
         }
 
         if (unit.cost.vespene) {
@@ -113,6 +135,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResu
                 answer4,
             ] = getNumberVariances(unit.cost.vespene)
 
+            const source = `${sc2InfoUrlBase}/unit/${unit.id}`
             const question: models.sc2iq.QuestionInput = {
                 id: `${unit.id}-unit-cost-vespene`,
                 question: `What is the vespene cost of ${article} ${camelCaseToNormal(name)}?.`,
@@ -128,10 +151,33 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResu
                     `vespene`,
                 ],
                 difficulty: 1,
-                source: `${sc2InfoUrlBase}/units/${unit.id}`
+                source
             }
 
+            // Add sc2iq question
             sc2iqQuestions.push(question)
+
+            // Add LU down data
+            const utterances: string[] = [
+                `What is the {@property = vespene} {@property = cost} of ${article} {@unit = ${name}}?`,
+                `How much {@property = vespene} does the {@unit = ${name}} cost?`,
+                `{@unit = ${name}} {@property = vespene}?`
+            ]
+            luisIntentsWithUtterances[questionIntent].push(...utterances)
+
+            // Add knowledge base question
+            const kbQuestion: models.qna.Question = {
+                answer: `${name} costs ${answer1} vespene.`,
+                source,
+                questions: [
+                    `What is the vespene cost of ${article} ${name}?`,
+                    `How many vespene does the ${name} cost?`,
+                    `${name} vespene?`,
+                ],
+                metadata,
+            }
+
+            kbQuestions.push(kbQuestion)
         }
 
         if (unit.cost.minerals && unit.cost.vespene) {
@@ -149,10 +195,12 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResu
                 vespene4,
             ] = getNumberVariances(unit.cost.vespene)
 
+            const source = `${sc2InfoUrlBase}/unit/${unit.id}`
+            const answer1 = `${minerals1} / ${vespene1}`
             const question: models.sc2iq.QuestionInput = {
                 id: `${unit.id}-unit-cost`,
                 question: `What is the cost of ${article} ${camelCaseToNormal(name)}?`,
-                answer1: `${minerals1} / ${vespene1}`,
+                answer1,
                 answer2: `${minerals2} / ${vespene2}`,
                 answer3: `${minerals3} / ${vespene3}`,
                 answer4: `${minerals4} / ${vespene4}`,
@@ -163,10 +211,33 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResu
                     `cost`,
                 ],
                 difficulty: 1,
-                source: `${sc2InfoUrlBase}/units/${unit.id}`
+                source
             }
 
+            // Add sc2iq question
             sc2iqQuestions.push(question)
+
+            // Add LU down data
+            const utterances: string[] = [
+                `What is the {@property = cost} of ${article} {@unit = ${name}}?`,
+                `How much does the {@unit = ${name}} {@property = cost}?`,
+                `{@unit = ${name}} {@property = cost}?`
+            ]
+            luisIntentsWithUtterances[questionIntent].push(...utterances)
+
+            // Add knowledge base question
+            const kbQuestion: models.qna.Question = {
+                answer: `${name} costs ${answer1}.`,
+                source,
+                questions: [
+                    `What is the cost of ${article} ${name}?`,
+                    `How much does the ${name} cost?`,
+                    `${name} cost?`,
+                ],
+                metadata,
+            }
+
+            kbQuestions.push(kbQuestion)
         }
 
         if (unit.cost.supply) {
@@ -177,6 +248,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResu
                 answer4,
             ] = getNumberVariances(unit.cost.supply)
 
+            const source = `${sc2InfoUrlBase}/units/${unit.id}`
             const question: models.sc2iq.QuestionInput = {
                 id: `${unit.id}-unit-cost-supply`,
                 question: `What is the supply cost of ${article} ${camelCaseToNormal(name)}?`,
@@ -192,10 +264,32 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResu
                     `supply`,
                 ],
                 difficulty: 1,
-                source: `${sc2InfoUrlBase}/units/${unit.id}`
+                source
             }
 
             sc2iqQuestions.push(question)
+
+            // Add LU down data
+            const utterances: string[] = [
+                `What is the {@property = supply} of ${article} {@unit = ${name}}?`,
+                `How many {@property = supply} is the {@unit = ${name}}?`,
+                `{@unit = ${name}} {@property = supply}?`
+            ]
+            luisIntentsWithUtterances[questionIntent].push(...utterances)
+
+            // Add knowledge base question
+            const kbQuestion: models.qna.Question = {
+                answer: `${name} is ${answer1} supply.`,
+                source,
+                questions: [
+                    `What is the supply of ${article} ${name}?`,
+                    `How many supply is the ${name}?`,
+                    `${name} supply?`,
+                ],
+                metadata,
+            }
+
+            kbQuestions.push(kbQuestion)
         }
 
         if (unit.cost.time) {
@@ -206,6 +300,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResu
                 answer4,
             ] = getNumberVariances(unit.cost.time)
 
+            const source = `${sc2InfoUrlBase}/units/${unit.id}`
             const question: models.sc2iq.QuestionInput = {
                 id: `${unit.id}-unit-cost-time`,
                 question: `How many game seconds does it take to build ${article} ${camelCaseToNormal(name)}?`,
@@ -221,10 +316,32 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResu
                     `time`,
                 ],
                 difficulty: 1,
-                source: `${sc2InfoUrlBase}/units/${unit.id}`
+                source
             }
 
             sc2iqQuestions.push(question)
+
+            // Add LU down data
+            const utterances: string[] = [
+                `What is the {@property = build time} of ${article} {@unit = ${name}}?`,
+                `How much {@property = time} does the {@unit = ${name}} take to build?`,
+                `{@unit = ${name}} {@property = build time}?`
+            ]
+            luisIntentsWithUtterances[questionIntent].push(...utterances)
+
+            // Add knowledge base question
+            const kbQuestion: models.qna.Question = {
+                answer: `${name} build time is ${answer1}.`,
+                source,
+                questions: [
+                    `What is the build time of ${article} ${name}?`,
+                    `How many game seconds build time of the ${name}?`,
+                    `${name} build time?`,
+                ],
+                metadata,
+            }
+
+            kbQuestions.push(kbQuestion)
         }
     }
 
@@ -239,6 +356,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResu
                 answer4,
             ] = getNumberVariances(unit.shields.max)
 
+            const source = `${sc2InfoUrlBase}/units/${unit.id}`
             const question: models.sc2iq.QuestionInput = {
                 id: `${unit.id}-unit-shields`,
                 question: `What is the shields of ${article} ${camelCaseToNormal(name)}?.`,
@@ -252,10 +370,32 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResu
                     `shields`,
                 ],
                 difficulty: 1,
-                source: `${sc2InfoUrlBase}/units/${unit.id}`
+                source
             }
 
             sc2iqQuestions.push(question)
+
+            // Add LU down data
+            const utterances: string[] = [
+                `What are the {@property = shields} of ${article} {@unit = ${name}}?`,
+                `How much {@property = shields} does the {@unit = ${name}} have?`,
+                `{@unit = ${name}} {@property = shields}?`
+            ]
+            luisIntentsWithUtterances[questionIntent].push(...utterances)
+
+            // Add knowledge base question
+            const kbQuestion: models.qna.Question = {
+                answer: `${name} has ${answer1} shields.`,
+                source,
+                questions: [
+                    `What are the shields of ${article} ${name}?`,
+                    `How many shields does the ${name} have?`,
+                    `${name} shields?`,
+                ],
+                metadata,
+            }
+
+            kbQuestions.push(kbQuestion)
         }
     }
 
@@ -268,6 +408,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResu
                 answer4,
             ] = getNumberVariances(unit.shieldArmor.max)
 
+            const source = `${sc2InfoUrlBase}/units/${unit.id}`
             const question: models.sc2iq.QuestionInput = {
                 id: `${unit.id}-unit-shieldarmor`,
                 question: `What is the shield armor of ${article} ${camelCaseToNormal(name)}?.`,
@@ -282,10 +423,84 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResu
                     `armor`,
                 ],
                 difficulty: 1,
-                source: `${sc2InfoUrlBase}/units/${unit.id}`
+                source
             }
 
             sc2iqQuestions.push(question)
+
+            // Add LU down data
+            const utterances: string[] = [
+                `What are the {@property = shields} of ${article} {@unit = ${name}}?`,
+                `How much {@property = shields} does the {@unit = ${name}} have?`,
+                `{@unit = ${name}} {@property = shields}?`
+            ]
+            luisIntentsWithUtterances[questionIntent].push(...utterances)
+
+            // Add knowledge base question
+            const kbQuestion: models.qna.Question = {
+                answer: `${name} has ${answer1} shields.`,
+                source,
+                questions: [
+                    `What are the shields of ${article} ${name}?`,
+                    `How many shields does the ${name} have?`,
+                    `${name} shields?`,
+                ],
+                metadata,
+            }
+
+            kbQuestions.push(kbQuestion)
+        }
+    }
+
+    if (unit.life) {
+        if (unit.life.max) {
+            const [
+                answer1,
+                answer2,
+                answer3,
+                answer4,
+            ] = getNumberVariances(unit.life.max)
+
+            const source = `${sc2InfoUrlBase}/units/${unit.id}`
+            const question: models.sc2iq.QuestionInput = {
+                id: `${unit.id}-unit-life`,
+                question: `What is the life of ${article} ${camelCaseToNormal(name)}?.`,
+                answer1: `${answer1}`,
+                answer2: `${answer2}`,
+                answer3: `${answer3}`,
+                answer4: `${answer4}`,
+                tags: [
+                    `${unit.meta.race}`,
+                    `unit`,
+                    `life`,
+                ],
+                difficulty: 1,
+                source
+            }
+
+            sc2iqQuestions.push(question)
+
+            // Add LU down data
+            const utterances: string[] = [
+                `What is the {@property = life} of ${article} {@unit = ${name}}?`,
+                `How much {@property = life} does the {@unit = ${name}} have?`,
+                `{@unit = ${name}} {@property = life}?`
+            ]
+            luisIntentsWithUtterances[questionIntent].push(...utterances)
+
+            // Add knowledge base question
+            const kbQuestion: models.qna.Question = {
+                answer: `${name} has ${answer1} health.`,
+                source,
+                questions: [
+                    `What is the health of ${article} ${name}?`,
+                    `How much life does the ${name} have?`,
+                    `${name} life?`,
+                ],
+                metadata,
+            }
+
+            kbQuestions.push(kbQuestion)
         }
     }
 
@@ -298,6 +513,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResu
                 answer4,
             ] = getNumberVariances(unit.misc.radius)
 
+            const source = `${sc2InfoUrlBase}/units/${unit.id}`
             const question: models.sc2iq.QuestionInput = {
                 id: `${unit.id}-unit-misc-radius`,
                 question: `What is the radius of ${article} ${camelCaseToNormal(name)}?`,
@@ -313,10 +529,33 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResu
                     `radius`,
                 ],
                 difficulty: 1,
-                source: `${sc2InfoUrlBase}/units/${unit.id}`
+                source
             }
 
             sc2iqQuestions.push(question)
+
+            // Add LU down data
+            const utterances: string[] = [
+                `What is the {@property = radius} of ${article} {@unit = ${name}}?`,
+                `What is the {@property = size} of ${article} {@unit = ${name}}?`,
+                `{@unit = ${name}} {@property = radius}?`,
+                `{@unit = ${name}} {@property = size}?`,
+            ]
+            luisIntentsWithUtterances[questionIntent].push(...utterances)
+
+            // Add knowledge base question
+            const kbQuestion: models.qna.Question = {
+                answer: `${name} has radius of ${answer1}`,
+                source,
+                questions: [
+                    `What is the radius of ${article} ${name}?`,
+                    `What is the size of ${article} ${name}?`,
+                    `${name} radius?`,
+                ],
+                metadata,
+            }
+
+            kbQuestions.push(kbQuestion)
         }
 
         if (unit.misc.sightRadius) {
@@ -327,6 +566,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResu
                 answer4,
             ] = getNumberVariances(unit.misc.sightRadius)
 
+            const source = `${sc2InfoUrlBase}/units/${unit.id}`
             const question: models.sc2iq.QuestionInput = {
                 id: `${unit.id}-unit-misc-sightradius`,
                 question: `What is the sight radius of ${article} ${camelCaseToNormal(name)}?`,
@@ -343,10 +583,32 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResu
                     `radius`,
                 ],
                 difficulty: 1,
-                source: `${sc2InfoUrlBase}/units/${unit.id}`
+                source
             }
 
             sc2iqQuestions.push(question)
+
+            // Add LU down data
+            const utterances: string[] = [
+                `What is the {@property = sight radius} of ${article} {@unit = ${name}}?`,
+                `How far can the {@unit = ${name}} {@property = see}?`,
+                `{@unit = ${name}} {@property = sight radius}?`
+            ]
+            luisIntentsWithUtterances[questionIntent].push(...utterances)
+
+            // Add knowledge base question
+            const kbQuestion: models.qna.Question = {
+                answer: `${name} has sight radius of ${answer1}`,
+                source,
+                questions: [
+                    `What is the sight radius of ${article} ${name}?`,
+                    `Har far can the ${name} see?`,
+                    `${name} sight radius?`,
+                ],
+                metadata,
+            }
+
+            kbQuestions.push(kbQuestion)
         }
     }
 
@@ -359,6 +621,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResu
                 answer4,
             ] = getNumberVariances(unit.movement.speed)
 
+            const source = `${sc2InfoUrlBase}/units/${unit.id}`
             const question: models.sc2iq.QuestionInput = {
                 id: `${unit.id}-unit-movement-speed`,
                 question: `What is the speed of ${article} ${camelCaseToNormal(name)}?`,
@@ -374,10 +637,33 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResu
                     `speed`,
                 ],
                 difficulty: 1,
-                source: `${sc2InfoUrlBase}/units/${unit.id}`
+                source
             }
 
             sc2iqQuestions.push(question)
+
+            // Add LU down data
+            const utterances: string[] = [
+                `What is the {@property = movement speed} of ${article} {@unit = ${name}}?`,
+                `What is the {@property = speed} of ${article} {@unit = ${name}}?`,
+                `How fast is the {@unit = ${name}}?`,
+                `{@unit = ${name}} {@property = speed}?`
+            ]
+            luisIntentsWithUtterances[questionIntent].push(...utterances)
+
+            // Add knowledge base question
+            const kbQuestion: models.qna.Question = {
+                answer: `${name} has speed of ${answer1}`,
+                source,
+                questions: [
+                    `What is the speed of ${article} ${name}?`,
+                    `How fast is the ${name}?`,
+                    `${name} speed?`,
+                ],
+                metadata,
+            }
+
+            kbQuestions.push(kbQuestion)
         }
 
         if (unit.movement.acceleration) {
@@ -388,6 +674,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResu
                 answer4,
             ] = getNumberVariances(unit.movement.speed)
 
+            const source = `${sc2InfoUrlBase}/units/${unit.id}`
             const question: models.sc2iq.QuestionInput = {
                 id: `${unit.id}-unit-movement-acceleration`,
                 question: `What is the acceleration of ${article} ${camelCaseToNormal(name)}?`,
@@ -403,12 +690,31 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResu
                     `acceleration`,
                 ],
                 difficulty: 1,
-                source: `${sc2InfoUrlBase}/units/${unit.id}`
+                source
             }
 
             sc2iqQuestions.push(question)
-        }
 
+            // Add LU down data
+            const utterances: string[] = [
+                `What is the {@property = acceleration} of ${article} {@unit = ${name}}?`,
+                `{@unit = ${name}} {@property = acceleration}?`
+            ]
+            luisIntentsWithUtterances[questionIntent].push(...utterances)
+
+            // Add knowledge base question
+            const kbQuestion: models.qna.Question = {
+                answer: `${name}'s acceleration is ${answer1}`,
+                source,
+                questions: [
+                    `What is the acceleration of ${article} ${name}?`,
+                    `${name} acceleration?`,
+                ],
+                metadata,
+            }
+
+            kbQuestions.push(kbQuestion)
+        }
 
         unit.original.abilities?.forEach(ability => {
             ability.command.forEach(command => {
@@ -449,6 +755,26 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResu
                     }
 
                     sc2iqQuestions.push(question)
+
+                    // Add LU down data
+                    const utterances: string[] = [
+                        `What is the {@property = cooldown} of ${article} {@unit = ${name}}?`,
+                        `{@unit = ${name}} {@property = cooldown}?`,
+                    ]
+                    luisIntentsWithUtterances[questionIntent].push(...utterances)
+
+                    // Add knowledge base question
+                    const kbQuestion: models.qna.Question = {
+                        answer: `${name}'s cooldown is ${answer1}`,
+                        source: question.source,
+                        questions: [
+                            `What is the cooldown of ${article} ${name}?`,
+                            `${name} cooldown?`,
+                        ],
+                        metadata,
+                    }
+
+                    kbQuestions.push(kbQuestion)
                 }
 
                 if (command.cost?.energy && command.cost.energy !== -1) {
@@ -481,6 +807,26 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResu
                     }
 
                     sc2iqQuestions.push(question)
+
+                    // Add LU down data
+                    const utterances: string[] = [
+                        `What is the {@property = energy cost} of ${article} {@unit = ${name}}?`,
+                        `{@unit = ${name}} {@property = energy cost}?`,
+                    ]
+                    luisIntentsWithUtterances[questionIntent].push(...utterances)
+
+                    // Add knowledge base question
+                    const kbQuestion: models.qna.Question = {
+                        answer: `${name}'s energy cost is ${answer1}`,
+                        source: question.source,
+                        questions: [
+                            `What is the energy cost of ${article} ${name}?`,
+                            `${name} energy cost?`,
+                        ],
+                        metadata,
+                    }
+
+                    kbQuestions.push(kbQuestion)
                 }
 
                 if (command.cost?.time && command.cost.time !== -1) {
@@ -493,7 +839,7 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResu
 
                     const question: models.sc2iq.QuestionInput = {
                         id: `${unit.id}-unit-abilities-${ability.id}-${command.meta.name}`,
-                        question: `What is the time cost of the ${name} ability ${abilityName}?`,
+                        question: `What is the duration of the ${name} ability ${abilityName}?`,
                         answer1: `${answer1}`,
                         answer2: `${answer2}`,
                         answer3: `${answer3}`,
@@ -513,6 +859,26 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResu
                     }
 
                     sc2iqQuestions.push(question)
+
+                    // Add LU down data
+                    const utterances: string[] = [
+                        `What is the {@property = duration} of the ability {@unit = ${abilityName}}?`,
+                        `{@unit = ${abilityName}} {@property = duration}?`,
+                    ]
+                    luisIntentsWithUtterances[questionIntent].push(...utterances)
+
+                    // Add knowledge base question
+                    const kbQuestion: models.qna.Question = {
+                        answer: `${name}'s duration is ${answer1}`,
+                        source: question.source,
+                        questions: [
+                            `What is the duration of ${article} ${name}?`,
+                            `${name} duration?`,
+                        ],
+                        metadata,
+                    }
+
+                    kbQuestions.push(kbQuestion)
                 }
 
                 if (command.effect?.radius && command.effect.radius !== -1) {
@@ -545,6 +911,26 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResu
                     }
 
                     sc2iqQuestions.push(question)
+
+                    // Add LU down data
+                    const utterances: string[] = [
+                        `What is the {@property = radius} of the ${name} ability {@unit = ${abilityName}}?`,
+                        `{@unit = ${name}} {@property = radius}?`,
+                    ]
+                    luisIntentsWithUtterances[questionIntent].push(...utterances)
+
+                    // Add knowledge base question
+                    const kbQuestion: models.qna.Question = {
+                        answer: `${name}'s radius is ${answer1}`,
+                        source: question.source,
+                        questions: [
+                            `What is the radius of ${article} ${name}?`,
+                            `${name} radius?`,
+                        ],
+                        metadata,
+                    }
+
+                    kbQuestions.push(kbQuestion)
                 }
 
                 if (command.misc?.range && command.misc.range !== -1) {
@@ -576,6 +962,26 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResu
                     }
 
                     sc2iqQuestions.push(question)
+
+                    // Add LU down data
+                    const utterances: string[] = [
+                        `What is the {@property = range} of the ${name} ability {@unit = ${abilityName}}?`,
+                        `{@unit = ${name}} {@property = range}?`,
+                    ]
+                    luisIntentsWithUtterances[questionIntent].push(...utterances)
+
+                    // Add knowledge base question
+                    const kbQuestion: models.qna.Question = {
+                        answer: `${name}'s range is ${answer1}`,
+                        source: question.source,
+                        questions: [
+                            `What is the range of ${article} ${name}?`,
+                            `${name} range?`,
+                        ],
+                        metadata,
+                    }
+
+                    kbQuestions.push(kbQuestion)
                 }
             })
         })
@@ -608,6 +1014,26 @@ export function generateUnitQuestions(unit: unit.IUnitNode): models.GenerateResu
             }
 
             sc2iqQuestions.push(question)
+
+            // Add LU down data
+            const utterances: string[] = [
+                `What is the {@property = turn rate} of the {@unit = ${name}}?`,
+                `{@unit = ${name}} {@property = turn rate}?`,
+            ]
+            luisIntentsWithUtterances[questionIntent].push(...utterances)
+
+            // Add knowledge base question
+            const kbQuestion: models.qna.Question = {
+                answer: `${name}'s turn rate is ${answer1}`,
+                source: question.source,
+                questions: [
+                    `What is the turn rate of ${article} ${name}?`,
+                    `${name} turn rate?`,
+                ],
+                metadata,
+            }
+
+            kbQuestions.push(kbQuestion)
         }
     }
 

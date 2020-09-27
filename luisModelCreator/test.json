@@ -1,0 +1,110 @@
+{
+  "luis_schema_version": "7.0.0",
+  "intents": [
+    {
+      "name": "marine-health",
+      "features": []
+    },
+    {
+      "name": "None",
+      "features": []
+    }
+  ],
+  "entities": [
+    {
+      "name": "property",
+      "children": [],
+      "roles": [],
+      "features": [
+        {
+          "featureName": "Properties",
+          "isRequired": false
+        }
+      ]
+    },
+    {
+      "name": "unit",
+      "children": [],
+      "roles": [],
+      "features": [
+        {
+          "featureName": "units",
+          "isRequired": false
+        }
+      ]
+    }
+  ],
+  "hierarchicals": [],
+  "composites": [],
+  "closedLists": [],
+  "prebuiltEntities": [],
+  "utterances": [
+    {
+      "text": "how much health does a marine have?",
+      "intent": "marine-health",
+      "entities": [
+        {
+          "entity": "property",
+          "startPos": 9,
+          "endPos": 14,
+          "children": []
+        },
+        {
+          "entity": "unit",
+          "startPos": 23,
+          "endPos": 28,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "marine health?",
+      "intent": "marine-health",
+      "entities": [
+        {
+          "entity": "unit",
+          "startPos": 0,
+          "endPos": 5,
+          "children": []
+        },
+        {
+          "entity": "property",
+          "startPos": 7,
+          "endPos": 12,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "marine-health",
+      "intent": "None",
+      "entities": []
+    }
+  ],
+  "versionId": "0.1",
+  "name": "test",
+  "desc": "",
+  "culture": "en-us",
+  "tokenizerVersion": "1.0.0",
+  "patternAnyEntities": [],
+  "regex_entities": [],
+  "phraselists": [
+    {
+      "name": "units",
+      "mode": true,
+      "words": "marine,marauder,hyra,hydralisk,viking,thor,colossi,colossus,baneling,banes,zergling",
+      "activated": true,
+      "enabledForAllModels": false
+    },
+    {
+      "name": "Properties",
+      "mode": true,
+      "words": "cost,vespene,minerals,shields,armor,health",
+      "activated": true,
+      "enabledForAllModels": false
+    }
+  ],
+  "regex_features": [],
+  "patterns": [],
+  "settings": []
+}

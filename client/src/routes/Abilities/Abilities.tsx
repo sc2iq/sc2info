@@ -31,8 +31,20 @@ const AbilitiesRoute: React.FC = () => {
 
     const abilities: any[] = response.data?.abilities ?? []
 
+    const terranAbilities = abilities
+        .filter(x => x)
+        .filter(a => a.command[0].meta.race === "terran")
+        .reduce<Map<string, any>>((map, ability) => {
+            map.set(ability.id, ability)
+            return map
+        }, new Map<string, any>())
+        .values()
+
+    const sortedTerranAbilities = [...terranAbilities]
+        .sort((a, b) => (a.id as string).localeCompare(b.id))
+
     const groupedAbilities = {
-        terran: abilities.filter(x => x).filter(a => a.command[0].meta.race === "terran").sort((a, b) => (a.id as string).localeCompare(b.id)),
+        terran: sortedTerranAbilities,
         zerg: abilities.filter(x => x).filter(a => a.command[0].meta.race === "zerg"),
         protoss: abilities.filter(x => x).filter(a => a.command[0].meta.race === "protoss"),
     }

@@ -1,0 +1,41 @@
+
+> LUIS application information
+> !# @app.name = sc2info-bot
+> !# @app.desc = Detect units, buildings, weapons, and more
+> !# @app.versionId = 0.1
+> !# @app.culture = en-us
+> !# @app.luis_schema_version = 7.0.0
+> !# @app.tokenizerVersion = 1.0.0
+
+> # Intent definitions
+
+## question
+
+## None
+
+> # Entity definitions
+
+@ ml property usesFeature buildings
+
+@ ml unit usesFeature units
+
+> # PREBUILT Entity definitions
+
+> # Phrase list definitions
+
+@ phraselist units(interchangeable) = 
+    - adept
+    - adept phase shift
+    - arbiter mp
+    - archon
+
+@ phraselist buildings(interchangeable) = 
+    - armory
+    - assimilator
+    - assimilator rich
+    - auto turret
+
+
+> # List entities
+
+> # RegEx entities

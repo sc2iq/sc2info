@@ -1,0 +1,53 @@
+
+> LUIS application information
+> !# @app.name = sc2info-bot
+> !# @app.desc = Detect units, buildings, weapons, and more
+> !# @app.versionId = 0.1
+> !# @app.culture = en-us
+> !# @app.luis_schema_version = 7.0.0
+> !# @app.tokenizerVersion = 1.0.0
+
+
+> # Intent definitions
+
+## marine-attack
+- how much damage does a {@unit=marine} do?
+
+
+## marine-cost-gas
+- how much gas does a marine cost?
+- marine {@cost-vespene=gas}
+- marine {@cost-vespene=vespene}
+
+
+## marine-health
+- how much {@property=health} does a {@unit=marine} have?
+- {@unit=marine} {@property=health}
+- marine {@property=hit points}
+
+
+## None
+
+
+> # Entity definitions
+
+@ ml cost-minerals hasRole sad
+
+@ ml cost-vespene
+
+@ ml property
+
+@ ml unit
+
+
+> # PREBUILT Entity definitions
+
+
+> # Phrase list definitions
+
+
+> # List entities
+
+> # RegEx entities
+
+

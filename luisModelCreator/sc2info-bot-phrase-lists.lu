@@ -1,0 +1,37 @@
+
+> LUIS application information
+> !# @app.name = sc2info-bot
+> !# @app.desc = Detect units, buildings, weapons, and more
+> !# @app.versionId = 0.1
+> !# @app.culture = en-us
+> !# @app.luis_schema_version = 7.0.0
+> !# @app.tokenizerVersion = 1.0.0
+
+> # Intent definitions
+
+## Question
+- What is the mineral cost of a marine?
+
+## None
+
+> # Entity definitions
+
+@ ml unit usesFeature units
+
+
+> # PREBUILT Entity definitions
+
+> # Phrase list definitions
+
+@ phraselist units(interchangeable) = 
+    - adept,adept phase shift,arbiter mp,archon,baneling,baneling burrowed,baneling cocoon,banshee,battlecruiser,broodling,broodling escort,brood lord,brood lord cocoon,carrier,caustic spray missile,changeling,changeling marine,changeling marine shield,changeling zealot,changeling zergling,changeling zergling wings,colossus,corruptor,corsair mp,creep tumor missile,cyclone,cyclone missile,cyclone missile large,cyclone missile large air,cyclone missile large air alternative,dark templar,defiler mp,defiler mp burrowed,devourer cocoon mp,disruptor,disruptor phased,drone,drone burrowed,egg,force field,fungal growth missile,ghost,ghost alternate,ghost nova,guardian cocoon mp,guardian mp,hellion,hellion tank,herc,high templar,high templar skin preview,hydralisk,hydralisk burrowed,hydralisk impale missile,immortal,infested terrans egg,infested terrans egg placement,infestor,infestor burrowed,infestor terran,infestor terran burrowed,interceptor,larva,liberator,liberator ag,liberator ag missile,liberator damage missile,liberator missile,liberator skin preview,locust mp,locust mp flying,lurker mp,lurker mp burrowed,lurker mp egg,marauder,marine,medivac,mothership,mothership core,mule,mutalisk,neural parasite tentacle missile,nuke,observer,observer siege mode,oracle,overlord,overlord cocoon,overlord transport,overseer,overseer siege mode,parasitic bomb missile,phoenix,preview bunker upgraded,probe,protoss snake segment demo,queen,queen burrowed,queen mp,queen mp ensnare missile,queen mp spawn broodlings missile,ravager,ravager burrowed,ravager cocoon,ravager corrosive bile missile,raven,raven scrambler missile,reaper,release interceptors beacon,replicant,roach,roach burrowed,scourge mp,scv,seeker missile,sentry,siege tank,siege tank sieged,siege tank skin preview,stalker,swarm host burrowed mp,swarm host mp,tempest,test zerg,thor,thor aa lance,thor ap,tower mine,transport overlord cocoon,ultralisk,ultralisk burrowed,viking,viking assault,viking fighter,viper,void mp immortal revive corpse,void ray,war hound,warp prism,warp prism phasing,warp prism skin preview,widow mine,widow mine burrowed,yoink missile,yoink siege tank missile,yoink viking air missile,yoink viking ground missile,zealot,zergling,zergling burrowed
+
+@ phraselist buildings(interchangeable) = 
+    - armory,assimilator,assimilator rich,auto turret,baneling nest,barracks,barracks flying,barracks reactor,barracks tech lab,bunker,bypass armor drone,command center,command center flying,creep tumor,creep tumor burrowed,creep tumor queen,cybernetics core,dark shrine,engineering bay,evolution chamber,extractor,extractor rich,factory,factory flying,factory reactor,factory tech lab,fleet beacon,forge,fusion core,gateway,ghost academy,greater spire,hatchery,hive,hydralisk den,infestation pit,kd8charge,lair,lurker den mp,missile turret,nexus,nydus canal,nydus canal attacker,nydus canal creeper,nydus network,oracle stasis trap,orbital command,orbital command flying,photon cannon,planetary fortress,point defense drone,pylon,pylon overcharged,raven repair drone,reactor,refinery,refinery rich,renegade missile turret,resource blocker,roach warren,robotics bay,robotics facility,sensor tower,shield battery,spawning pool,spine crawler,spine crawler uprooted,spire,spore crawler,spore crawler uprooted,stargate,starport,starport flying,starport reactor,starport tech lab,supply depot,supply depot lowered,tech lab,templar archive,twilight council,ultralisk cavern,warp gate
+
+@ phraselist weapons(interchangeable) = 
+    - adept,arbiter mp weapon,psionic shockwave,auto turret,backlash rockets,needle claws,broodling strike,guass rifle,psi blades,claws,thermal lances,parasite spore,neutron flare,typhoon missile pod,warp blades,spines,c10canister rifle,guardian mp weapon,infernal flame thrower,hellion tank,herc weapon,high templar weapon,needle spines,phase disruptors,infested acid spines,infested guass rifle,interceptor beam,liberator missile launchers,liberator ag weapon,locust mp,lurker mp,punisher grenades,longbolt missile,mothership beam,repulsor cannon,glaive wurm,nydus canal attacker weapon,oracle display dummy,ion cannons,photon cannon,twin ibiks cannon,particle beam,acid spines,talons missile,ravager weapon,p38scythe guass pistol,renegade longbolt missile,acid saliva,scourge mp weapon,fusion cutter,90mm cannons,crucio shock cannon,impaler tentacle,acid spew,particle disruptors,tempest,tempest ground,javelin missile launchers,thors hammer,lance missile launchers,kaiser blades,twin gatling cannon,lanzer torpedoes,war hound
+
+> # List entities
+
+> # RegEx entities

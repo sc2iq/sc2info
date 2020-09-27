@@ -106,7 +106,7 @@ const Search: React.FC = () => {
                     </div>}
             </section>
             <section className="search-footer">
-                <p>Still can't find the item using search? Try browsing through categories.</p>
+                <p>Still can't find the item using search? Try <NavLink to={`/browse`}>Browsing</NavLink> through categories or <NavLink to={`/ask`}>Asking</NavLink> a question.</p>
 
                 <ul>
                     <li><NavLink to={`/units`}>Units</NavLink></li>

@@ -23,6 +23,7 @@
   padding: 0.5em;
   margin: 0;
   border: none;
+  border-radius: 0;
   border-top: 2px solid var(--searchBorder);
   border-bottom: 2px solid var(--searchBorder);
   font-size: 1.5rem;
@@ -35,6 +36,7 @@
   background: var(--header);
   border: 2px solid var(--searchBorder);
   border-left: none;
+  border-radius: 0;
   border-top-right-radius: var(--radius);
   border-bottom-right-radius: var(--radius);
   font-size: 2rem;

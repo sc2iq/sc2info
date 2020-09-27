@@ -31,7 +31,7 @@ Attempt to generate Azure QnA Maker knowledge based from the `balancedata.json`
 
 ### Question Generator
 
-This generates questions for sc2iq, which can be submitted to the database.
+This generates questions for sc2iq, which can be submitted to the database. The questions are in various output formats .json for sc2iq service, and QnA KnowledgeBase, .lu LUDown format for LUIS.ai
 
 ### Type Graph QL Test
 

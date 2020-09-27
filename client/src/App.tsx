@@ -2,6 +2,7 @@ import React from 'react'
 import { Route, Switch, NavLink } from "react-router-dom"
 import Search from './routes/Search'
 import Browse from './routes/Browse'
+import Ask from './routes/Ask'
 
 import Abilities from './routes/Abilities/Index'
 import Buildings from './routes/Buildings/Index'
@@ -24,6 +25,7 @@ const App: React.FC = () => {
           <div className="container sc2info-navigation">
             <NavLink to="/" exact className="sc2info-navigation__link">Search</NavLink>
             <NavLink to="/browse" className="sc2info-navigation__link" >Browse</NavLink>
+            <NavLink to="/ask" className="sc2info-navigation__link" >Ask</NavLink>
           </div>
         </nav>
       </header>
@@ -32,6 +34,7 @@ const App: React.FC = () => {
         <Switch>
           <Route path="/" exact component={Search} />
           <Route path="/browse" exact component={Browse} />
+          <Route path="/ask" exact component={Ask} />
 
           <Route path="/abilities" component={Abilities} />
           <Route path="/buildings" component={Buildings} />

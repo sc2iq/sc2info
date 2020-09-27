@@ -1,0 +1,2670 @@
+
+> LUIS application information
+> !# @app.name = sc2info-bot
+> !# @app.desc = Detect units, buildings, weapons, and more
+> !# @app.versionId = 0.1
+> !# @app.culture = en-us
+> !# @app.luis_schema_version = 7.0.0
+> !# @app.tokenizerVersion = 1.0.0
+
+> # Intent definitions
+# question
+- What is the {@property = armor} of an {@unit = Adept}?
+- How much {@property = armor} does the {@unit = Adept} have?
+- What is the {@property = mineral cost} of an {@unit = Adept}?
+- How many {@property = minerals} does the {@unit = Adept} cost?
+- What is the {@property = vespene} {@property = cost} of an {@unit = Adept}?
+- How much {@property = vespene} does the {@unit = Adept} cost?
+- {@unit = Adept} {@property = vespene}?
+- What is the {@property = cost} of an {@unit = Adept}?
+- How much does the {@unit = Adept} {@property = cost}?
+- {@unit = Adept} {@property = cost}?
+- What is the {@property = supply} of an {@unit = Adept}?
+- How many {@property = supply} is the {@unit = Adept}?
+- {@unit = Adept} {@property = supply}?
+- What is the {@property = build time} of an {@unit = Adept}?
+- How much {@property = time} does the {@unit = Adept} take to build?
+- {@unit = Adept} {@property = build time}?
+- What are the {@property = shields} of an {@unit = Adept}?
+- How much {@property = shields} does the {@unit = Adept} have?
+- {@unit = Adept} {@property = shields}?
+- What are the {@property = shields} of an {@unit = Adept}?
+- How much {@property = shields} does the {@unit = Adept} have?
+- {@unit = Adept} {@property = shields}?
+- What is the {@property = radius} of an {@unit = Adept}?
+- {@unit = Adept} {@property = radius}?
+- What is the {@property = sight radius} of an {@unit = Adept}?
+- How far can the {@unit = Adept} {@property = see}?
+- {@unit = Adept} {@property = sight radius}?
+- What is the {@property = movement speed} of an {@unit = Adept}?
+- What is the {@property = speed} of an {@unit = Adept}?
+- How fast is the {@unit = Adept}?
+- {@unit = Adept} {@property = speed}?
+- What is the {@property = acceleration} of an {@unit = Adept}?
+- {@unit = Adept} {@property = acceleration}?
+- What is the {@property = cooldown} of an {@unit = Adept}?
+- {@unit = Adept} {@property = cooldown}?
+- What is the {@property = armor} of an {@unit = Adept Phase Shift}?
+- How much {@property = armor} does the {@unit = Adept Phase Shift} have?
+- What are the {@property = shields} of an {@unit = Adept Phase Shift}?
+- How much {@property = shields} does the {@unit = Adept Phase Shift} have?
+- {@unit = Adept Phase Shift} {@property = shields}?
+- What is the {@property = radius} of an {@unit = Adept Phase Shift}?
+- {@unit = Adept Phase Shift} {@property = radius}?
+- What is the {@property = sight radius} of an {@unit = Adept Phase Shift}?
+- How far can the {@unit = Adept Phase Shift} {@property = see}?
+- {@unit = Adept Phase Shift} {@property = sight radius}?
+- What is the {@property = movement speed} of an {@unit = Adept Phase Shift}?
+- What is the {@property = speed} of an {@unit = Adept Phase Shift}?
+- How fast is the {@unit = Adept Phase Shift}?
+- {@unit = Adept Phase Shift} {@property = speed}?
+- What is the {@property = acceleration} of an {@unit = Adept Phase Shift}?
+- {@unit = Adept Phase Shift} {@property = acceleration}?
+- What are the {@property = shields} of an {@unit = Arbiter MP}?
+- How much {@property = shields} does the {@unit = Arbiter MP} have?
+- {@unit = Arbiter MP} {@property = shields}?
+- What is the {@property = radius} of an {@unit = Arbiter MP}?
+- {@unit = Arbiter MP} {@property = radius}?
+- What is the {@property = sight radius} of an {@unit = Arbiter MP}?
+- How far can the {@unit = Arbiter MP} {@property = see}?
+- {@unit = Arbiter MP} {@property = sight radius}?
+- What is the {@property = movement speed} of an {@unit = Arbiter MP}?
+- What is the {@property = speed} of an {@unit = Arbiter MP}?
+- How fast is the {@unit = Arbiter MP}?
+- {@unit = Arbiter MP} {@property = speed}?
+- What is the {@property = acceleration} of an {@unit = Arbiter MP}?
+- {@unit = Arbiter MP} {@property = acceleration}?
+- What is the {@property = energy cost} of an {@unit = Arbiter MP}?
+- {@unit = Arbiter MP} {@property = energy cost}?
+- What is the {@property = radius} of the Arbiter MP ability {@unit = Arbiter MP Recall}?
+- {@unit = Arbiter MP} {@property = radius}?
+- What is the {@property = energy cost} of an {@unit = Arbiter MP}?
+- {@unit = Arbiter MP} {@property = energy cost}?
+- What is the {@property = radius} of the Arbiter MP ability {@unit = Arbiter MP Stasis Field}?
+- {@unit = Arbiter MP} {@property = radius}?
+- What is the {@property = range} of the Arbiter MP ability {@unit = Arbiter MP Stasis Field}?
+- {@unit = Arbiter MP} {@property = range}?
+- What is the {@property = armor} of an {@unit = Archon}?
+- How much {@property = armor} does the {@unit = Archon} have?
+- What is the {@property = build time} of an {@unit = Archon}?
+- How much {@property = time} does the {@unit = Archon} take to build?
+- {@unit = Archon} {@property = build time}?
+- What are the {@property = shields} of an {@unit = Archon}?
+- How much {@property = shields} does the {@unit = Archon} have?
+- {@unit = Archon} {@property = shields}?
+- What are the {@property = shields} of an {@unit = Archon}?
+- How much {@property = shields} does the {@unit = Archon} have?
+- {@unit = Archon} {@property = shields}?
+- What is the {@property = radius} of an {@unit = Archon}?
+- {@unit = Archon} {@property = radius}?
+- What is the {@property = sight radius} of an {@unit = Archon}?
+- How far can the {@unit = Archon} {@property = see}?
+- {@unit = Archon} {@property = sight radius}?
+- What is the {@property = movement speed} of an {@unit = Archon}?
+- What is the {@property = speed} of an {@unit = Archon}?
+- How fast is the {@unit = Archon}?
+- {@unit = Archon} {@property = speed}?
+- What is the {@property = acceleration} of an {@unit = Archon}?
+- {@unit = Archon} {@property = acceleration}?
+- What is the {@property = armor} of a {@unit = Baneling}?
+- How much {@property = armor} does the {@unit = Baneling} have?
+- What is the {@property = mineral cost} of a {@unit = Baneling}?
+- How many {@property = minerals} does the {@unit = Baneling} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Baneling}?
+- How much {@property = vespene} does the {@unit = Baneling} cost?
+- {@unit = Baneling} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Baneling}?
+- How much does the {@unit = Baneling} {@property = cost}?
+- {@unit = Baneling} {@property = cost}?
+- What is the {@property = build time} of a {@unit = Baneling}?
+- How much {@property = time} does the {@unit = Baneling} take to build?
+- {@unit = Baneling} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Baneling}?
+- {@unit = Baneling} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Baneling}?
+- How far can the {@unit = Baneling} {@property = see}?
+- {@unit = Baneling} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Baneling}?
+- What is the {@property = speed} of a {@unit = Baneling}?
+- How fast is the {@unit = Baneling}?
+- {@unit = Baneling} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Baneling}?
+- {@unit = Baneling} {@property = acceleration}?
+- What is the {@property = duration} of the ability {@unit = Burrow Baneling Down}?
+- {@unit = Burrow Baneling Down} {@property = duration}?
+- What is the {@property = armor} of a {@unit = Baneling Burrowed}?
+- How much {@property = armor} does the {@unit = Baneling Burrowed} have?
+- What is the {@property = radius} of a {@unit = Baneling Burrowed}?
+- {@unit = Baneling Burrowed} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Baneling Burrowed}?
+- How far can the {@unit = Baneling Burrowed} {@property = see}?
+- {@unit = Baneling Burrowed} {@property = sight radius}?
+- What is the {@property = armor} of a {@unit = Baneling Cocoon}?
+- How much {@property = armor} does the {@unit = Baneling Cocoon} have?
+- What is the {@property = radius} of a {@unit = Baneling Cocoon}?
+- {@unit = Baneling Cocoon} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Baneling Cocoon}?
+- How far can the {@unit = Baneling Cocoon} {@property = see}?
+- {@unit = Baneling Cocoon} {@property = sight radius}?
+- What is the {@property = armor} of a {@unit = Banshee}?
+- How much {@property = armor} does the {@unit = Banshee} have?
+- What is the {@property = mineral cost} of a {@unit = Banshee}?
+- How many {@property = minerals} does the {@unit = Banshee} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Banshee}?
+- How much {@property = vespene} does the {@unit = Banshee} cost?
+- {@unit = Banshee} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Banshee}?
+- How much does the {@unit = Banshee} {@property = cost}?
+- {@unit = Banshee} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Banshee}?
+- How many {@property = supply} is the {@unit = Banshee}?
+- {@unit = Banshee} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Banshee}?
+- How much {@property = time} does the {@unit = Banshee} take to build?
+- {@unit = Banshee} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Banshee}?
+- {@unit = Banshee} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Banshee}?
+- How far can the {@unit = Banshee} {@property = see}?
+- {@unit = Banshee} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Banshee}?
+- What is the {@property = speed} of a {@unit = Banshee}?
+- How fast is the {@unit = Banshee}?
+- {@unit = Banshee} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Banshee}?
+- {@unit = Banshee} {@property = acceleration}?
+- What is the {@property = energy cost} of a {@unit = Banshee}?
+- {@unit = Banshee} {@property = energy cost}?
+- What is the {@property = armor} of a {@unit = Battlecruiser}?
+- How much {@property = armor} does the {@unit = Battlecruiser} have?
+- What is the {@property = mineral cost} of a {@unit = Battlecruiser}?
+- How many {@property = minerals} does the {@unit = Battlecruiser} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Battlecruiser}?
+- How much {@property = vespene} does the {@unit = Battlecruiser} cost?
+- {@unit = Battlecruiser} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Battlecruiser}?
+- How much does the {@unit = Battlecruiser} {@property = cost}?
+- {@unit = Battlecruiser} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Battlecruiser}?
+- How many {@property = supply} is the {@unit = Battlecruiser}?
+- {@unit = Battlecruiser} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Battlecruiser}?
+- How much {@property = time} does the {@unit = Battlecruiser} take to build?
+- {@unit = Battlecruiser} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Battlecruiser}?
+- {@unit = Battlecruiser} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Battlecruiser}?
+- How far can the {@unit = Battlecruiser} {@property = see}?
+- {@unit = Battlecruiser} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Battlecruiser}?
+- What is the {@property = speed} of a {@unit = Battlecruiser}?
+- How fast is the {@unit = Battlecruiser}?
+- {@unit = Battlecruiser} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Battlecruiser}?
+- {@unit = Battlecruiser} {@property = acceleration}?
+- What is the {@property = cooldown} of a {@unit = Battlecruiser}?
+- {@unit = Battlecruiser} {@property = cooldown}?
+- What is the {@property = duration} of the ability {@unit = Yamato}?
+- {@unit = Yamato} {@property = duration}?
+- What is the {@property = range} of the Battlecruiser ability {@unit = Yamato}?
+- {@unit = Battlecruiser} {@property = range}?
+- What is the {@property = cooldown} of a {@unit = Battlecruiser}?
+- {@unit = Battlecruiser} {@property = cooldown}?
+- What is the {@property = armor} of a {@unit = Broodling}?
+- How much {@property = armor} does the {@unit = Broodling} have?
+- What is the {@property = radius} of a {@unit = Broodling}?
+- {@unit = Broodling} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Broodling}?
+- How far can the {@unit = Broodling} {@property = see}?
+- {@unit = Broodling} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Broodling}?
+- What is the {@property = speed} of a {@unit = Broodling}?
+- How fast is the {@unit = Broodling}?
+- {@unit = Broodling} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Broodling}?
+- {@unit = Broodling} {@property = acceleration}?
+- What is the {@property = radius} of a {@unit = Broodling Escort}?
+- {@unit = Broodling Escort} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Broodling Escort}?
+- How far can the {@unit = Broodling Escort} {@property = see}?
+- {@unit = Broodling Escort} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Broodling Escort}?
+- What is the {@property = speed} of a {@unit = Broodling Escort}?
+- How fast is the {@unit = Broodling Escort}?
+- {@unit = Broodling Escort} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Broodling Escort}?
+- {@unit = Broodling Escort} {@property = acceleration}?
+- What is the {@property = armor} of a {@unit = Brood Lord}?
+- How much {@property = armor} does the {@unit = Brood Lord} have?
+- What is the {@property = mineral cost} of a {@unit = Brood Lord}?
+- How many {@property = minerals} does the {@unit = Brood Lord} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Brood Lord}?
+- How much {@property = vespene} does the {@unit = Brood Lord} cost?
+- {@unit = Brood Lord} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Brood Lord}?
+- How much does the {@unit = Brood Lord} {@property = cost}?
+- {@unit = Brood Lord} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Brood Lord}?
+- How many {@property = supply} is the {@unit = Brood Lord}?
+- {@unit = Brood Lord} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Brood Lord}?
+- How much {@property = time} does the {@unit = Brood Lord} take to build?
+- {@unit = Brood Lord} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Brood Lord}?
+- {@unit = Brood Lord} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Brood Lord}?
+- How far can the {@unit = Brood Lord} {@property = see}?
+- {@unit = Brood Lord} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Brood Lord}?
+- What is the {@property = speed} of a {@unit = Brood Lord}?
+- How fast is the {@unit = Brood Lord}?
+- {@unit = Brood Lord} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Brood Lord}?
+- {@unit = Brood Lord} {@property = acceleration}?
+- What is the {@property = armor} of a {@unit = Brood Lord Cocoon}?
+- How much {@property = armor} does the {@unit = Brood Lord Cocoon} have?
+- What is the {@property = mineral cost} of a {@unit = Brood Lord Cocoon}?
+- How many {@property = minerals} does the {@unit = Brood Lord Cocoon} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Brood Lord Cocoon}?
+- How much {@property = vespene} does the {@unit = Brood Lord Cocoon} cost?
+- {@unit = Brood Lord Cocoon} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Brood Lord Cocoon}?
+- How much does the {@unit = Brood Lord Cocoon} {@property = cost}?
+- {@unit = Brood Lord Cocoon} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Brood Lord Cocoon}?
+- How many {@property = supply} is the {@unit = Brood Lord Cocoon}?
+- {@unit = Brood Lord Cocoon} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Brood Lord Cocoon}?
+- How much {@property = time} does the {@unit = Brood Lord Cocoon} take to build?
+- {@unit = Brood Lord Cocoon} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Brood Lord Cocoon}?
+- {@unit = Brood Lord Cocoon} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Brood Lord Cocoon}?
+- How far can the {@unit = Brood Lord Cocoon} {@property = see}?
+- {@unit = Brood Lord Cocoon} {@property = sight radius}?
+- What is the {@property = armor} of a {@unit = Carrier}?
+- How much {@property = armor} does the {@unit = Carrier} have?
+- What is the {@property = mineral cost} of a {@unit = Carrier}?
+- How many {@property = minerals} does the {@unit = Carrier} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Carrier}?
+- How much {@property = vespene} does the {@unit = Carrier} cost?
+- {@unit = Carrier} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Carrier}?
+- How much does the {@unit = Carrier} {@property = cost}?
+- {@unit = Carrier} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Carrier}?
+- How many {@property = supply} is the {@unit = Carrier}?
+- {@unit = Carrier} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Carrier}?
+- How much {@property = time} does the {@unit = Carrier} take to build?
+- {@unit = Carrier} {@property = build time}?
+- What are the {@property = shields} of a {@unit = Carrier}?
+- How much {@property = shields} does the {@unit = Carrier} have?
+- {@unit = Carrier} {@property = shields}?
+- What are the {@property = shields} of a {@unit = Carrier}?
+- How much {@property = shields} does the {@unit = Carrier} have?
+- {@unit = Carrier} {@property = shields}?
+- What is the {@property = radius} of a {@unit = Carrier}?
+- {@unit = Carrier} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Carrier}?
+- How far can the {@unit = Carrier} {@property = see}?
+- {@unit = Carrier} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Carrier}?
+- What is the {@property = speed} of a {@unit = Carrier}?
+- How fast is the {@unit = Carrier}?
+- {@unit = Carrier} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Carrier}?
+- {@unit = Carrier} {@property = acceleration}?
+- What is the {@property = radius} of a {@unit = Changeling}?
+- {@unit = Changeling} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Changeling}?
+- How far can the {@unit = Changeling} {@property = see}?
+- {@unit = Changeling} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Changeling}?
+- What is the {@property = speed} of a {@unit = Changeling}?
+- How fast is the {@unit = Changeling}?
+- {@unit = Changeling} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Changeling}?
+- {@unit = Changeling} {@property = acceleration}?
+- What is the {@property = radius} of a {@unit = Changeling Marine}?
+- {@unit = Changeling Marine} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Changeling Marine}?
+- How far can the {@unit = Changeling Marine} {@property = see}?
+- {@unit = Changeling Marine} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Changeling Marine}?
+- What is the {@property = speed} of a {@unit = Changeling Marine}?
+- How fast is the {@unit = Changeling Marine}?
+- {@unit = Changeling Marine} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Changeling Marine}?
+- {@unit = Changeling Marine} {@property = acceleration}?
+- What is the {@property = radius} of a {@unit = Changeling Marine Shield}?
+- {@unit = Changeling Marine Shield} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Changeling Marine Shield}?
+- How far can the {@unit = Changeling Marine Shield} {@property = see}?
+- {@unit = Changeling Marine Shield} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Changeling Marine Shield}?
+- What is the {@property = speed} of a {@unit = Changeling Marine Shield}?
+- How fast is the {@unit = Changeling Marine Shield}?
+- {@unit = Changeling Marine Shield} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Changeling Marine Shield}?
+- {@unit = Changeling Marine Shield} {@property = acceleration}?
+- What is the {@property = armor} of a {@unit = Changeling Zealot}?
+- How much {@property = armor} does the {@unit = Changeling Zealot} have?
+- What are the {@property = shields} of a {@unit = Changeling Zealot}?
+- How much {@property = shields} does the {@unit = Changeling Zealot} have?
+- {@unit = Changeling Zealot} {@property = shields}?
+- What is the {@property = radius} of a {@unit = Changeling Zealot}?
+- {@unit = Changeling Zealot} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Changeling Zealot}?
+- How far can the {@unit = Changeling Zealot} {@property = see}?
+- {@unit = Changeling Zealot} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Changeling Zealot}?
+- What is the {@property = speed} of a {@unit = Changeling Zealot}?
+- How fast is the {@unit = Changeling Zealot}?
+- {@unit = Changeling Zealot} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Changeling Zealot}?
+- {@unit = Changeling Zealot} {@property = acceleration}?
+- What is the {@property = radius} of a {@unit = Changeling Zergling}?
+- {@unit = Changeling Zergling} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Changeling Zergling}?
+- How far can the {@unit = Changeling Zergling} {@property = see}?
+- {@unit = Changeling Zergling} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Changeling Zergling}?
+- What is the {@property = speed} of a {@unit = Changeling Zergling}?
+- How fast is the {@unit = Changeling Zergling}?
+- {@unit = Changeling Zergling} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Changeling Zergling}?
+- {@unit = Changeling Zergling} {@property = acceleration}?
+- What is the {@property = radius} of a {@unit = Changeling Zergling Wings}?
+- {@unit = Changeling Zergling Wings} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Changeling Zergling Wings}?
+- How far can the {@unit = Changeling Zergling Wings} {@property = see}?
+- {@unit = Changeling Zergling Wings} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Changeling Zergling Wings}?
+- What is the {@property = speed} of a {@unit = Changeling Zergling Wings}?
+- How fast is the {@unit = Changeling Zergling Wings}?
+- {@unit = Changeling Zergling Wings} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Changeling Zergling Wings}?
+- {@unit = Changeling Zergling Wings} {@property = acceleration}?
+- What is the {@property = armor} of a {@unit = Colossus}?
+- How much {@property = armor} does the {@unit = Colossus} have?
+- What is the {@property = mineral cost} of a {@unit = Colossus}?
+- How many {@property = minerals} does the {@unit = Colossus} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Colossus}?
+- How much {@property = vespene} does the {@unit = Colossus} cost?
+- {@unit = Colossus} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Colossus}?
+- How much does the {@unit = Colossus} {@property = cost}?
+- {@unit = Colossus} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Colossus}?
+- How many {@property = supply} is the {@unit = Colossus}?
+- {@unit = Colossus} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Colossus}?
+- How much {@property = time} does the {@unit = Colossus} take to build?
+- {@unit = Colossus} {@property = build time}?
+- What are the {@property = shields} of a {@unit = Colossus}?
+- How much {@property = shields} does the {@unit = Colossus} have?
+- {@unit = Colossus} {@property = shields}?
+- What are the {@property = shields} of a {@unit = Colossus}?
+- How much {@property = shields} does the {@unit = Colossus} have?
+- {@unit = Colossus} {@property = shields}?
+- What is the {@property = radius} of a {@unit = Colossus}?
+- {@unit = Colossus} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Colossus}?
+- How far can the {@unit = Colossus} {@property = see}?
+- {@unit = Colossus} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Colossus}?
+- What is the {@property = speed} of a {@unit = Colossus}?
+- How fast is the {@unit = Colossus}?
+- {@unit = Colossus} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Colossus}?
+- {@unit = Colossus} {@property = acceleration}?
+- What is the {@property = armor} of a {@unit = Corruptor}?
+- How much {@property = armor} does the {@unit = Corruptor} have?
+- What is the {@property = mineral cost} of a {@unit = Corruptor}?
+- How many {@property = minerals} does the {@unit = Corruptor} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Corruptor}?
+- How much {@property = vespene} does the {@unit = Corruptor} cost?
+- {@unit = Corruptor} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Corruptor}?
+- How much does the {@unit = Corruptor} {@property = cost}?
+- {@unit = Corruptor} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Corruptor}?
+- How many {@property = supply} is the {@unit = Corruptor}?
+- {@unit = Corruptor} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Corruptor}?
+- How much {@property = time} does the {@unit = Corruptor} take to build?
+- {@unit = Corruptor} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Corruptor}?
+- {@unit = Corruptor} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Corruptor}?
+- How far can the {@unit = Corruptor} {@property = see}?
+- {@unit = Corruptor} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Corruptor}?
+- What is the {@property = speed} of a {@unit = Corruptor}?
+- How fast is the {@unit = Corruptor}?
+- {@unit = Corruptor} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Corruptor}?
+- {@unit = Corruptor} {@property = acceleration}?
+- What is the {@property = cooldown} of a {@unit = Corruptor}?
+- {@unit = Corruptor} {@property = cooldown}?
+- What is the {@property = range} of the Corruptor ability {@unit = Caustic Spray}?
+- {@unit = Corruptor} {@property = range}?
+- What is the {@property = duration} of the ability {@unit = Morph To Brood Lord}?
+- {@unit = Morph To Brood Lord} {@property = duration}?
+- What is the {@property = armor} of a {@unit = Corsair MP}?
+- How much {@property = armor} does the {@unit = Corsair MP} have?
+- What are the {@property = shields} of a {@unit = Corsair MP}?
+- How much {@property = shields} does the {@unit = Corsair MP} have?
+- {@unit = Corsair MP} {@property = shields}?
+- What is the {@property = radius} of a {@unit = Corsair MP}?
+- {@unit = Corsair MP} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Corsair MP}?
+- How far can the {@unit = Corsair MP} {@property = see}?
+- {@unit = Corsair MP} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Corsair MP}?
+- What is the {@property = speed} of a {@unit = Corsair MP}?
+- How fast is the {@unit = Corsair MP}?
+- {@unit = Corsair MP} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Corsair MP}?
+- {@unit = Corsair MP} {@property = acceleration}?
+- What is the {@property = energy cost} of a {@unit = Corsair MP}?
+- {@unit = Corsair MP} {@property = energy cost}?
+- What is the {@property = radius} of the Corsair MP ability {@unit = Corsair MP Disruption Web}?
+- {@unit = Corsair MP} {@property = radius}?
+- What is the {@property = range} of the Corsair MP ability {@unit = Corsair MP Disruption Web}?
+- {@unit = Corsair MP} {@property = range}?
+- What is the {@property = armor} of a {@unit = Cyclone}?
+- How much {@property = armor} does the {@unit = Cyclone} have?
+- What is the {@property = mineral cost} of a {@unit = Cyclone}?
+- How many {@property = minerals} does the {@unit = Cyclone} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Cyclone}?
+- How much {@property = vespene} does the {@unit = Cyclone} cost?
+- {@unit = Cyclone} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Cyclone}?
+- How much does the {@unit = Cyclone} {@property = cost}?
+- {@unit = Cyclone} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Cyclone}?
+- How many {@property = supply} is the {@unit = Cyclone}?
+- {@unit = Cyclone} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Cyclone}?
+- How much {@property = time} does the {@unit = Cyclone} take to build?
+- {@unit = Cyclone} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Cyclone}?
+- {@unit = Cyclone} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Cyclone}?
+- How far can the {@unit = Cyclone} {@property = see}?
+- {@unit = Cyclone} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Cyclone}?
+- What is the {@property = speed} of a {@unit = Cyclone}?
+- How fast is the {@unit = Cyclone}?
+- {@unit = Cyclone} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Cyclone}?
+- {@unit = Cyclone} {@property = acceleration}?
+- What is the {@property = cooldown} of a {@unit = Cyclone}?
+- {@unit = Cyclone} {@property = cooldown}?
+- What is the {@property = range} of the Cyclone ability {@unit = Lock On}?
+- {@unit = Cyclone} {@property = range}?
+- What is the {@property = armor} of a {@unit = Dark Templar}?
+- How much {@property = armor} does the {@unit = Dark Templar} have?
+- What is the {@property = mineral cost} of a {@unit = Dark Templar}?
+- How many {@property = minerals} does the {@unit = Dark Templar} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Dark Templar}?
+- How much {@property = vespene} does the {@unit = Dark Templar} cost?
+- {@unit = Dark Templar} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Dark Templar}?
+- How much does the {@unit = Dark Templar} {@property = cost}?
+- {@unit = Dark Templar} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Dark Templar}?
+- How many {@property = supply} is the {@unit = Dark Templar}?
+- {@unit = Dark Templar} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Dark Templar}?
+- How much {@property = time} does the {@unit = Dark Templar} take to build?
+- {@unit = Dark Templar} {@property = build time}?
+- What are the {@property = shields} of a {@unit = Dark Templar}?
+- How much {@property = shields} does the {@unit = Dark Templar} have?
+- {@unit = Dark Templar} {@property = shields}?
+- What are the {@property = shields} of a {@unit = Dark Templar}?
+- How much {@property = shields} does the {@unit = Dark Templar} have?
+- {@unit = Dark Templar} {@property = shields}?
+- What is the {@property = radius} of a {@unit = Dark Templar}?
+- {@unit = Dark Templar} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Dark Templar}?
+- How far can the {@unit = Dark Templar} {@property = see}?
+- {@unit = Dark Templar} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Dark Templar}?
+- What is the {@property = speed} of a {@unit = Dark Templar}?
+- How fast is the {@unit = Dark Templar}?
+- {@unit = Dark Templar} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Dark Templar}?
+- {@unit = Dark Templar} {@property = acceleration}?
+- What is the {@property = duration} of the ability {@unit = Archon Warp Selected Units}?
+- {@unit = Archon Warp Selected Units} {@property = duration}?
+- What is the {@property = cooldown} of a {@unit = Dark Templar}?
+- {@unit = Dark Templar} {@property = cooldown}?
+- What is the {@property = armor} of a {@unit = Defiler MP}?
+- How much {@property = armor} does the {@unit = Defiler MP} have?
+- What is the {@property = radius} of a {@unit = Defiler MP}?
+- {@unit = Defiler MP} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Defiler MP}?
+- How far can the {@unit = Defiler MP} {@property = see}?
+- {@unit = Defiler MP} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Defiler MP}?
+- What is the {@property = speed} of a {@unit = Defiler MP}?
+- How fast is the {@unit = Defiler MP}?
+- {@unit = Defiler MP} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Defiler MP}?
+- {@unit = Defiler MP} {@property = acceleration}?
+- What is the {@property = duration} of the ability {@unit = Defiler MP Consume}?
+- {@unit = Defiler MP Consume} {@property = duration}?
+- What is the {@property = energy cost} of a {@unit = Defiler MP}?
+- {@unit = Defiler MP} {@property = energy cost}?
+- What is the {@property = duration} of the ability {@unit = Defiler MP Dark Swarm}?
+- {@unit = Defiler MP Dark Swarm} {@property = duration}?
+- What is the {@property = radius} of the Defiler MP ability {@unit = Defiler MP Dark Swarm}?
+- {@unit = Defiler MP} {@property = radius}?
+- What is the {@property = range} of the Defiler MP ability {@unit = Defiler MP Dark Swarm}?
+- {@unit = Defiler MP} {@property = range}?
+- What is the {@property = energy cost} of a {@unit = Defiler MP}?
+- {@unit = Defiler MP} {@property = energy cost}?
+- What is the {@property = duration} of the ability {@unit = Defiler MP Plague}?
+- {@unit = Defiler MP Plague} {@property = duration}?
+- What is the {@property = radius} of the Defiler MP ability {@unit = Defiler MP Plague}?
+- {@unit = Defiler MP} {@property = radius}?
+- What is the {@property = range} of the Defiler MP ability {@unit = Defiler MP Plague}?
+- {@unit = Defiler MP} {@property = range}?
+- What is the {@property = duration} of the ability {@unit = Defiler MP Burrow}?
+- {@unit = Defiler MP Burrow} {@property = duration}?
+- What is the {@property = armor} of a {@unit = Defiler MP Burrowed}?
+- How much {@property = armor} does the {@unit = Defiler MP Burrowed} have?
+- What is the {@property = radius} of a {@unit = Defiler MP Burrowed}?
+- {@unit = Defiler MP Burrowed} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Defiler MP Burrowed}?
+- How far can the {@unit = Defiler MP Burrowed} {@property = see}?
+- {@unit = Defiler MP Burrowed} {@property = sight radius}?
+- What is the {@property = armor} of a {@unit = Devourer Cocoon MP}?
+- How much {@property = armor} does the {@unit = Devourer Cocoon MP} have?
+- What is the {@property = radius} of a {@unit = Devourer Cocoon MP}?
+- {@unit = Devourer Cocoon MP} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Devourer Cocoon MP}?
+- How far can the {@unit = Devourer Cocoon MP} {@property = see}?
+- {@unit = Devourer Cocoon MP} {@property = sight radius}?
+- What is the {@property = armor} of a {@unit = Disruptor}?
+- How much {@property = armor} does the {@unit = Disruptor} have?
+- What is the {@property = mineral cost} of a {@unit = Disruptor}?
+- How many {@property = minerals} does the {@unit = Disruptor} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Disruptor}?
+- How much {@property = vespene} does the {@unit = Disruptor} cost?
+- {@unit = Disruptor} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Disruptor}?
+- How much does the {@unit = Disruptor} {@property = cost}?
+- {@unit = Disruptor} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Disruptor}?
+- How many {@property = supply} is the {@unit = Disruptor}?
+- {@unit = Disruptor} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Disruptor}?
+- How much {@property = time} does the {@unit = Disruptor} take to build?
+- {@unit = Disruptor} {@property = build time}?
+- What are the {@property = shields} of a {@unit = Disruptor}?
+- How much {@property = shields} does the {@unit = Disruptor} have?
+- {@unit = Disruptor} {@property = shields}?
+- What are the {@property = shields} of a {@unit = Disruptor}?
+- How much {@property = shields} does the {@unit = Disruptor} have?
+- {@unit = Disruptor} {@property = shields}?
+- What is the {@property = radius} of a {@unit = Disruptor}?
+- {@unit = Disruptor} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Disruptor}?
+- How far can the {@unit = Disruptor} {@property = see}?
+- {@unit = Disruptor} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Disruptor}?
+- What is the {@property = speed} of a {@unit = Disruptor}?
+- How fast is the {@unit = Disruptor}?
+- {@unit = Disruptor} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Disruptor}?
+- {@unit = Disruptor} {@property = acceleration}?
+- What is the {@property = cooldown} of a {@unit = Disruptor}?
+- {@unit = Disruptor} {@property = cooldown}?
+- What is the {@property = armor} of a {@unit = Disruptor Phased}?
+- How much {@property = armor} does the {@unit = Disruptor Phased} have?
+- What are the {@property = shields} of a {@unit = Disruptor Phased}?
+- How much {@property = shields} does the {@unit = Disruptor Phased} have?
+- {@unit = Disruptor Phased} {@property = shields}?
+- What are the {@property = shields} of a {@unit = Disruptor Phased}?
+- How much {@property = shields} does the {@unit = Disruptor Phased} have?
+- {@unit = Disruptor Phased} {@property = shields}?
+- What is the {@property = radius} of a {@unit = Disruptor Phased}?
+- {@unit = Disruptor Phased} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Disruptor Phased}?
+- How far can the {@unit = Disruptor Phased} {@property = see}?
+- {@unit = Disruptor Phased} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Disruptor Phased}?
+- What is the {@property = speed} of a {@unit = Disruptor Phased}?
+- How fast is the {@unit = Disruptor Phased}?
+- {@unit = Disruptor Phased} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Disruptor Phased}?
+- {@unit = Disruptor Phased} {@property = acceleration}?
+- What is the {@property = armor} of a {@unit = Drone}?
+- How much {@property = armor} does the {@unit = Drone} have?
+- What is the {@property = mineral cost} of a {@unit = Drone}?
+- How many {@property = minerals} does the {@unit = Drone} cost?
+- What is the {@property = supply} of a {@unit = Drone}?
+- How many {@property = supply} is the {@unit = Drone}?
+- {@unit = Drone} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Drone}?
+- How much {@property = time} does the {@unit = Drone} take to build?
+- {@unit = Drone} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Drone}?
+- {@unit = Drone} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Drone}?
+- How far can the {@unit = Drone} {@property = see}?
+- {@unit = Drone} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Drone}?
+- What is the {@property = speed} of a {@unit = Drone}?
+- How fast is the {@unit = Drone}?
+- {@unit = Drone} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Drone}?
+- {@unit = Drone} {@property = acceleration}?
+- What is the {@property = duration} of the ability {@unit = Burrow Drone Down}?
+- {@unit = Burrow Drone Down} {@property = duration}?
+- What is the {@property = range} of the Drone ability {@unit = Spray Zerg}?
+- {@unit = Drone} {@property = range}?
+- What is the {@property = armor} of a {@unit = Drone Burrowed}?
+- How much {@property = armor} does the {@unit = Drone Burrowed} have?
+- What is the {@property = radius} of a {@unit = Drone Burrowed}?
+- {@unit = Drone Burrowed} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Drone Burrowed}?
+- How far can the {@unit = Drone Burrowed} {@property = see}?
+- {@unit = Drone Burrowed} {@property = sight radius}?
+- What is the {@property = armor} of an {@unit = Egg}?
+- How much {@property = armor} does the {@unit = Egg} have?
+- What is the {@property = radius} of an {@unit = Egg}?
+- {@unit = Egg} {@property = radius}?
+- What is the {@property = sight radius} of an {@unit = Egg}?
+- How far can the {@unit = Egg} {@property = see}?
+- {@unit = Egg} {@property = sight radius}?
+- What is the {@property = radius} of a {@unit = Force Field}?
+- {@unit = Force Field} {@property = radius}?
+- What is the {@property = armor} of a {@unit = Ghost}?
+- How much {@property = armor} does the {@unit = Ghost} have?
+- What is the {@property = mineral cost} of a {@unit = Ghost}?
+- How many {@property = minerals} does the {@unit = Ghost} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Ghost}?
+- How much {@property = vespene} does the {@unit = Ghost} cost?
+- {@unit = Ghost} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Ghost}?
+- How much does the {@unit = Ghost} {@property = cost}?
+- {@unit = Ghost} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Ghost}?
+- How many {@property = supply} is the {@unit = Ghost}?
+- {@unit = Ghost} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Ghost}?
+- How much {@property = time} does the {@unit = Ghost} take to build?
+- {@unit = Ghost} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Ghost}?
+- {@unit = Ghost} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Ghost}?
+- How far can the {@unit = Ghost} {@property = see}?
+- {@unit = Ghost} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Ghost}?
+- What is the {@property = speed} of a {@unit = Ghost}?
+- How fast is the {@unit = Ghost}?
+- {@unit = Ghost} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Ghost}?
+- {@unit = Ghost} {@property = acceleration}?
+- What is the {@property = energy cost} of a {@unit = Ghost}?
+- {@unit = Ghost} {@property = energy cost}?
+- What is the {@property = energy cost} of a {@unit = Ghost}?
+- {@unit = Ghost} {@property = energy cost}?
+- What is the {@property = range} of the Ghost ability {@unit = Channel Snipe}?
+- {@unit = Ghost} {@property = range}?
+- What is the {@property = radius} of the Ghost ability {@unit = Tac Nuke Strike}?
+- {@unit = Ghost} {@property = radius}?
+- What is the {@property = range} of the Ghost ability {@unit = Tac Nuke Strike}?
+- {@unit = Ghost} {@property = range}?
+- What is the {@property = energy cost} of a {@unit = Ghost}?
+- {@unit = Ghost} {@property = energy cost}?
+- What is the {@property = duration} of the ability {@unit = EMP}?
+- {@unit = EMP} {@property = duration}?
+- What is the {@property = radius} of the Ghost ability {@unit = EMP}?
+- {@unit = Ghost} {@property = radius}?
+- What is the {@property = range} of the Ghost ability {@unit = EMP}?
+- {@unit = Ghost} {@property = range}?
+- What is the {@property = armor} of a {@unit = Ghost Alternate}?
+- How much {@property = armor} does the {@unit = Ghost Alternate} have?
+- What is the {@property = radius} of a {@unit = Ghost Alternate}?
+- {@unit = Ghost Alternate} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Ghost Alternate}?
+- How far can the {@unit = Ghost Alternate} {@property = see}?
+- {@unit = Ghost Alternate} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Ghost Alternate}?
+- What is the {@property = speed} of a {@unit = Ghost Alternate}?
+- How fast is the {@unit = Ghost Alternate}?
+- {@unit = Ghost Alternate} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Ghost Alternate}?
+- {@unit = Ghost Alternate} {@property = acceleration}?
+- What is the {@property = energy cost} of a {@unit = Ghost Alternate}?
+- {@unit = Ghost Alternate} {@property = energy cost}?
+- What is the {@property = radius} of the Ghost Alternate ability {@unit = Tac Nuke Strike}?
+- {@unit = Ghost Alternate} {@property = radius}?
+- What is the {@property = range} of the Ghost Alternate ability {@unit = Tac Nuke Strike}?
+- {@unit = Ghost Alternate} {@property = range}?
+- What is the {@property = energy cost} of a {@unit = Ghost Alternate}?
+- {@unit = Ghost Alternate} {@property = energy cost}?
+- What is the {@property = duration} of the ability {@unit = EMP}?
+- {@unit = EMP} {@property = duration}?
+- What is the {@property = radius} of the Ghost Alternate ability {@unit = EMP}?
+- {@unit = Ghost Alternate} {@property = radius}?
+- What is the {@property = range} of the Ghost Alternate ability {@unit = EMP}?
+- {@unit = Ghost Alternate} {@property = range}?
+- What is the {@property = energy cost} of a {@unit = Ghost Alternate}?
+- {@unit = Ghost Alternate} {@property = energy cost}?
+- What is the {@property = range} of the Ghost Alternate ability {@unit = Channel Snipe}?
+- {@unit = Ghost Alternate} {@property = range}?
+- What is the {@property = armor} of a {@unit = Ghost Nova}?
+- How much {@property = armor} does the {@unit = Ghost Nova} have?
+- What is the {@property = radius} of a {@unit = Ghost Nova}?
+- {@unit = Ghost Nova} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Ghost Nova}?
+- How far can the {@unit = Ghost Nova} {@property = see}?
+- {@unit = Ghost Nova} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Ghost Nova}?
+- What is the {@property = speed} of a {@unit = Ghost Nova}?
+- How fast is the {@unit = Ghost Nova}?
+- {@unit = Ghost Nova} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Ghost Nova}?
+- {@unit = Ghost Nova} {@property = acceleration}?
+- What is the {@property = energy cost} of a {@unit = Ghost Nova}?
+- {@unit = Ghost Nova} {@property = energy cost}?
+- What is the {@property = energy cost} of a {@unit = Ghost Nova}?
+- {@unit = Ghost Nova} {@property = energy cost}?
+- What is the {@property = range} of the Ghost Nova ability {@unit = Channel Snipe}?
+- {@unit = Ghost Nova} {@property = range}?
+- What is the {@property = radius} of the Ghost Nova ability {@unit = Tac Nuke Strike}?
+- {@unit = Ghost Nova} {@property = radius}?
+- What is the {@property = range} of the Ghost Nova ability {@unit = Tac Nuke Strike}?
+- {@unit = Ghost Nova} {@property = range}?
+- What is the {@property = energy cost} of a {@unit = Ghost Nova}?
+- {@unit = Ghost Nova} {@property = energy cost}?
+- What is the {@property = duration} of the ability {@unit = EMP}?
+- {@unit = EMP} {@property = duration}?
+- What is the {@property = radius} of the Ghost Nova ability {@unit = EMP}?
+- {@unit = Ghost Nova} {@property = radius}?
+- What is the {@property = range} of the Ghost Nova ability {@unit = EMP}?
+- {@unit = Ghost Nova} {@property = range}?
+- What is the {@property = armor} of a {@unit = Guardian Cocoon MP}?
+- How much {@property = armor} does the {@unit = Guardian Cocoon MP} have?
+- What is the {@property = radius} of a {@unit = Guardian Cocoon MP}?
+- {@unit = Guardian Cocoon MP} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Guardian Cocoon MP}?
+- How far can the {@unit = Guardian Cocoon MP} {@property = see}?
+- {@unit = Guardian Cocoon MP} {@property = sight radius}?
+- What is the {@property = armor} of a {@unit = Guardian MP}?
+- How much {@property = armor} does the {@unit = Guardian MP} have?
+- What is the {@property = radius} of a {@unit = Guardian MP}?
+- {@unit = Guardian MP} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Guardian MP}?
+- How far can the {@unit = Guardian MP} {@property = see}?
+- {@unit = Guardian MP} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Guardian MP}?
+- What is the {@property = speed} of a {@unit = Guardian MP}?
+- How fast is the {@unit = Guardian MP}?
+- {@unit = Guardian MP} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Guardian MP}?
+- {@unit = Guardian MP} {@property = acceleration}?
+- What is the {@property = armor} of a {@unit = Hellion}?
+- How much {@property = armor} does the {@unit = Hellion} have?
+- What is the {@property = mineral cost} of a {@unit = Hellion}?
+- How many {@property = minerals} does the {@unit = Hellion} cost?
+- What is the {@property = supply} of a {@unit = Hellion}?
+- How many {@property = supply} is the {@unit = Hellion}?
+- {@unit = Hellion} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Hellion}?
+- How much {@property = time} does the {@unit = Hellion} take to build?
+- {@unit = Hellion} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Hellion}?
+- {@unit = Hellion} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Hellion}?
+- How far can the {@unit = Hellion} {@property = see}?
+- {@unit = Hellion} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Hellion}?
+- What is the {@property = speed} of a {@unit = Hellion}?
+- How fast is the {@unit = Hellion}?
+- {@unit = Hellion} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Hellion}?
+- {@unit = Hellion} {@property = acceleration}?
+- What is the {@property = duration} of the ability {@unit = Morph To Hellion Tank}?
+- {@unit = Morph To Hellion Tank} {@property = duration}?
+- What is the {@property = armor} of a {@unit = Hellion Tank}?
+- How much {@property = armor} does the {@unit = Hellion Tank} have?
+- What is the {@property = mineral cost} of a {@unit = Hellion Tank}?
+- How many {@property = minerals} does the {@unit = Hellion Tank} cost?
+- What is the {@property = supply} of a {@unit = Hellion Tank}?
+- How many {@property = supply} is the {@unit = Hellion Tank}?
+- {@unit = Hellion Tank} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Hellion Tank}?
+- How much {@property = time} does the {@unit = Hellion Tank} take to build?
+- {@unit = Hellion Tank} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Hellion Tank}?
+- {@unit = Hellion Tank} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Hellion Tank}?
+- How far can the {@unit = Hellion Tank} {@property = see}?
+- {@unit = Hellion Tank} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Hellion Tank}?
+- What is the {@property = speed} of a {@unit = Hellion Tank}?
+- How fast is the {@unit = Hellion Tank}?
+- {@unit = Hellion Tank} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Hellion Tank}?
+- {@unit = Hellion Tank} {@property = acceleration}?
+- What is the {@property = duration} of the ability {@unit = Morph To Hellion}?
+- {@unit = Morph To Hellion} {@property = duration}?
+- What is the {@property = armor} of a {@unit = HERC}?
+- How much {@property = armor} does the {@unit = HERC} have?
+- What is the {@property = radius} of a {@unit = HERC}?
+- {@unit = HERC} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = HERC}?
+- How far can the {@unit = HERC} {@property = see}?
+- {@unit = HERC} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = HERC}?
+- What is the {@property = speed} of a {@unit = HERC}?
+- How fast is the {@unit = HERC}?
+- {@unit = HERC} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = HERC}?
+- {@unit = HERC} {@property = acceleration}?
+- What is the {@property = armor} of a {@unit = High Templar}?
+- How much {@property = armor} does the {@unit = High Templar} have?
+- What is the {@property = mineral cost} of a {@unit = High Templar}?
+- How many {@property = minerals} does the {@unit = High Templar} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = High Templar}?
+- How much {@property = vespene} does the {@unit = High Templar} cost?
+- {@unit = High Templar} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = High Templar}?
+- How much does the {@unit = High Templar} {@property = cost}?
+- {@unit = High Templar} {@property = cost}?
+- What is the {@property = supply} of a {@unit = High Templar}?
+- How many {@property = supply} is the {@unit = High Templar}?
+- {@unit = High Templar} {@property = supply}?
+- What is the {@property = build time} of a {@unit = High Templar}?
+- How much {@property = time} does the {@unit = High Templar} take to build?
+- {@unit = High Templar} {@property = build time}?
+- What are the {@property = shields} of a {@unit = High Templar}?
+- How much {@property = shields} does the {@unit = High Templar} have?
+- {@unit = High Templar} {@property = shields}?
+- What are the {@property = shields} of a {@unit = High Templar}?
+- How much {@property = shields} does the {@unit = High Templar} have?
+- {@unit = High Templar} {@property = shields}?
+- What is the {@property = radius} of a {@unit = High Templar}?
+- {@unit = High Templar} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = High Templar}?
+- How far can the {@unit = High Templar} {@property = see}?
+- {@unit = High Templar} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = High Templar}?
+- What is the {@property = speed} of a {@unit = High Templar}?
+- How fast is the {@unit = High Templar}?
+- {@unit = High Templar} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = High Templar}?
+- {@unit = High Templar} {@property = acceleration}?
+- What is the {@property = cooldown} of a {@unit = High Templar}?
+- {@unit = High Templar} {@property = cooldown}?
+- What is the {@property = energy cost} of a {@unit = High Templar}?
+- {@unit = High Templar} {@property = energy cost}?
+- What is the {@property = radius} of the High Templar ability {@unit = Psi Storm}?
+- {@unit = High Templar} {@property = radius}?
+- What is the {@property = range} of the High Templar ability {@unit = Psi Storm}?
+- {@unit = High Templar} {@property = range}?
+- What is the {@property = duration} of the ability {@unit = Archon Warp Selected Units}?
+- {@unit = Archon Warp Selected Units} {@property = duration}?
+- What is the {@property = energy cost} of a {@unit = High Templar}?
+- {@unit = High Templar} {@property = energy cost}?
+- What is the {@property = range} of the High Templar ability {@unit = Feedback}?
+- {@unit = High Templar} {@property = range}?
+- What is the {@property = radius} of a {@unit = High Templar Skin Preview}?
+- {@unit = High Templar Skin Preview} {@property = radius}?
+- What is the {@property = armor} of a {@unit = Hydralisk}?
+- How much {@property = armor} does the {@unit = Hydralisk} have?
+- What is the {@property = mineral cost} of a {@unit = Hydralisk}?
+- How many {@property = minerals} does the {@unit = Hydralisk} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Hydralisk}?
+- How much {@property = vespene} does the {@unit = Hydralisk} cost?
+- {@unit = Hydralisk} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Hydralisk}?
+- How much does the {@unit = Hydralisk} {@property = cost}?
+- {@unit = Hydralisk} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Hydralisk}?
+- How many {@property = supply} is the {@unit = Hydralisk}?
+- {@unit = Hydralisk} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Hydralisk}?
+- How much {@property = time} does the {@unit = Hydralisk} take to build?
+- {@unit = Hydralisk} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Hydralisk}?
+- {@unit = Hydralisk} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Hydralisk}?
+- How far can the {@unit = Hydralisk} {@property = see}?
+- {@unit = Hydralisk} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Hydralisk}?
+- What is the {@property = speed} of a {@unit = Hydralisk}?
+- How fast is the {@unit = Hydralisk}?
+- {@unit = Hydralisk} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Hydralisk}?
+- {@unit = Hydralisk} {@property = acceleration}?
+- What is the {@property = duration} of the ability {@unit = Burrow Hydralisk Down}?
+- {@unit = Burrow Hydralisk Down} {@property = duration}?
+- What is the {@property = duration} of the ability {@unit = Morph To Lurker}?
+- {@unit = Morph To Lurker} {@property = duration}?
+- What is the {@property = armor} of a {@unit = Hydralisk Burrowed}?
+- How much {@property = armor} does the {@unit = Hydralisk Burrowed} have?
+- What is the {@property = radius} of a {@unit = Hydralisk Burrowed}?
+- {@unit = Hydralisk Burrowed} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Hydralisk Burrowed}?
+- How far can the {@unit = Hydralisk Burrowed} {@property = see}?
+- {@unit = Hydralisk Burrowed} {@property = sight radius}?
+- What is the {@property = armor} of an {@unit = Immortal}?
+- How much {@property = armor} does the {@unit = Immortal} have?
+- What is the {@property = mineral cost} of an {@unit = Immortal}?
+- How many {@property = minerals} does the {@unit = Immortal} cost?
+- What is the {@property = vespene} {@property = cost} of an {@unit = Immortal}?
+- How much {@property = vespene} does the {@unit = Immortal} cost?
+- {@unit = Immortal} {@property = vespene}?
+- What is the {@property = cost} of an {@unit = Immortal}?
+- How much does the {@unit = Immortal} {@property = cost}?
+- {@unit = Immortal} {@property = cost}?
+- What is the {@property = supply} of an {@unit = Immortal}?
+- How many {@property = supply} is the {@unit = Immortal}?
+- {@unit = Immortal} {@property = supply}?
+- What is the {@property = build time} of an {@unit = Immortal}?
+- How much {@property = time} does the {@unit = Immortal} take to build?
+- {@unit = Immortal} {@property = build time}?
+- What are the {@property = shields} of an {@unit = Immortal}?
+- How much {@property = shields} does the {@unit = Immortal} have?
+- {@unit = Immortal} {@property = shields}?
+- What are the {@property = shields} of an {@unit = Immortal}?
+- How much {@property = shields} does the {@unit = Immortal} have?
+- {@unit = Immortal} {@property = shields}?
+- What is the {@property = radius} of an {@unit = Immortal}?
+- {@unit = Immortal} {@property = radius}?
+- What is the {@property = sight radius} of an {@unit = Immortal}?
+- How far can the {@unit = Immortal} {@property = see}?
+- {@unit = Immortal} {@property = sight radius}?
+- What is the {@property = movement speed} of an {@unit = Immortal}?
+- What is the {@property = speed} of an {@unit = Immortal}?
+- How fast is the {@unit = Immortal}?
+- {@unit = Immortal} {@property = speed}?
+- What is the {@property = acceleration} of an {@unit = Immortal}?
+- {@unit = Immortal} {@property = acceleration}?
+- What is the {@property = armor} of an {@unit = Infested Terrans Egg}?
+- How much {@property = armor} does the {@unit = Infested Terrans Egg} have?
+- What is the {@property = radius} of an {@unit = Infested Terrans Egg}?
+- {@unit = Infested Terrans Egg} {@property = radius}?
+- What is the {@property = radius} of an {@unit = Infested Terrans Egg Placement}?
+- {@unit = Infested Terrans Egg Placement} {@property = radius}?
+- What is the {@property = armor} of an {@unit = Infestor}?
+- How much {@property = armor} does the {@unit = Infestor} have?
+- What is the {@property = mineral cost} of an {@unit = Infestor}?
+- How many {@property = minerals} does the {@unit = Infestor} cost?
+- What is the {@property = vespene} {@property = cost} of an {@unit = Infestor}?
+- How much {@property = vespene} does the {@unit = Infestor} cost?
+- {@unit = Infestor} {@property = vespene}?
+- What is the {@property = cost} of an {@unit = Infestor}?
+- How much does the {@unit = Infestor} {@property = cost}?
+- {@unit = Infestor} {@property = cost}?
+- What is the {@property = supply} of an {@unit = Infestor}?
+- How many {@property = supply} is the {@unit = Infestor}?
+- {@unit = Infestor} {@property = supply}?
+- What is the {@property = build time} of an {@unit = Infestor}?
+- How much {@property = time} does the {@unit = Infestor} take to build?
+- {@unit = Infestor} {@property = build time}?
+- What is the {@property = radius} of an {@unit = Infestor}?
+- {@unit = Infestor} {@property = radius}?
+- What is the {@property = sight radius} of an {@unit = Infestor}?
+- How far can the {@unit = Infestor} {@property = see}?
+- {@unit = Infestor} {@property = sight radius}?
+- What is the {@property = movement speed} of an {@unit = Infestor}?
+- What is the {@property = speed} of an {@unit = Infestor}?
+- How fast is the {@unit = Infestor}?
+- {@unit = Infestor} {@property = speed}?
+- What is the {@property = acceleration} of an {@unit = Infestor}?
+- {@unit = Infestor} {@property = acceleration}?
+- What is the {@property = duration} of the ability {@unit = Burrow Infestor Down}?
+- {@unit = Burrow Infestor Down} {@property = duration}?
+- What is the {@property = energy cost} of an {@unit = Infestor}?
+- {@unit = Infestor} {@property = energy cost}?
+- What is the {@property = range} of the Infestor ability {@unit = Neural Parasite}?
+- {@unit = Infestor} {@property = range}?
+- What is the {@property = energy cost} of an {@unit = Infestor}?
+- {@unit = Infestor} {@property = energy cost}?
+- What is the {@property = radius} of the Infestor ability {@unit = Fungal Growth}?
+- {@unit = Infestor} {@property = radius}?
+- What is the {@property = range} of the Infestor ability {@unit = Fungal Growth}?
+- {@unit = Infestor} {@property = range}?
+- What is the {@property = energy cost} of an {@unit = Infestor}?
+- {@unit = Infestor} {@property = energy cost}?
+- What is the {@property = radius} of the Infestor ability {@unit = Amorphous Armorcloud}?
+- {@unit = Infestor} {@property = radius}?
+- What is the {@property = range} of the Infestor ability {@unit = Amorphous Armorcloud}?
+- {@unit = Infestor} {@property = range}?
+- What is the {@property = armor} of an {@unit = Infestor Burrowed}?
+- How much {@property = armor} does the {@unit = Infestor Burrowed} have?
+- What is the {@property = radius} of an {@unit = Infestor Burrowed}?
+- {@unit = Infestor Burrowed} {@property = radius}?
+- What is the {@property = sight radius} of an {@unit = Infestor Burrowed}?
+- How far can the {@unit = Infestor Burrowed} {@property = see}?
+- {@unit = Infestor Burrowed} {@property = sight radius}?
+- What is the {@property = movement speed} of an {@unit = Infestor Burrowed}?
+- What is the {@property = speed} of an {@unit = Infestor Burrowed}?
+- How fast is the {@unit = Infestor Burrowed}?
+- {@unit = Infestor Burrowed} {@property = speed}?
+- What is the {@property = acceleration} of an {@unit = Infestor Burrowed}?
+- {@unit = Infestor Burrowed} {@property = acceleration}?
+- What is the {@property = duration} of the ability {@unit = Burrow Infestor Up}?
+- {@unit = Burrow Infestor Up} {@property = duration}?
+- What is the {@property = energy cost} of an {@unit = Infestor Burrowed}?
+- {@unit = Infestor Burrowed} {@property = energy cost}?
+- What is the {@property = range} of the Infestor Burrowed ability {@unit = Neural Parasite}?
+- {@unit = Infestor Burrowed} {@property = range}?
+- What is the {@property = armor} of an {@unit = Infestor Terran}?
+- How much {@property = armor} does the {@unit = Infestor Terran} have?
+- What is the {@property = radius} of an {@unit = Infestor Terran}?
+- {@unit = Infestor Terran} {@property = radius}?
+- What is the {@property = sight radius} of an {@unit = Infestor Terran}?
+- How far can the {@unit = Infestor Terran} {@property = see}?
+- {@unit = Infestor Terran} {@property = sight radius}?
+- What is the {@property = movement speed} of an {@unit = Infestor Terran}?
+- What is the {@property = speed} of an {@unit = Infestor Terran}?
+- How fast is the {@unit = Infestor Terran}?
+- {@unit = Infestor Terran} {@property = speed}?
+- What is the {@property = acceleration} of an {@unit = Infestor Terran}?
+- {@unit = Infestor Terran} {@property = acceleration}?
+- What is the {@property = duration} of the ability {@unit = Burrow Infestor Terran Down}?
+- {@unit = Burrow Infestor Terran Down} {@property = duration}?
+- What is the {@property = armor} of an {@unit = Infestor Terran Burrowed}?
+- How much {@property = armor} does the {@unit = Infestor Terran Burrowed} have?
+- What is the {@property = radius} of an {@unit = Infestor Terran Burrowed}?
+- {@unit = Infestor Terran Burrowed} {@property = radius}?
+- What is the {@property = sight radius} of an {@unit = Infestor Terran Burrowed}?
+- How far can the {@unit = Infestor Terran Burrowed} {@property = see}?
+- {@unit = Infestor Terran Burrowed} {@property = sight radius}?
+- What is the {@property = armor} of an {@unit = Interceptor}?
+- How much {@property = armor} does the {@unit = Interceptor} have?
+- What is the {@property = mineral cost} of an {@unit = Interceptor}?
+- How many {@property = minerals} does the {@unit = Interceptor} cost?
+- What is the {@property = build time} of an {@unit = Interceptor}?
+- How much {@property = time} does the {@unit = Interceptor} take to build?
+- {@unit = Interceptor} {@property = build time}?
+- What are the {@property = shields} of an {@unit = Interceptor}?
+- How much {@property = shields} does the {@unit = Interceptor} have?
+- {@unit = Interceptor} {@property = shields}?
+- What are the {@property = shields} of an {@unit = Interceptor}?
+- How much {@property = shields} does the {@unit = Interceptor} have?
+- {@unit = Interceptor} {@property = shields}?
+- What is the {@property = radius} of an {@unit = Interceptor}?
+- {@unit = Interceptor} {@property = radius}?
+- What is the {@property = sight radius} of an {@unit = Interceptor}?
+- How far can the {@unit = Interceptor} {@property = see}?
+- {@unit = Interceptor} {@property = sight radius}?
+- What is the {@property = movement speed} of an {@unit = Interceptor}?
+- What is the {@property = speed} of an {@unit = Interceptor}?
+- How fast is the {@unit = Interceptor}?
+- {@unit = Interceptor} {@property = speed}?
+- What is the {@property = acceleration} of an {@unit = Interceptor}?
+- {@unit = Interceptor} {@property = acceleration}?
+- What is the {@property = armor} of a {@unit = Larva}?
+- How much {@property = armor} does the {@unit = Larva} have?
+- What is the {@property = radius} of a {@unit = Larva}?
+- {@unit = Larva} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Larva}?
+- How far can the {@unit = Larva} {@property = see}?
+- {@unit = Larva} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Larva}?
+- What is the {@property = speed} of a {@unit = Larva}?
+- How fast is the {@unit = Larva}?
+- {@unit = Larva} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Larva}?
+- {@unit = Larva} {@property = acceleration}?
+- What is the {@property = armor} of a {@unit = Liberator}?
+- How much {@property = armor} does the {@unit = Liberator} have?
+- What is the {@property = mineral cost} of a {@unit = Liberator}?
+- How many {@property = minerals} does the {@unit = Liberator} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Liberator}?
+- How much {@property = vespene} does the {@unit = Liberator} cost?
+- {@unit = Liberator} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Liberator}?
+- How much does the {@unit = Liberator} {@property = cost}?
+- {@unit = Liberator} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Liberator}?
+- How many {@property = supply} is the {@unit = Liberator}?
+- {@unit = Liberator} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Liberator}?
+- How much {@property = time} does the {@unit = Liberator} take to build?
+- {@unit = Liberator} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Liberator}?
+- {@unit = Liberator} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Liberator}?
+- How far can the {@unit = Liberator} {@property = see}?
+- {@unit = Liberator} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Liberator}?
+- What is the {@property = speed} of a {@unit = Liberator}?
+- How fast is the {@unit = Liberator}?
+- {@unit = Liberator} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Liberator}?
+- {@unit = Liberator} {@property = acceleration}?
+- What is the {@property = range} of the Liberator ability {@unit = Liberator AG Target}?
+- {@unit = Liberator} {@property = range}?
+- What is the {@property = armor} of a {@unit = Liberator AG}?
+- How much {@property = armor} does the {@unit = Liberator AG} have?
+- What is the {@property = radius} of a {@unit = Liberator AG}?
+- {@unit = Liberator AG} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Liberator AG}?
+- How far can the {@unit = Liberator AG} {@property = see}?
+- {@unit = Liberator AG} {@property = sight radius}?
+- What is the {@property = radius} of a {@unit = Liberator Skin Preview}?
+- {@unit = Liberator Skin Preview} {@property = radius}?
+- What is the {@property = armor} of a {@unit = Locust MP}?
+- How much {@property = armor} does the {@unit = Locust MP} have?
+- What is the {@property = radius} of a {@unit = Locust MP}?
+- {@unit = Locust MP} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Locust MP}?
+- How far can the {@unit = Locust MP} {@property = see}?
+- {@unit = Locust MP} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Locust MP}?
+- What is the {@property = speed} of a {@unit = Locust MP}?
+- How fast is the {@unit = Locust MP}?
+- {@unit = Locust MP} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Locust MP}?
+- {@unit = Locust MP} {@property = acceleration}?
+- What is the {@property = armor} of a {@unit = Locust MP Flying}?
+- How much {@property = armor} does the {@unit = Locust MP Flying} have?
+- What is the {@property = radius} of a {@unit = Locust MP Flying}?
+- {@unit = Locust MP Flying} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Locust MP Flying}?
+- How far can the {@unit = Locust MP Flying} {@property = see}?
+- {@unit = Locust MP Flying} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Locust MP Flying}?
+- What is the {@property = speed} of a {@unit = Locust MP Flying}?
+- How fast is the {@unit = Locust MP Flying}?
+- {@unit = Locust MP Flying} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Locust MP Flying}?
+- {@unit = Locust MP Flying} {@property = acceleration}?
+- What is the {@property = range} of the Locust MP Flying ability {@unit = Locust MP Flying Swoop}?
+- {@unit = Locust MP Flying} {@property = range}?
+- What is the {@property = armor} of a {@unit = Lurker MP}?
+- How much {@property = armor} does the {@unit = Lurker MP} have?
+- What is the {@property = mineral cost} of a {@unit = Lurker MP}?
+- How many {@property = minerals} does the {@unit = Lurker MP} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Lurker MP}?
+- How much {@property = vespene} does the {@unit = Lurker MP} cost?
+- {@unit = Lurker MP} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Lurker MP}?
+- How much does the {@unit = Lurker MP} {@property = cost}?
+- {@unit = Lurker MP} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Lurker MP}?
+- How many {@property = supply} is the {@unit = Lurker MP}?
+- {@unit = Lurker MP} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Lurker MP}?
+- How much {@property = time} does the {@unit = Lurker MP} take to build?
+- {@unit = Lurker MP} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Lurker MP}?
+- {@unit = Lurker MP} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Lurker MP}?
+- How far can the {@unit = Lurker MP} {@property = see}?
+- {@unit = Lurker MP} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Lurker MP}?
+- What is the {@property = speed} of a {@unit = Lurker MP}?
+- How fast is the {@unit = Lurker MP}?
+- {@unit = Lurker MP} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Lurker MP}?
+- {@unit = Lurker MP} {@property = acceleration}?
+- What is the {@property = duration} of the ability {@unit = Burrow Lurker MP Down}?
+- {@unit = Burrow Lurker MP Down} {@property = duration}?
+- What is the {@property = armor} of a {@unit = Lurker MP Burrowed}?
+- How much {@property = armor} does the {@unit = Lurker MP Burrowed} have?
+- What is the {@property = radius} of a {@unit = Lurker MP Burrowed}?
+- {@unit = Lurker MP Burrowed} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Lurker MP Burrowed}?
+- How far can the {@unit = Lurker MP Burrowed} {@property = see}?
+- {@unit = Lurker MP Burrowed} {@property = sight radius}?
+- What is the {@property = armor} of a {@unit = Lurker MP Egg}?
+- How much {@property = armor} does the {@unit = Lurker MP Egg} have?
+- What is the {@property = mineral cost} of a {@unit = Lurker MP Egg}?
+- How many {@property = minerals} does the {@unit = Lurker MP Egg} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Lurker MP Egg}?
+- How much {@property = vespene} does the {@unit = Lurker MP Egg} cost?
+- {@unit = Lurker MP Egg} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Lurker MP Egg}?
+- How much does the {@unit = Lurker MP Egg} {@property = cost}?
+- {@unit = Lurker MP Egg} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Lurker MP Egg}?
+- How many {@property = supply} is the {@unit = Lurker MP Egg}?
+- {@unit = Lurker MP Egg} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Lurker MP Egg}?
+- How much {@property = time} does the {@unit = Lurker MP Egg} take to build?
+- {@unit = Lurker MP Egg} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Lurker MP Egg}?
+- {@unit = Lurker MP Egg} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Lurker MP Egg}?
+- How far can the {@unit = Lurker MP Egg} {@property = see}?
+- {@unit = Lurker MP Egg} {@property = sight radius}?
+- What is the {@property = armor} of a {@unit = Marauder}?
+- How much {@property = armor} does the {@unit = Marauder} have?
+- What is the {@property = mineral cost} of a {@unit = Marauder}?
+- How many {@property = minerals} does the {@unit = Marauder} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Marauder}?
+- How much {@property = vespene} does the {@unit = Marauder} cost?
+- {@unit = Marauder} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Marauder}?
+- How much does the {@unit = Marauder} {@property = cost}?
+- {@unit = Marauder} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Marauder}?
+- How many {@property = supply} is the {@unit = Marauder}?
+- {@unit = Marauder} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Marauder}?
+- How much {@property = time} does the {@unit = Marauder} take to build?
+- {@unit = Marauder} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Marauder}?
+- {@unit = Marauder} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Marauder}?
+- How far can the {@unit = Marauder} {@property = see}?
+- {@unit = Marauder} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Marauder}?
+- What is the {@property = speed} of a {@unit = Marauder}?
+- How fast is the {@unit = Marauder}?
+- {@unit = Marauder} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Marauder}?
+- {@unit = Marauder} {@property = acceleration}?
+- What is the {@property = armor} of a {@unit = Marine}?
+- How much {@property = armor} does the {@unit = Marine} have?
+- What is the {@property = mineral cost} of a {@unit = Marine}?
+- How many {@property = minerals} does the {@unit = Marine} cost?
+- What is the {@property = supply} of a {@unit = Marine}?
+- How many {@property = supply} is the {@unit = Marine}?
+- {@unit = Marine} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Marine}?
+- How much {@property = time} does the {@unit = Marine} take to build?
+- {@unit = Marine} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Marine}?
+- {@unit = Marine} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Marine}?
+- How far can the {@unit = Marine} {@property = see}?
+- {@unit = Marine} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Marine}?
+- What is the {@property = speed} of a {@unit = Marine}?
+- How fast is the {@unit = Marine}?
+- {@unit = Marine} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Marine}?
+- {@unit = Marine} {@property = acceleration}?
+- What is the {@property = armor} of a {@unit = Medivac}?
+- How much {@property = armor} does the {@unit = Medivac} have?
+- What is the {@property = mineral cost} of a {@unit = Medivac}?
+- How many {@property = minerals} does the {@unit = Medivac} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Medivac}?
+- How much {@property = vespene} does the {@unit = Medivac} cost?
+- {@unit = Medivac} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Medivac}?
+- How much does the {@unit = Medivac} {@property = cost}?
+- {@unit = Medivac} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Medivac}?
+- How many {@property = supply} is the {@unit = Medivac}?
+- {@unit = Medivac} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Medivac}?
+- How much {@property = time} does the {@unit = Medivac} take to build?
+- {@unit = Medivac} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Medivac}?
+- {@unit = Medivac} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Medivac}?
+- How far can the {@unit = Medivac} {@property = see}?
+- {@unit = Medivac} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Medivac}?
+- What is the {@property = speed} of a {@unit = Medivac}?
+- How fast is the {@unit = Medivac}?
+- {@unit = Medivac} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Medivac}?
+- {@unit = Medivac} {@property = acceleration}?
+- What is the {@property = range} of the Medivac ability {@unit = Medivac Heal}?
+- {@unit = Medivac} {@property = range}?
+- What is the {@property = range} of the Medivac ability {@unit = Medivac Transport Load}?
+- {@unit = Medivac} {@property = range}?
+- What is the {@property = range} of the Medivac ability {@unit = Medivac Transport Unload At}?
+- {@unit = Medivac} {@property = range}?
+- What is the {@property = cooldown} of a {@unit = Medivac}?
+- {@unit = Medivac} {@property = cooldown}?
+- What is the {@property = armor} of a {@unit = Mothership}?
+- How much {@property = armor} does the {@unit = Mothership} have?
+- What is the {@property = mineral cost} of a {@unit = Mothership}?
+- How many {@property = minerals} does the {@unit = Mothership} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Mothership}?
+- How much {@property = vespene} does the {@unit = Mothership} cost?
+- {@unit = Mothership} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Mothership}?
+- How much does the {@unit = Mothership} {@property = cost}?
+- {@unit = Mothership} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Mothership}?
+- How many {@property = supply} is the {@unit = Mothership}?
+- {@unit = Mothership} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Mothership}?
+- How much {@property = time} does the {@unit = Mothership} take to build?
+- {@unit = Mothership} {@property = build time}?
+- What are the {@property = shields} of a {@unit = Mothership}?
+- How much {@property = shields} does the {@unit = Mothership} have?
+- {@unit = Mothership} {@property = shields}?
+- What are the {@property = shields} of a {@unit = Mothership}?
+- How much {@property = shields} does the {@unit = Mothership} have?
+- {@unit = Mothership} {@property = shields}?
+- What is the {@property = radius} of a {@unit = Mothership}?
+- {@unit = Mothership} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Mothership}?
+- How far can the {@unit = Mothership} {@property = see}?
+- {@unit = Mothership} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Mothership}?
+- What is the {@property = speed} of a {@unit = Mothership}?
+- How fast is the {@unit = Mothership}?
+- {@unit = Mothership} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Mothership}?
+- {@unit = Mothership} {@property = acceleration}?
+- What is the {@property = energy cost} of a {@unit = Mothership}?
+- {@unit = Mothership} {@property = energy cost}?
+- What is the {@property = radius} of the Mothership ability {@unit = Temporal Field}?
+- {@unit = Mothership} {@property = radius}?
+- What is the {@property = range} of the Mothership ability {@unit = Temporal Field}?
+- {@unit = Mothership} {@property = range}?
+- What is the {@property = energy cost} of a {@unit = Mothership}?
+- {@unit = Mothership} {@property = energy cost}?
+- What is the {@property = radius} of the Mothership ability {@unit = Mass Recall}?
+- {@unit = Mothership} {@property = radius}?
+- What is the {@property = armor} of a {@unit = Mothership Core}?
+- How much {@property = armor} does the {@unit = Mothership Core} have?
+- What are the {@property = shields} of a {@unit = Mothership Core}?
+- How much {@property = shields} does the {@unit = Mothership Core} have?
+- {@unit = Mothership Core} {@property = shields}?
+- What is the {@property = radius} of a {@unit = Mothership Core}?
+- {@unit = Mothership Core} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Mothership Core}?
+- How far can the {@unit = Mothership Core} {@property = see}?
+- {@unit = Mothership Core} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Mothership Core}?
+- What is the {@property = speed} of a {@unit = Mothership Core}?
+- How fast is the {@unit = Mothership Core}?
+- {@unit = Mothership Core} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Mothership Core}?
+- {@unit = Mothership Core} {@property = acceleration}?
+- What is the {@property = energy cost} of a {@unit = Mothership Core}?
+- {@unit = Mothership Core} {@property = energy cost}?
+- What is the {@property = radius} of the Mothership Core ability {@unit = Mothership Core Mass Recall}?
+- {@unit = Mothership Core} {@property = radius}?
+- What is the {@property = energy cost} of a {@unit = Mothership Core}?
+- {@unit = Mothership Core} {@property = energy cost}?
+- What is the {@property = radius} of the Mothership Core ability {@unit = Temporal Field}?
+- {@unit = Mothership Core} {@property = radius}?
+- What is the {@property = range} of the Mothership Core ability {@unit = Temporal Field}?
+- {@unit = Mothership Core} {@property = range}?
+- What is the {@property = duration} of the ability {@unit = Morph To Mothership}?
+- {@unit = Morph To Mothership} {@property = duration}?
+- What is the {@property = energy cost} of a {@unit = Mothership Core}?
+- {@unit = Mothership Core} {@property = energy cost}?
+- What is the {@property = range} of the Mothership Core ability {@unit = Mothership Core Purify Nexus}?
+- {@unit = Mothership Core} {@property = range}?
+- What is the {@property = radius} of a {@unit = MULE}?
+- {@unit = MULE} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = MULE}?
+- How far can the {@unit = MULE} {@property = see}?
+- {@unit = MULE} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = MULE}?
+- What is the {@property = speed} of a {@unit = MULE}?
+- How fast is the {@unit = MULE}?
+- {@unit = MULE} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = MULE}?
+- {@unit = MULE} {@property = acceleration}?
+- What is the {@property = armor} of a {@unit = Mutalisk}?
+- How much {@property = armor} does the {@unit = Mutalisk} have?
+- What is the {@property = mineral cost} of a {@unit = Mutalisk}?
+- How many {@property = minerals} does the {@unit = Mutalisk} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Mutalisk}?
+- How much {@property = vespene} does the {@unit = Mutalisk} cost?
+- {@unit = Mutalisk} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Mutalisk}?
+- How much does the {@unit = Mutalisk} {@property = cost}?
+- {@unit = Mutalisk} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Mutalisk}?
+- How many {@property = supply} is the {@unit = Mutalisk}?
+- {@unit = Mutalisk} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Mutalisk}?
+- How much {@property = time} does the {@unit = Mutalisk} take to build?
+- {@unit = Mutalisk} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Mutalisk}?
+- {@unit = Mutalisk} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Mutalisk}?
+- How far can the {@unit = Mutalisk} {@property = see}?
+- {@unit = Mutalisk} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Mutalisk}?
+- What is the {@property = speed} of a {@unit = Mutalisk}?
+- How fast is the {@unit = Mutalisk}?
+- {@unit = Mutalisk} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Mutalisk}?
+- {@unit = Mutalisk} {@property = acceleration}?
+- What is the {@property = mineral cost} of a {@unit = Nuke}?
+- How many {@property = minerals} does the {@unit = Nuke} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Nuke}?
+- How much {@property = vespene} does the {@unit = Nuke} cost?
+- {@unit = Nuke} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Nuke}?
+- How much does the {@unit = Nuke} {@property = cost}?
+- {@unit = Nuke} {@property = cost}?
+- What is the {@property = build time} of a {@unit = Nuke}?
+- How much {@property = time} does the {@unit = Nuke} take to build?
+- {@unit = Nuke} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Nuke}?
+- {@unit = Nuke} {@property = radius}?
+- What is the {@property = armor} of an {@unit = Observer}?
+- How much {@property = armor} does the {@unit = Observer} have?
+- What is the {@property = mineral cost} of an {@unit = Observer}?
+- How many {@property = minerals} does the {@unit = Observer} cost?
+- What is the {@property = vespene} {@property = cost} of an {@unit = Observer}?
+- How much {@property = vespene} does the {@unit = Observer} cost?
+- {@unit = Observer} {@property = vespene}?
+- What is the {@property = cost} of an {@unit = Observer}?
+- How much does the {@unit = Observer} {@property = cost}?
+- {@unit = Observer} {@property = cost}?
+- What is the {@property = supply} of an {@unit = Observer}?
+- How many {@property = supply} is the {@unit = Observer}?
+- {@unit = Observer} {@property = supply}?
+- What is the {@property = build time} of an {@unit = Observer}?
+- How much {@property = time} does the {@unit = Observer} take to build?
+- {@unit = Observer} {@property = build time}?
+- What are the {@property = shields} of an {@unit = Observer}?
+- How much {@property = shields} does the {@unit = Observer} have?
+- {@unit = Observer} {@property = shields}?
+- What are the {@property = shields} of an {@unit = Observer}?
+- How much {@property = shields} does the {@unit = Observer} have?
+- {@unit = Observer} {@property = shields}?
+- What is the {@property = radius} of an {@unit = Observer}?
+- {@unit = Observer} {@property = radius}?
+- What is the {@property = sight radius} of an {@unit = Observer}?
+- How far can the {@unit = Observer} {@property = see}?
+- {@unit = Observer} {@property = sight radius}?
+- What is the {@property = movement speed} of an {@unit = Observer}?
+- What is the {@property = speed} of an {@unit = Observer}?
+- How fast is the {@unit = Observer}?
+- {@unit = Observer} {@property = speed}?
+- What is the {@property = acceleration} of an {@unit = Observer}?
+- {@unit = Observer} {@property = acceleration}?
+- What is the {@property = duration} of the ability {@unit = Observer Morphto Observer Siege}?
+- {@unit = Observer Morphto Observer Siege} {@property = duration}?
+- What is the {@property = armor} of an {@unit = Observer Siege Mode}?
+- How much {@property = armor} does the {@unit = Observer Siege Mode} have?
+- What are the {@property = shields} of an {@unit = Observer Siege Mode}?
+- How much {@property = shields} does the {@unit = Observer Siege Mode} have?
+- {@unit = Observer Siege Mode} {@property = shields}?
+- What are the {@property = shields} of an {@unit = Observer Siege Mode}?
+- How much {@property = shields} does the {@unit = Observer Siege Mode} have?
+- {@unit = Observer Siege Mode} {@property = shields}?
+- What is the {@property = radius} of an {@unit = Observer Siege Mode}?
+- {@unit = Observer Siege Mode} {@property = radius}?
+- What is the {@property = sight radius} of an {@unit = Observer Siege Mode}?
+- How far can the {@unit = Observer Siege Mode} {@property = see}?
+- {@unit = Observer Siege Mode} {@property = sight radius}?
+- What is the {@property = mineral cost} of an {@unit = Oracle}?
+- How many {@property = minerals} does the {@unit = Oracle} cost?
+- What is the {@property = vespene} {@property = cost} of an {@unit = Oracle}?
+- How much {@property = vespene} does the {@unit = Oracle} cost?
+- {@unit = Oracle} {@property = vespene}?
+- What is the {@property = cost} of an {@unit = Oracle}?
+- How much does the {@unit = Oracle} {@property = cost}?
+- {@unit = Oracle} {@property = cost}?
+- What is the {@property = supply} of an {@unit = Oracle}?
+- How many {@property = supply} is the {@unit = Oracle}?
+- {@unit = Oracle} {@property = supply}?
+- What is the {@property = build time} of an {@unit = Oracle}?
+- How much {@property = time} does the {@unit = Oracle} take to build?
+- {@unit = Oracle} {@property = build time}?
+- What are the {@property = shields} of an {@unit = Oracle}?
+- How much {@property = shields} does the {@unit = Oracle} have?
+- {@unit = Oracle} {@property = shields}?
+- What is the {@property = radius} of an {@unit = Oracle}?
+- {@unit = Oracle} {@property = radius}?
+- What is the {@property = sight radius} of an {@unit = Oracle}?
+- How far can the {@unit = Oracle} {@property = see}?
+- {@unit = Oracle} {@property = sight radius}?
+- What is the {@property = movement speed} of an {@unit = Oracle}?
+- What is the {@property = speed} of an {@unit = Oracle}?
+- How fast is the {@unit = Oracle}?
+- {@unit = Oracle} {@property = speed}?
+- What is the {@property = acceleration} of an {@unit = Oracle}?
+- {@unit = Oracle} {@property = acceleration}?
+- What is the {@property = cooldown} of an {@unit = Oracle}?
+- {@unit = Oracle} {@property = cooldown}?
+- What is the {@property = energy cost} of an {@unit = Oracle}?
+- {@unit = Oracle} {@property = energy cost}?
+- What is the {@property = radius} of the Oracle ability {@unit = Oracle Revelation}?
+- {@unit = Oracle} {@property = radius}?
+- What is the {@property = range} of the Oracle ability {@unit = Oracle Revelation}?
+- {@unit = Oracle} {@property = range}?
+- What is the {@property = cooldown} of an {@unit = Oracle}?
+- {@unit = Oracle} {@property = cooldown}?
+- What is the {@property = energy cost} of an {@unit = Oracle}?
+- {@unit = Oracle} {@property = energy cost}?
+- What is the {@property = armor} of an {@unit = Overlord}?
+- How much {@property = armor} does the {@unit = Overlord} have?
+- What is the {@property = mineral cost} of an {@unit = Overlord}?
+- How many {@property = minerals} does the {@unit = Overlord} cost?
+- What is the {@property = build time} of an {@unit = Overlord}?
+- How much {@property = time} does the {@unit = Overlord} take to build?
+- {@unit = Overlord} {@property = build time}?
+- What is the {@property = radius} of an {@unit = Overlord}?
+- {@unit = Overlord} {@property = radius}?
+- What is the {@property = sight radius} of an {@unit = Overlord}?
+- How far can the {@unit = Overlord} {@property = see}?
+- {@unit = Overlord} {@property = sight radius}?
+- What is the {@property = movement speed} of an {@unit = Overlord}?
+- What is the {@property = speed} of an {@unit = Overlord}?
+- How fast is the {@unit = Overlord}?
+- {@unit = Overlord} {@property = speed}?
+- What is the {@property = acceleration} of an {@unit = Overlord}?
+- {@unit = Overlord} {@property = acceleration}?
+- What is the {@property = duration} of the ability {@unit = Morph To Overseer}?
+- {@unit = Morph To Overseer} {@property = duration}?
+- What is the {@property = duration} of the ability {@unit = Morph To Transport Overlord}?
+- {@unit = Morph To Transport Overlord} {@property = duration}?
+- What is the {@property = armor} of an {@unit = Overlord Cocoon}?
+- How much {@property = armor} does the {@unit = Overlord Cocoon} have?
+- What is the {@property = mineral cost} of an {@unit = Overlord Cocoon}?
+- How many {@property = minerals} does the {@unit = Overlord Cocoon} cost?
+- What is the {@property = vespene} {@property = cost} of an {@unit = Overlord Cocoon}?
+- How much {@property = vespene} does the {@unit = Overlord Cocoon} cost?
+- {@unit = Overlord Cocoon} {@property = vespene}?
+- What is the {@property = cost} of an {@unit = Overlord Cocoon}?
+- How much does the {@unit = Overlord Cocoon} {@property = cost}?
+- {@unit = Overlord Cocoon} {@property = cost}?
+- What is the {@property = build time} of an {@unit = Overlord Cocoon}?
+- How much {@property = time} does the {@unit = Overlord Cocoon} take to build?
+- {@unit = Overlord Cocoon} {@property = build time}?
+- What is the {@property = radius} of an {@unit = Overlord Cocoon}?
+- {@unit = Overlord Cocoon} {@property = radius}?
+- What is the {@property = sight radius} of an {@unit = Overlord Cocoon}?
+- How far can the {@unit = Overlord Cocoon} {@property = see}?
+- {@unit = Overlord Cocoon} {@property = sight radius}?
+- What is the {@property = armor} of an {@unit = Overlord Transport}?
+- How much {@property = armor} does the {@unit = Overlord Transport} have?
+- What is the {@property = mineral cost} of an {@unit = Overlord Transport}?
+- How many {@property = minerals} does the {@unit = Overlord Transport} cost?
+- What is the {@property = vespene} {@property = cost} of an {@unit = Overlord Transport}?
+- How much {@property = vespene} does the {@unit = Overlord Transport} cost?
+- {@unit = Overlord Transport} {@property = vespene}?
+- What is the {@property = cost} of an {@unit = Overlord Transport}?
+- How much does the {@unit = Overlord Transport} {@property = cost}?
+- {@unit = Overlord Transport} {@property = cost}?
+- What is the {@property = build time} of an {@unit = Overlord Transport}?
+- How much {@property = time} does the {@unit = Overlord Transport} take to build?
+- {@unit = Overlord Transport} {@property = build time}?
+- What is the {@property = radius} of an {@unit = Overlord Transport}?
+- {@unit = Overlord Transport} {@property = radius}?
+- What is the {@property = sight radius} of an {@unit = Overlord Transport}?
+- How far can the {@unit = Overlord Transport} {@property = see}?
+- {@unit = Overlord Transport} {@property = sight radius}?
+- What is the {@property = movement speed} of an {@unit = Overlord Transport}?
+- What is the {@property = speed} of an {@unit = Overlord Transport}?
+- How fast is the {@unit = Overlord Transport}?
+- {@unit = Overlord Transport} {@property = speed}?
+- What is the {@property = acceleration} of an {@unit = Overlord Transport}?
+- {@unit = Overlord Transport} {@property = acceleration}?
+- What is the {@property = range} of the Overlord Transport ability {@unit = Overlord Transport Load}?
+- {@unit = Overlord Transport} {@property = range}?
+- What is the {@property = range} of the Overlord Transport ability {@unit = Overlord Transport Unload At}?
+- {@unit = Overlord Transport} {@property = range}?
+- What is the {@property = duration} of the ability {@unit = Morph To Overseer}?
+- {@unit = Morph To Overseer} {@property = duration}?
+- What is the {@property = armor} of an {@unit = Overseer}?
+- How much {@property = armor} does the {@unit = Overseer} have?
+- What is the {@property = mineral cost} of an {@unit = Overseer}?
+- How many {@property = minerals} does the {@unit = Overseer} cost?
+- What is the {@property = vespene} {@property = cost} of an {@unit = Overseer}?
+- How much {@property = vespene} does the {@unit = Overseer} cost?
+- {@unit = Overseer} {@property = vespene}?
+- What is the {@property = cost} of an {@unit = Overseer}?
+- How much does the {@unit = Overseer} {@property = cost}?
+- {@unit = Overseer} {@property = cost}?
+- What is the {@property = build time} of an {@unit = Overseer}?
+- How much {@property = time} does the {@unit = Overseer} take to build?
+- {@unit = Overseer} {@property = build time}?
+- What is the {@property = radius} of an {@unit = Overseer}?
+- {@unit = Overseer} {@property = radius}?
+- What is the {@property = sight radius} of an {@unit = Overseer}?
+- How far can the {@unit = Overseer} {@property = see}?
+- {@unit = Overseer} {@property = sight radius}?
+- What is the {@property = movement speed} of an {@unit = Overseer}?
+- What is the {@property = speed} of an {@unit = Overseer}?
+- How fast is the {@unit = Overseer}?
+- {@unit = Overseer} {@property = speed}?
+- What is the {@property = acceleration} of an {@unit = Overseer}?
+- {@unit = Overseer} {@property = acceleration}?
+- What is the {@property = energy cost} of an {@unit = Overseer}?
+- {@unit = Overseer} {@property = energy cost}?
+- What is the {@property = energy cost} of an {@unit = Overseer}?
+- {@unit = Overseer} {@property = energy cost}?
+- What is the {@property = range} of the Overseer ability {@unit = Contaminate}?
+- {@unit = Overseer} {@property = range}?
+- What is the {@property = duration} of the ability {@unit = Overseer Morphto Overseer Siege Mode}?
+- {@unit = Overseer Morphto Overseer Siege Mode} {@property = duration}?
+- What is the {@property = armor} of an {@unit = Overseer Siege Mode}?
+- How much {@property = armor} does the {@unit = Overseer Siege Mode} have?
+- What is the {@property = radius} of an {@unit = Overseer Siege Mode}?
+- {@unit = Overseer Siege Mode} {@property = radius}?
+- What is the {@property = sight radius} of an {@unit = Overseer Siege Mode}?
+- How far can the {@unit = Overseer Siege Mode} {@property = see}?
+- {@unit = Overseer Siege Mode} {@property = sight radius}?
+- What is the {@property = armor} of a {@unit = Phoenix}?
+- How much {@property = armor} does the {@unit = Phoenix} have?
+- What is the {@property = mineral cost} of a {@unit = Phoenix}?
+- How many {@property = minerals} does the {@unit = Phoenix} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Phoenix}?
+- How much {@property = vespene} does the {@unit = Phoenix} cost?
+- {@unit = Phoenix} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Phoenix}?
+- How much does the {@unit = Phoenix} {@property = cost}?
+- {@unit = Phoenix} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Phoenix}?
+- How many {@property = supply} is the {@unit = Phoenix}?
+- {@unit = Phoenix} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Phoenix}?
+- How much {@property = time} does the {@unit = Phoenix} take to build?
+- {@unit = Phoenix} {@property = build time}?
+- What are the {@property = shields} of a {@unit = Phoenix}?
+- How much {@property = shields} does the {@unit = Phoenix} have?
+- {@unit = Phoenix} {@property = shields}?
+- What are the {@property = shields} of a {@unit = Phoenix}?
+- How much {@property = shields} does the {@unit = Phoenix} have?
+- {@unit = Phoenix} {@property = shields}?
+- What is the {@property = radius} of a {@unit = Phoenix}?
+- {@unit = Phoenix} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Phoenix}?
+- How far can the {@unit = Phoenix} {@property = see}?
+- {@unit = Phoenix} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Phoenix}?
+- What is the {@property = speed} of a {@unit = Phoenix}?
+- How fast is the {@unit = Phoenix}?
+- {@unit = Phoenix} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Phoenix}?
+- {@unit = Phoenix} {@property = acceleration}?
+- What is the {@property = energy cost} of a {@unit = Phoenix}?
+- {@unit = Phoenix} {@property = energy cost}?
+- What is the {@property = range} of the Phoenix ability {@unit = Graviton Beam}?
+- {@unit = Phoenix} {@property = range}?
+- What is the {@property = radius} of a {@unit = Preview Bunker Upgraded}?
+- {@unit = Preview Bunker Upgraded} {@property = radius}?
+- What is the {@property = armor} of a {@unit = Probe}?
+- How much {@property = armor} does the {@unit = Probe} have?
+- What is the {@property = mineral cost} of a {@unit = Probe}?
+- How many {@property = minerals} does the {@unit = Probe} cost?
+- What is the {@property = supply} of a {@unit = Probe}?
+- How many {@property = supply} is the {@unit = Probe}?
+- {@unit = Probe} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Probe}?
+- How much {@property = time} does the {@unit = Probe} take to build?
+- {@unit = Probe} {@property = build time}?
+- What are the {@property = shields} of a {@unit = Probe}?
+- How much {@property = shields} does the {@unit = Probe} have?
+- {@unit = Probe} {@property = shields}?
+- What are the {@property = shields} of a {@unit = Probe}?
+- How much {@property = shields} does the {@unit = Probe} have?
+- {@unit = Probe} {@property = shields}?
+- What is the {@property = radius} of a {@unit = Probe}?
+- {@unit = Probe} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Probe}?
+- How far can the {@unit = Probe} {@property = see}?
+- {@unit = Probe} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Probe}?
+- What is the {@property = speed} of a {@unit = Probe}?
+- How fast is the {@unit = Probe}?
+- {@unit = Probe} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Probe}?
+- {@unit = Probe} {@property = acceleration}?
+- What is the {@property = range} of the Probe ability {@unit = Spray Protoss}?
+- {@unit = Probe} {@property = range}?
+- What is the {@property = armor} of a {@unit = Protoss Snake Segment Demo}?
+- How much {@property = armor} does the {@unit = Protoss Snake Segment Demo} have?
+- What is the {@property = radius} of a {@unit = Protoss Snake Segment Demo}?
+- {@unit = Protoss Snake Segment Demo} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Protoss Snake Segment Demo}?
+- How far can the {@unit = Protoss Snake Segment Demo} {@property = see}?
+- {@unit = Protoss Snake Segment Demo} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Protoss Snake Segment Demo}?
+- What is the {@property = speed} of a {@unit = Protoss Snake Segment Demo}?
+- How fast is the {@unit = Protoss Snake Segment Demo}?
+- {@unit = Protoss Snake Segment Demo} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Protoss Snake Segment Demo}?
+- {@unit = Protoss Snake Segment Demo} {@property = acceleration}?
+- What is the {@property = armor} of a {@unit = Queen}?
+- How much {@property = armor} does the {@unit = Queen} have?
+- What is the {@property = mineral cost} of a {@unit = Queen}?
+- How many {@property = minerals} does the {@unit = Queen} cost?
+- What is the {@property = supply} of a {@unit = Queen}?
+- How many {@property = supply} is the {@unit = Queen}?
+- {@unit = Queen} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Queen}?
+- How much {@property = time} does the {@unit = Queen} take to build?
+- {@unit = Queen} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Queen}?
+- {@unit = Queen} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Queen}?
+- How far can the {@unit = Queen} {@property = see}?
+- {@unit = Queen} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Queen}?
+- What is the {@property = speed} of a {@unit = Queen}?
+- How fast is the {@unit = Queen}?
+- {@unit = Queen} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Queen}?
+- {@unit = Queen} {@property = acceleration}?
+- What is the {@property = duration} of the ability {@unit = Burrow Queen Down}?
+- {@unit = Burrow Queen Down} {@property = duration}?
+- What is the {@property = energy cost} of a {@unit = Queen}?
+- {@unit = Queen} {@property = energy cost}?
+- What is the {@property = cooldown} of a {@unit = Queen}?
+- {@unit = Queen} {@property = cooldown}?
+- What is the {@property = energy cost} of a {@unit = Queen}?
+- {@unit = Queen} {@property = energy cost}?
+- What is the {@property = duration} of the ability {@unit = Transfusion}?
+- {@unit = Transfusion} {@property = duration}?
+- What is the {@property = range} of the Queen ability {@unit = Transfusion}?
+- {@unit = Queen} {@property = range}?
+- What is the {@property = armor} of a {@unit = Queen Burrowed}?
+- How much {@property = armor} does the {@unit = Queen Burrowed} have?
+- What is the {@property = radius} of a {@unit = Queen Burrowed}?
+- {@unit = Queen Burrowed} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Queen Burrowed}?
+- How far can the {@unit = Queen Burrowed} {@property = see}?
+- {@unit = Queen Burrowed} {@property = sight radius}?
+- What is the {@property = radius} of a {@unit = Queen MP}?
+- {@unit = Queen MP} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Queen MP}?
+- How far can the {@unit = Queen MP} {@property = see}?
+- {@unit = Queen MP} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Queen MP}?
+- What is the {@property = speed} of a {@unit = Queen MP}?
+- How fast is the {@unit = Queen MP}?
+- {@unit = Queen MP} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Queen MP}?
+- {@unit = Queen MP} {@property = acceleration}?
+- What is the {@property = energy cost} of a {@unit = Queen MP}?
+- {@unit = Queen MP} {@property = energy cost}?
+- What is the {@property = duration} of the ability {@unit = Queen MP Ensnare}?
+- {@unit = Queen MP Ensnare} {@property = duration}?
+- What is the {@property = radius} of the Queen MP ability {@unit = Queen MP Ensnare}?
+- {@unit = Queen MP} {@property = radius}?
+- What is the {@property = range} of the Queen MP ability {@unit = Queen MP Ensnare}?
+- {@unit = Queen MP} {@property = range}?
+- What is the {@property = energy cost} of a {@unit = Queen MP}?
+- {@unit = Queen MP} {@property = energy cost}?
+- What is the {@property = duration} of the ability {@unit = Queen MP Spawn Broodlings}?
+- {@unit = Queen MP Spawn Broodlings} {@property = duration}?
+- What is the {@property = range} of the Queen MP ability {@unit = Queen MP Spawn Broodlings}?
+- {@unit = Queen MP} {@property = range}?
+- What is the {@property = range} of the Queen MP ability {@unit = Queen MP Infest Command Center}?
+- {@unit = Queen MP} {@property = range}?
+- What is the {@property = armor} of a {@unit = Ravager}?
+- How much {@property = armor} does the {@unit = Ravager} have?
+- What is the {@property = mineral cost} of a {@unit = Ravager}?
+- How many {@property = minerals} does the {@unit = Ravager} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Ravager}?
+- How much {@property = vespene} does the {@unit = Ravager} cost?
+- {@unit = Ravager} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Ravager}?
+- How much does the {@unit = Ravager} {@property = cost}?
+- {@unit = Ravager} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Ravager}?
+- How many {@property = supply} is the {@unit = Ravager}?
+- {@unit = Ravager} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Ravager}?
+- How much {@property = time} does the {@unit = Ravager} take to build?
+- {@unit = Ravager} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Ravager}?
+- {@unit = Ravager} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Ravager}?
+- How far can the {@unit = Ravager} {@property = see}?
+- {@unit = Ravager} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Ravager}?
+- What is the {@property = speed} of a {@unit = Ravager}?
+- How fast is the {@unit = Ravager}?
+- {@unit = Ravager} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Ravager}?
+- {@unit = Ravager} {@property = acceleration}?
+- What is the {@property = duration} of the ability {@unit = Burrow Ravager Down}?
+- {@unit = Burrow Ravager Down} {@property = duration}?
+- What is the {@property = cooldown} of a {@unit = Ravager}?
+- {@unit = Ravager} {@property = cooldown}?
+- What is the {@property = radius} of the Ravager ability {@unit = Ravager Corrosive Bile}?
+- {@unit = Ravager} {@property = radius}?
+- What is the {@property = range} of the Ravager ability {@unit = Ravager Corrosive Bile}?
+- {@unit = Ravager} {@property = range}?
+- What is the {@property = armor} of a {@unit = Ravager Burrowed}?
+- How much {@property = armor} does the {@unit = Ravager Burrowed} have?
+- What is the {@property = radius} of a {@unit = Ravager Burrowed}?
+- {@unit = Ravager Burrowed} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Ravager Burrowed}?
+- How far can the {@unit = Ravager Burrowed} {@property = see}?
+- {@unit = Ravager Burrowed} {@property = sight radius}?
+- What is the {@property = armor} of a {@unit = Ravager Cocoon}?
+- How much {@property = armor} does the {@unit = Ravager Cocoon} have?
+- What is the {@property = mineral cost} of a {@unit = Ravager Cocoon}?
+- How many {@property = minerals} does the {@unit = Ravager Cocoon} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Ravager Cocoon}?
+- How much {@property = vespene} does the {@unit = Ravager Cocoon} cost?
+- {@unit = Ravager Cocoon} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Ravager Cocoon}?
+- How much does the {@unit = Ravager Cocoon} {@property = cost}?
+- {@unit = Ravager Cocoon} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Ravager Cocoon}?
+- How many {@property = supply} is the {@unit = Ravager Cocoon}?
+- {@unit = Ravager Cocoon} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Ravager Cocoon}?
+- How much {@property = time} does the {@unit = Ravager Cocoon} take to build?
+- {@unit = Ravager Cocoon} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Ravager Cocoon}?
+- {@unit = Ravager Cocoon} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Ravager Cocoon}?
+- How far can the {@unit = Ravager Cocoon} {@property = see}?
+- {@unit = Ravager Cocoon} {@property = sight radius}?
+- What is the {@property = armor} of a {@unit = Raven}?
+- How much {@property = armor} does the {@unit = Raven} have?
+- What is the {@property = mineral cost} of a {@unit = Raven}?
+- How many {@property = minerals} does the {@unit = Raven} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Raven}?
+- How much {@property = vespene} does the {@unit = Raven} cost?
+- {@unit = Raven} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Raven}?
+- How much does the {@unit = Raven} {@property = cost}?
+- {@unit = Raven} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Raven}?
+- How many {@property = supply} is the {@unit = Raven}?
+- {@unit = Raven} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Raven}?
+- How much {@property = time} does the {@unit = Raven} take to build?
+- {@unit = Raven} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Raven}?
+- {@unit = Raven} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Raven}?
+- How far can the {@unit = Raven} {@property = see}?
+- {@unit = Raven} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Raven}?
+- What is the {@property = speed} of a {@unit = Raven}?
+- How fast is the {@unit = Raven}?
+- {@unit = Raven} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Raven}?
+- {@unit = Raven} {@property = acceleration}?
+- What is the {@property = energy cost} of a {@unit = Raven}?
+- {@unit = Raven} {@property = energy cost}?
+- What is the {@property = range} of the Raven ability {@unit = Raven Shredder Missile}?
+- {@unit = Raven} {@property = range}?
+- What is the {@property = energy cost} of a {@unit = Raven}?
+- {@unit = Raven} {@property = energy cost}?
+- What is the {@property = range} of the Raven ability {@unit = Raven Scrambler Missile}?
+- {@unit = Raven} {@property = range}?
+- What is the {@property = energy cost} of a {@unit = Raven}?
+- {@unit = Raven} {@property = energy cost}?
+- What is the {@property = range} of the Raven ability {@unit = Build Auto Turret}?
+- {@unit = Raven} {@property = range}?
+- What is the {@property = armor} of a {@unit = Reaper}?
+- How much {@property = armor} does the {@unit = Reaper} have?
+- What is the {@property = mineral cost} of a {@unit = Reaper}?
+- How many {@property = minerals} does the {@unit = Reaper} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Reaper}?
+- How much {@property = vespene} does the {@unit = Reaper} cost?
+- {@unit = Reaper} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Reaper}?
+- How much does the {@unit = Reaper} {@property = cost}?
+- {@unit = Reaper} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Reaper}?
+- How many {@property = supply} is the {@unit = Reaper}?
+- {@unit = Reaper} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Reaper}?
+- How much {@property = time} does the {@unit = Reaper} take to build?
+- {@unit = Reaper} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Reaper}?
+- {@unit = Reaper} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Reaper}?
+- How far can the {@unit = Reaper} {@property = see}?
+- {@unit = Reaper} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Reaper}?
+- What is the {@property = speed} of a {@unit = Reaper}?
+- How fast is the {@unit = Reaper}?
+- {@unit = Reaper} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Reaper}?
+- {@unit = Reaper} {@property = acceleration}?
+- What is the {@property = cooldown} of a {@unit = Reaper}?
+- {@unit = Reaper} {@property = cooldown}?
+- What is the {@property = range} of the Reaper ability {@unit = KD8Charge}?
+- {@unit = Reaper} {@property = range}?
+- What is the {@property = radius} of a {@unit = Release Interceptors Beacon}?
+- {@unit = Release Interceptors Beacon} {@property = radius}?
+- What is the {@property = armor} of a {@unit = Replicant}?
+- How much {@property = armor} does the {@unit = Replicant} have?
+- What are the {@property = shields} of a {@unit = Replicant}?
+- How much {@property = shields} does the {@unit = Replicant} have?
+- {@unit = Replicant} {@property = shields}?
+- What is the {@property = radius} of a {@unit = Replicant}?
+- {@unit = Replicant} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Replicant}?
+- How far can the {@unit = Replicant} {@property = see}?
+- {@unit = Replicant} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Replicant}?
+- What is the {@property = speed} of a {@unit = Replicant}?
+- How fast is the {@unit = Replicant}?
+- {@unit = Replicant} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Replicant}?
+- {@unit = Replicant} {@property = acceleration}?
+- What is the {@property = armor} of a {@unit = Roach}?
+- How much {@property = armor} does the {@unit = Roach} have?
+- What is the {@property = mineral cost} of a {@unit = Roach}?
+- How many {@property = minerals} does the {@unit = Roach} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Roach}?
+- How much {@property = vespene} does the {@unit = Roach} cost?
+- {@unit = Roach} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Roach}?
+- How much does the {@unit = Roach} {@property = cost}?
+- {@unit = Roach} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Roach}?
+- How many {@property = supply} is the {@unit = Roach}?
+- {@unit = Roach} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Roach}?
+- How much {@property = time} does the {@unit = Roach} take to build?
+- {@unit = Roach} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Roach}?
+- {@unit = Roach} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Roach}?
+- How far can the {@unit = Roach} {@property = see}?
+- {@unit = Roach} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Roach}?
+- What is the {@property = speed} of a {@unit = Roach}?
+- How fast is the {@unit = Roach}?
+- {@unit = Roach} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Roach}?
+- {@unit = Roach} {@property = acceleration}?
+- What is the {@property = duration} of the ability {@unit = Burrow Roach Down}?
+- {@unit = Burrow Roach Down} {@property = duration}?
+- What is the {@property = duration} of the ability {@unit = Morph To Ravager}?
+- {@unit = Morph To Ravager} {@property = duration}?
+- What is the {@property = armor} of a {@unit = Roach Burrowed}?
+- How much {@property = armor} does the {@unit = Roach Burrowed} have?
+- What is the {@property = radius} of a {@unit = Roach Burrowed}?
+- {@unit = Roach Burrowed} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Roach Burrowed}?
+- How far can the {@unit = Roach Burrowed} {@property = see}?
+- {@unit = Roach Burrowed} {@property = sight radius}?
+- What is the {@property = radius} of a {@unit = Scourge MP}?
+- {@unit = Scourge MP} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Scourge MP}?
+- How far can the {@unit = Scourge MP} {@property = see}?
+- {@unit = Scourge MP} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Scourge MP}?
+- What is the {@property = speed} of a {@unit = Scourge MP}?
+- How fast is the {@unit = Scourge MP}?
+- {@unit = Scourge MP} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Scourge MP}?
+- {@unit = Scourge MP} {@property = acceleration}?
+- What is the {@property = armor} of a {@unit = SCV}?
+- How much {@property = armor} does the {@unit = SCV} have?
+- What is the {@property = mineral cost} of a {@unit = SCV}?
+- How many {@property = minerals} does the {@unit = SCV} cost?
+- What is the {@property = supply} of a {@unit = SCV}?
+- How many {@property = supply} is the {@unit = SCV}?
+- {@unit = SCV} {@property = supply}?
+- What is the {@property = build time} of a {@unit = SCV}?
+- How much {@property = time} does the {@unit = SCV} take to build?
+- {@unit = SCV} {@property = build time}?
+- What is the {@property = radius} of a {@unit = SCV}?
+- {@unit = SCV} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = SCV}?
+- How far can the {@unit = SCV} {@property = see}?
+- {@unit = SCV} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = SCV}?
+- What is the {@property = speed} of a {@unit = SCV}?
+- How fast is the {@unit = SCV}?
+- {@unit = SCV} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = SCV}?
+- {@unit = SCV} {@property = acceleration}?
+- What is the {@property = range} of the SCV ability {@unit = Spray Terran}?
+- {@unit = SCV} {@property = range}?
+- What is the {@property = radius} of a {@unit = Seeker Missile}?
+- {@unit = Seeker Missile} {@property = radius}?
+- What is the {@property = movement speed} of a {@unit = Seeker Missile}?
+- What is the {@property = speed} of a {@unit = Seeker Missile}?
+- How fast is the {@unit = Seeker Missile}?
+- {@unit = Seeker Missile} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Seeker Missile}?
+- {@unit = Seeker Missile} {@property = acceleration}?
+- What is the {@property = armor} of a {@unit = Sentry}?
+- How much {@property = armor} does the {@unit = Sentry} have?
+- What is the {@property = mineral cost} of a {@unit = Sentry}?
+- How many {@property = minerals} does the {@unit = Sentry} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Sentry}?
+- How much {@property = vespene} does the {@unit = Sentry} cost?
+- {@unit = Sentry} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Sentry}?
+- How much does the {@unit = Sentry} {@property = cost}?
+- {@unit = Sentry} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Sentry}?
+- How many {@property = supply} is the {@unit = Sentry}?
+- {@unit = Sentry} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Sentry}?
+- How much {@property = time} does the {@unit = Sentry} take to build?
+- {@unit = Sentry} {@property = build time}?
+- What are the {@property = shields} of a {@unit = Sentry}?
+- How much {@property = shields} does the {@unit = Sentry} have?
+- {@unit = Sentry} {@property = shields}?
+- What are the {@property = shields} of a {@unit = Sentry}?
+- How much {@property = shields} does the {@unit = Sentry} have?
+- {@unit = Sentry} {@property = shields}?
+- What is the {@property = radius} of a {@unit = Sentry}?
+- {@unit = Sentry} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Sentry}?
+- How far can the {@unit = Sentry} {@property = see}?
+- {@unit = Sentry} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Sentry}?
+- What is the {@property = speed} of a {@unit = Sentry}?
+- How fast is the {@unit = Sentry}?
+- {@unit = Sentry} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Sentry}?
+- {@unit = Sentry} {@property = acceleration}?
+- What is the {@property = energy cost} of a {@unit = Sentry}?
+- {@unit = Sentry} {@property = energy cost}?
+- What is the {@property = radius} of the Sentry ability {@unit = Force Field}?
+- {@unit = Sentry} {@property = radius}?
+- What is the {@property = range} of the Sentry ability {@unit = Force Field}?
+- {@unit = Sentry} {@property = range}?
+- What is the {@property = cooldown} of a {@unit = Sentry}?
+- {@unit = Sentry} {@property = cooldown}?
+- What is the {@property = energy cost} of a {@unit = Sentry}?
+- {@unit = Sentry} {@property = energy cost}?
+- What is the {@property = energy cost} of a {@unit = Sentry}?
+- {@unit = Sentry} {@property = energy cost}?
+- What is the {@property = energy cost} of a {@unit = Sentry}?
+- {@unit = Sentry} {@property = energy cost}?
+- What is the {@property = energy cost} of a {@unit = Sentry}?
+- {@unit = Sentry} {@property = energy cost}?
+- What is the {@property = energy cost} of a {@unit = Sentry}?
+- {@unit = Sentry} {@property = energy cost}?
+- What is the {@property = energy cost} of a {@unit = Sentry}?
+- {@unit = Sentry} {@property = energy cost}?
+- What is the {@property = energy cost} of a {@unit = Sentry}?
+- {@unit = Sentry} {@property = energy cost}?
+- What is the {@property = energy cost} of a {@unit = Sentry}?
+- {@unit = Sentry} {@property = energy cost}?
+- What is the {@property = energy cost} of a {@unit = Sentry}?
+- {@unit = Sentry} {@property = energy cost}?
+- What is the {@property = energy cost} of a {@unit = Sentry}?
+- {@unit = Sentry} {@property = energy cost}?
+- What is the {@property = energy cost} of a {@unit = Sentry}?
+- {@unit = Sentry} {@property = energy cost}?
+- What is the {@property = energy cost} of a {@unit = Sentry}?
+- {@unit = Sentry} {@property = energy cost}?
+- What is the {@property = energy cost} of a {@unit = Sentry}?
+- {@unit = Sentry} {@property = energy cost}?
+- What is the {@property = energy cost} of a {@unit = Sentry}?
+- {@unit = Sentry} {@property = energy cost}?
+- What is the {@property = armor} of a {@unit = Siege Tank}?
+- How much {@property = armor} does the {@unit = Siege Tank} have?
+- What is the {@property = mineral cost} of a {@unit = Siege Tank}?
+- How many {@property = minerals} does the {@unit = Siege Tank} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Siege Tank}?
+- How much {@property = vespene} does the {@unit = Siege Tank} cost?
+- {@unit = Siege Tank} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Siege Tank}?
+- How much does the {@unit = Siege Tank} {@property = cost}?
+- {@unit = Siege Tank} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Siege Tank}?
+- How many {@property = supply} is the {@unit = Siege Tank}?
+- {@unit = Siege Tank} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Siege Tank}?
+- How much {@property = time} does the {@unit = Siege Tank} take to build?
+- {@unit = Siege Tank} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Siege Tank}?
+- {@unit = Siege Tank} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Siege Tank}?
+- How far can the {@unit = Siege Tank} {@property = see}?
+- {@unit = Siege Tank} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Siege Tank}?
+- What is the {@property = speed} of a {@unit = Siege Tank}?
+- How fast is the {@unit = Siege Tank}?
+- {@unit = Siege Tank} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Siege Tank}?
+- {@unit = Siege Tank} {@property = acceleration}?
+- What is the {@property = duration} of the ability {@unit = Siege Mode}?
+- {@unit = Siege Mode} {@property = duration}?
+- What is the {@property = armor} of a {@unit = Siege Tank Sieged}?
+- How much {@property = armor} does the {@unit = Siege Tank Sieged} have?
+- What is the {@property = radius} of a {@unit = Siege Tank Sieged}?
+- {@unit = Siege Tank Sieged} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Siege Tank Sieged}?
+- How far can the {@unit = Siege Tank Sieged} {@property = see}?
+- {@unit = Siege Tank Sieged} {@property = sight radius}?
+- What is the {@property = radius} of a {@unit = Siege Tank Skin Preview}?
+- {@unit = Siege Tank Skin Preview} {@property = radius}?
+- What is the {@property = armor} of a {@unit = Stalker}?
+- How much {@property = armor} does the {@unit = Stalker} have?
+- What is the {@property = mineral cost} of a {@unit = Stalker}?
+- How many {@property = minerals} does the {@unit = Stalker} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Stalker}?
+- How much {@property = vespene} does the {@unit = Stalker} cost?
+- {@unit = Stalker} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Stalker}?
+- How much does the {@unit = Stalker} {@property = cost}?
+- {@unit = Stalker} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Stalker}?
+- How many {@property = supply} is the {@unit = Stalker}?
+- {@unit = Stalker} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Stalker}?
+- How much {@property = time} does the {@unit = Stalker} take to build?
+- {@unit = Stalker} {@property = build time}?
+- What are the {@property = shields} of a {@unit = Stalker}?
+- How much {@property = shields} does the {@unit = Stalker} have?
+- {@unit = Stalker} {@property = shields}?
+- What are the {@property = shields} of a {@unit = Stalker}?
+- How much {@property = shields} does the {@unit = Stalker} have?
+- {@unit = Stalker} {@property = shields}?
+- What is the {@property = radius} of a {@unit = Stalker}?
+- {@unit = Stalker} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Stalker}?
+- How far can the {@unit = Stalker} {@property = see}?
+- {@unit = Stalker} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Stalker}?
+- What is the {@property = speed} of a {@unit = Stalker}?
+- How fast is the {@unit = Stalker}?
+- {@unit = Stalker} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Stalker}?
+- {@unit = Stalker} {@property = acceleration}?
+- What is the {@property = cooldown} of a {@unit = Stalker}?
+- {@unit = Stalker} {@property = cooldown}?
+- What is the {@property = armor} of a {@unit = Swarm Host Burrowed MP}?
+- How much {@property = armor} does the {@unit = Swarm Host Burrowed MP} have?
+- What is the {@property = radius} of a {@unit = Swarm Host Burrowed MP}?
+- {@unit = Swarm Host Burrowed MP} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Swarm Host Burrowed MP}?
+- How far can the {@unit = Swarm Host Burrowed MP} {@property = see}?
+- {@unit = Swarm Host Burrowed MP} {@property = sight radius}?
+- What is the {@property = armor} of a {@unit = Swarm Host MP}?
+- How much {@property = armor} does the {@unit = Swarm Host MP} have?
+- What is the {@property = mineral cost} of a {@unit = Swarm Host MP}?
+- How many {@property = minerals} does the {@unit = Swarm Host MP} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Swarm Host MP}?
+- How much {@property = vespene} does the {@unit = Swarm Host MP} cost?
+- {@unit = Swarm Host MP} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Swarm Host MP}?
+- How much does the {@unit = Swarm Host MP} {@property = cost}?
+- {@unit = Swarm Host MP} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Swarm Host MP}?
+- How many {@property = supply} is the {@unit = Swarm Host MP}?
+- {@unit = Swarm Host MP} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Swarm Host MP}?
+- How much {@property = time} does the {@unit = Swarm Host MP} take to build?
+- {@unit = Swarm Host MP} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Swarm Host MP}?
+- {@unit = Swarm Host MP} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Swarm Host MP}?
+- How far can the {@unit = Swarm Host MP} {@property = see}?
+- {@unit = Swarm Host MP} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Swarm Host MP}?
+- What is the {@property = speed} of a {@unit = Swarm Host MP}?
+- How fast is the {@unit = Swarm Host MP}?
+- {@unit = Swarm Host MP} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Swarm Host MP}?
+- {@unit = Swarm Host MP} {@property = acceleration}?
+- What is the {@property = duration} of the ability {@unit = Morph To Swarm Host Burrowed MP}?
+- {@unit = Morph To Swarm Host Burrowed MP} {@property = duration}?
+- What is the {@property = cooldown} of a {@unit = Swarm Host MP}?
+- {@unit = Swarm Host MP} {@property = cooldown}?
+- What is the {@property = armor} of a {@unit = Tempest}?
+- How much {@property = armor} does the {@unit = Tempest} have?
+- What is the {@property = mineral cost} of a {@unit = Tempest}?
+- How many {@property = minerals} does the {@unit = Tempest} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Tempest}?
+- How much {@property = vespene} does the {@unit = Tempest} cost?
+- {@unit = Tempest} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Tempest}?
+- How much does the {@unit = Tempest} {@property = cost}?
+- {@unit = Tempest} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Tempest}?
+- How many {@property = supply} is the {@unit = Tempest}?
+- {@unit = Tempest} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Tempest}?
+- How much {@property = time} does the {@unit = Tempest} take to build?
+- {@unit = Tempest} {@property = build time}?
+- What are the {@property = shields} of a {@unit = Tempest}?
+- How much {@property = shields} does the {@unit = Tempest} have?
+- {@unit = Tempest} {@property = shields}?
+- What is the {@property = radius} of a {@unit = Tempest}?
+- {@unit = Tempest} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Tempest}?
+- How far can the {@unit = Tempest} {@property = see}?
+- {@unit = Tempest} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Tempest}?
+- What is the {@property = speed} of a {@unit = Tempest}?
+- How fast is the {@unit = Tempest}?
+- {@unit = Tempest} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Tempest}?
+- {@unit = Tempest} {@property = acceleration}?
+- What is the {@property = armor} of a {@unit = Test Zerg}?
+- How much {@property = armor} does the {@unit = Test Zerg} have?
+- What is the {@property = radius} of a {@unit = Test Zerg}?
+- {@unit = Test Zerg} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Test Zerg}?
+- How far can the {@unit = Test Zerg} {@property = see}?
+- {@unit = Test Zerg} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Test Zerg}?
+- What is the {@property = speed} of a {@unit = Test Zerg}?
+- How fast is the {@unit = Test Zerg}?
+- {@unit = Test Zerg} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Test Zerg}?
+- {@unit = Test Zerg} {@property = acceleration}?
+- What is the {@property = range} of the Test Zerg ability {@unit = Test Zerg}?
+- {@unit = Test Zerg} {@property = range}?
+- What is the {@property = armor} of a {@unit = Thor}?
+- How much {@property = armor} does the {@unit = Thor} have?
+- What is the {@property = mineral cost} of a {@unit = Thor}?
+- How many {@property = minerals} does the {@unit = Thor} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Thor}?
+- How much {@property = vespene} does the {@unit = Thor} cost?
+- {@unit = Thor} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Thor}?
+- How much does the {@unit = Thor} {@property = cost}?
+- {@unit = Thor} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Thor}?
+- How many {@property = supply} is the {@unit = Thor}?
+- {@unit = Thor} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Thor}?
+- How much {@property = time} does the {@unit = Thor} take to build?
+- {@unit = Thor} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Thor}?
+- {@unit = Thor} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Thor}?
+- How far can the {@unit = Thor} {@property = see}?
+- {@unit = Thor} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Thor}?
+- What is the {@property = speed} of a {@unit = Thor}?
+- How fast is the {@unit = Thor}?
+- {@unit = Thor} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Thor}?
+- {@unit = Thor} {@property = acceleration}?
+- What is the {@property = duration} of the ability {@unit = Thor AP Mode}?
+- {@unit = Thor AP Mode} {@property = duration}?
+- What is the {@property = armor} of a {@unit = Thor AP}?
+- How much {@property = armor} does the {@unit = Thor AP} have?
+- What is the {@property = radius} of a {@unit = Thor AP}?
+- {@unit = Thor AP} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Thor AP}?
+- How far can the {@unit = Thor AP} {@property = see}?
+- {@unit = Thor AP} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Thor AP}?
+- What is the {@property = speed} of a {@unit = Thor AP}?
+- How fast is the {@unit = Thor AP}?
+- {@unit = Thor AP} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Thor AP}?
+- {@unit = Thor AP} {@property = acceleration}?
+- What is the {@property = duration} of the ability {@unit = Thor Normal Mode}?
+- {@unit = Thor Normal Mode} {@property = duration}?
+- What is the {@property = radius} of a {@unit = Tower Mine}?
+- {@unit = Tower Mine} {@property = radius}?
+- What is the {@property = armor} of a {@unit = Transport Overlord Cocoon}?
+- How much {@property = armor} does the {@unit = Transport Overlord Cocoon} have?
+- What is the {@property = mineral cost} of a {@unit = Transport Overlord Cocoon}?
+- How many {@property = minerals} does the {@unit = Transport Overlord Cocoon} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Transport Overlord Cocoon}?
+- How much {@property = vespene} does the {@unit = Transport Overlord Cocoon} cost?
+- {@unit = Transport Overlord Cocoon} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Transport Overlord Cocoon}?
+- How much does the {@unit = Transport Overlord Cocoon} {@property = cost}?
+- {@unit = Transport Overlord Cocoon} {@property = cost}?
+- What is the {@property = build time} of a {@unit = Transport Overlord Cocoon}?
+- How much {@property = time} does the {@unit = Transport Overlord Cocoon} take to build?
+- {@unit = Transport Overlord Cocoon} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Transport Overlord Cocoon}?
+- {@unit = Transport Overlord Cocoon} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Transport Overlord Cocoon}?
+- How far can the {@unit = Transport Overlord Cocoon} {@property = see}?
+- {@unit = Transport Overlord Cocoon} {@property = sight radius}?
+- What is the {@property = armor} of an {@unit = Ultralisk}?
+- How much {@property = armor} does the {@unit = Ultralisk} have?
+- What is the {@property = mineral cost} of an {@unit = Ultralisk}?
+- How many {@property = minerals} does the {@unit = Ultralisk} cost?
+- What is the {@property = vespene} {@property = cost} of an {@unit = Ultralisk}?
+- How much {@property = vespene} does the {@unit = Ultralisk} cost?
+- {@unit = Ultralisk} {@property = vespene}?
+- What is the {@property = cost} of an {@unit = Ultralisk}?
+- How much does the {@unit = Ultralisk} {@property = cost}?
+- {@unit = Ultralisk} {@property = cost}?
+- What is the {@property = supply} of an {@unit = Ultralisk}?
+- How many {@property = supply} is the {@unit = Ultralisk}?
+- {@unit = Ultralisk} {@property = supply}?
+- What is the {@property = build time} of an {@unit = Ultralisk}?
+- How much {@property = time} does the {@unit = Ultralisk} take to build?
+- {@unit = Ultralisk} {@property = build time}?
+- What is the {@property = radius} of an {@unit = Ultralisk}?
+- {@unit = Ultralisk} {@property = radius}?
+- What is the {@property = sight radius} of an {@unit = Ultralisk}?
+- How far can the {@unit = Ultralisk} {@property = see}?
+- {@unit = Ultralisk} {@property = sight radius}?
+- What is the {@property = movement speed} of an {@unit = Ultralisk}?
+- What is the {@property = speed} of an {@unit = Ultralisk}?
+- How fast is the {@unit = Ultralisk}?
+- {@unit = Ultralisk} {@property = speed}?
+- What is the {@property = acceleration} of an {@unit = Ultralisk}?
+- {@unit = Ultralisk} {@property = acceleration}?
+- What is the {@property = duration} of the ability {@unit = Burrow Ultralisk Down}?
+- {@unit = Burrow Ultralisk Down} {@property = duration}?
+- What is the {@property = armor} of an {@unit = Ultralisk Burrowed}?
+- How much {@property = armor} does the {@unit = Ultralisk Burrowed} have?
+- What is the {@property = radius} of an {@unit = Ultralisk Burrowed}?
+- {@unit = Ultralisk Burrowed} {@property = radius}?
+- What is the {@property = sight radius} of an {@unit = Ultralisk Burrowed}?
+- How far can the {@unit = Ultralisk Burrowed} {@property = see}?
+- {@unit = Ultralisk Burrowed} {@property = sight radius}?
+- What is the {@property = radius} of a {@unit = Viking}?
+- {@unit = Viking} {@property = radius}?
+- What is the {@property = armor} of a {@unit = Viking Assault}?
+- How much {@property = armor} does the {@unit = Viking Assault} have?
+- What is the {@property = radius} of a {@unit = Viking Assault}?
+- {@unit = Viking Assault} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Viking Assault}?
+- How far can the {@unit = Viking Assault} {@property = see}?
+- {@unit = Viking Assault} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Viking Assault}?
+- What is the {@property = speed} of a {@unit = Viking Assault}?
+- How fast is the {@unit = Viking Assault}?
+- {@unit = Viking Assault} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Viking Assault}?
+- {@unit = Viking Assault} {@property = acceleration}?
+- What is the {@property = duration} of the ability {@unit = Fighter Mode}?
+- {@unit = Fighter Mode} {@property = duration}?
+- What is the {@property = armor} of a {@unit = Viking Fighter}?
+- How much {@property = armor} does the {@unit = Viking Fighter} have?
+- What is the {@property = mineral cost} of a {@unit = Viking Fighter}?
+- How many {@property = minerals} does the {@unit = Viking Fighter} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Viking Fighter}?
+- How much {@property = vespene} does the {@unit = Viking Fighter} cost?
+- {@unit = Viking Fighter} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Viking Fighter}?
+- How much does the {@unit = Viking Fighter} {@property = cost}?
+- {@unit = Viking Fighter} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Viking Fighter}?
+- How many {@property = supply} is the {@unit = Viking Fighter}?
+- {@unit = Viking Fighter} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Viking Fighter}?
+- How much {@property = time} does the {@unit = Viking Fighter} take to build?
+- {@unit = Viking Fighter} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Viking Fighter}?
+- {@unit = Viking Fighter} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Viking Fighter}?
+- How far can the {@unit = Viking Fighter} {@property = see}?
+- {@unit = Viking Fighter} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Viking Fighter}?
+- What is the {@property = speed} of a {@unit = Viking Fighter}?
+- How fast is the {@unit = Viking Fighter}?
+- {@unit = Viking Fighter} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Viking Fighter}?
+- {@unit = Viking Fighter} {@property = acceleration}?
+- What is the {@property = duration} of the ability {@unit = Assault Mode}?
+- {@unit = Assault Mode} {@property = duration}?
+- What is the {@property = armor} of a {@unit = Viper}?
+- How much {@property = armor} does the {@unit = Viper} have?
+- What is the {@property = mineral cost} of a {@unit = Viper}?
+- How many {@property = minerals} does the {@unit = Viper} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Viper}?
+- How much {@property = vespene} does the {@unit = Viper} cost?
+- {@unit = Viper} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Viper}?
+- How much does the {@unit = Viper} {@property = cost}?
+- {@unit = Viper} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Viper}?
+- How many {@property = supply} is the {@unit = Viper}?
+- {@unit = Viper} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Viper}?
+- How much {@property = time} does the {@unit = Viper} take to build?
+- {@unit = Viper} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Viper}?
+- {@unit = Viper} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Viper}?
+- How far can the {@unit = Viper} {@property = see}?
+- {@unit = Viper} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Viper}?
+- What is the {@property = speed} of a {@unit = Viper}?
+- How fast is the {@unit = Viper}?
+- {@unit = Viper} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Viper}?
+- {@unit = Viper} {@property = acceleration}?
+- What is the {@property = cooldown} of a {@unit = Viper}?
+- {@unit = Viper} {@property = cooldown}?
+- What is the {@property = range} of the Viper ability {@unit = Viper Consume Structure}?
+- {@unit = Viper} {@property = range}?
+- What is the {@property = energy cost} of a {@unit = Viper}?
+- {@unit = Viper} {@property = energy cost}?
+- What is the {@property = radius} of the Viper ability {@unit = Blinding Cloud}?
+- {@unit = Viper} {@property = radius}?
+- What is the {@property = range} of the Viper ability {@unit = Blinding Cloud}?
+- {@unit = Viper} {@property = range}?
+- What is the {@property = energy cost} of a {@unit = Viper}?
+- {@unit = Viper} {@property = energy cost}?
+- What is the {@property = range} of the Viper ability {@unit = Yoink}?
+- {@unit = Viper} {@property = range}?
+- What is the {@property = energy cost} of a {@unit = Viper}?
+- {@unit = Viper} {@property = energy cost}?
+- What is the {@property = range} of the Viper ability {@unit = Parasitic Bomb}?
+- {@unit = Viper} {@property = range}?
+- What is the {@property = armor} of a {@unit = Void MP Immortal Revive Corpse}?
+- How much {@property = armor} does the {@unit = Void MP Immortal Revive Corpse} have?
+- What is the {@property = radius} of a {@unit = Void MP Immortal Revive Corpse}?
+- {@unit = Void MP Immortal Revive Corpse} {@property = radius}?
+- What is the {@property = movement speed} of a {@unit = Void MP Immortal Revive Corpse}?
+- What is the {@property = speed} of a {@unit = Void MP Immortal Revive Corpse}?
+- How fast is the {@unit = Void MP Immortal Revive Corpse}?
+- {@unit = Void MP Immortal Revive Corpse} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Void MP Immortal Revive Corpse}?
+- {@unit = Void MP Immortal Revive Corpse} {@property = acceleration}?
+- What is the {@property = duration} of the ability {@unit = Void MP Immortal Revive Rebuild}?
+- {@unit = Void MP Immortal Revive Rebuild} {@property = duration}?
+- What is the {@property = armor} of a {@unit = Void Ray}?
+- How much {@property = armor} does the {@unit = Void Ray} have?
+- What is the {@property = mineral cost} of a {@unit = Void Ray}?
+- How many {@property = minerals} does the {@unit = Void Ray} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Void Ray}?
+- How much {@property = vespene} does the {@unit = Void Ray} cost?
+- {@unit = Void Ray} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Void Ray}?
+- How much does the {@unit = Void Ray} {@property = cost}?
+- {@unit = Void Ray} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Void Ray}?
+- How many {@property = supply} is the {@unit = Void Ray}?
+- {@unit = Void Ray} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Void Ray}?
+- How much {@property = time} does the {@unit = Void Ray} take to build?
+- {@unit = Void Ray} {@property = build time}?
+- What are the {@property = shields} of a {@unit = Void Ray}?
+- How much {@property = shields} does the {@unit = Void Ray} have?
+- {@unit = Void Ray} {@property = shields}?
+- What are the {@property = shields} of a {@unit = Void Ray}?
+- How much {@property = shields} does the {@unit = Void Ray} have?
+- {@unit = Void Ray} {@property = shields}?
+- What is the {@property = radius} of a {@unit = Void Ray}?
+- {@unit = Void Ray} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Void Ray}?
+- How far can the {@unit = Void Ray} {@property = see}?
+- {@unit = Void Ray} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Void Ray}?
+- What is the {@property = speed} of a {@unit = Void Ray}?
+- How fast is the {@unit = Void Ray}?
+- {@unit = Void Ray} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Void Ray}?
+- {@unit = Void Ray} {@property = acceleration}?
+- What is the {@property = cooldown} of a {@unit = Void Ray}?
+- {@unit = Void Ray} {@property = cooldown}?
+- What is the {@property = armor} of a {@unit = War Hound}?
+- How much {@property = armor} does the {@unit = War Hound} have?
+- What is the {@property = radius} of a {@unit = War Hound}?
+- {@unit = War Hound} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = War Hound}?
+- How far can the {@unit = War Hound} {@property = see}?
+- {@unit = War Hound} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = War Hound}?
+- What is the {@property = speed} of a {@unit = War Hound}?
+- How fast is the {@unit = War Hound}?
+- {@unit = War Hound} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = War Hound}?
+- {@unit = War Hound} {@property = acceleration}?
+- What is the {@property = cooldown} of a {@unit = War Hound}?
+- {@unit = War Hound} {@property = cooldown}?
+- What is the {@property = armor} of a {@unit = Warp Prism}?
+- How much {@property = armor} does the {@unit = Warp Prism} have?
+- What is the {@property = mineral cost} of a {@unit = Warp Prism}?
+- How many {@property = minerals} does the {@unit = Warp Prism} cost?
+- What is the {@property = supply} of a {@unit = Warp Prism}?
+- How many {@property = supply} is the {@unit = Warp Prism}?
+- {@unit = Warp Prism} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Warp Prism}?
+- How much {@property = time} does the {@unit = Warp Prism} take to build?
+- {@unit = Warp Prism} {@property = build time}?
+- What are the {@property = shields} of a {@unit = Warp Prism}?
+- How much {@property = shields} does the {@unit = Warp Prism} have?
+- {@unit = Warp Prism} {@property = shields}?
+- What are the {@property = shields} of a {@unit = Warp Prism}?
+- How much {@property = shields} does the {@unit = Warp Prism} have?
+- {@unit = Warp Prism} {@property = shields}?
+- What is the {@property = radius} of a {@unit = Warp Prism}?
+- {@unit = Warp Prism} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Warp Prism}?
+- How far can the {@unit = Warp Prism} {@property = see}?
+- {@unit = Warp Prism} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Warp Prism}?
+- What is the {@property = speed} of a {@unit = Warp Prism}?
+- How fast is the {@unit = Warp Prism}?
+- {@unit = Warp Prism} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Warp Prism}?
+- {@unit = Warp Prism} {@property = acceleration}?
+- What is the {@property = duration} of the ability {@unit = Phasing Mode}?
+- {@unit = Phasing Mode} {@property = duration}?
+- What is the {@property = range} of the Warp Prism ability {@unit = Warp Prism Transport Load}?
+- {@unit = Warp Prism} {@property = range}?
+- What is the {@property = range} of the Warp Prism ability {@unit = Warp Prism Transport Unload At}?
+- {@unit = Warp Prism} {@property = range}?
+- What is the {@property = armor} of a {@unit = Warp Prism Phasing}?
+- How much {@property = armor} does the {@unit = Warp Prism Phasing} have?
+- What are the {@property = shields} of a {@unit = Warp Prism Phasing}?
+- How much {@property = shields} does the {@unit = Warp Prism Phasing} have?
+- {@unit = Warp Prism Phasing} {@property = shields}?
+- What are the {@property = shields} of a {@unit = Warp Prism Phasing}?
+- How much {@property = shields} does the {@unit = Warp Prism Phasing} have?
+- {@unit = Warp Prism Phasing} {@property = shields}?
+- What is the {@property = radius} of a {@unit = Warp Prism Phasing}?
+- {@unit = Warp Prism Phasing} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Warp Prism Phasing}?
+- How far can the {@unit = Warp Prism Phasing} {@property = see}?
+- {@unit = Warp Prism Phasing} {@property = sight radius}?
+- What is the {@property = radius} of a {@unit = Warp Prism Skin Preview}?
+- {@unit = Warp Prism Skin Preview} {@property = radius}?
+- What is the {@property = armor} of a {@unit = Widow Mine}?
+- How much {@property = armor} does the {@unit = Widow Mine} have?
+- What is the {@property = mineral cost} of a {@unit = Widow Mine}?
+- How many {@property = minerals} does the {@unit = Widow Mine} cost?
+- What is the {@property = vespene} {@property = cost} of a {@unit = Widow Mine}?
+- How much {@property = vespene} does the {@unit = Widow Mine} cost?
+- {@unit = Widow Mine} {@property = vespene}?
+- What is the {@property = cost} of a {@unit = Widow Mine}?
+- How much does the {@unit = Widow Mine} {@property = cost}?
+- {@unit = Widow Mine} {@property = cost}?
+- What is the {@property = supply} of a {@unit = Widow Mine}?
+- How many {@property = supply} is the {@unit = Widow Mine}?
+- {@unit = Widow Mine} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Widow Mine}?
+- How much {@property = time} does the {@unit = Widow Mine} take to build?
+- {@unit = Widow Mine} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Widow Mine}?
+- {@unit = Widow Mine} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Widow Mine}?
+- How far can the {@unit = Widow Mine} {@property = see}?
+- {@unit = Widow Mine} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Widow Mine}?
+- What is the {@property = speed} of a {@unit = Widow Mine}?
+- How fast is the {@unit = Widow Mine}?
+- {@unit = Widow Mine} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Widow Mine}?
+- {@unit = Widow Mine} {@property = acceleration}?
+- What is the {@property = duration} of the ability {@unit = Widow Mine Burrow}?
+- {@unit = Widow Mine Burrow} {@property = duration}?
+- What is the {@property = cooldown} of a {@unit = Widow Mine}?
+- {@unit = Widow Mine} {@property = cooldown}?
+- What is the {@property = duration} of the ability {@unit = Widow Mine Attack}?
+- {@unit = Widow Mine Attack} {@property = duration}?
+- What is the {@property = range} of the Widow Mine ability {@unit = Widow Mine Attack}?
+- {@unit = Widow Mine} {@property = range}?
+- What is the {@property = armor} of a {@unit = Widow Mine Burrowed}?
+- How much {@property = armor} does the {@unit = Widow Mine Burrowed} have?
+- What is the {@property = radius} of a {@unit = Widow Mine Burrowed}?
+- {@unit = Widow Mine Burrowed} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Widow Mine Burrowed}?
+- How far can the {@unit = Widow Mine Burrowed} {@property = see}?
+- {@unit = Widow Mine Burrowed} {@property = sight radius}?
+- What is the {@property = armor} of a {@unit = Zealot}?
+- How much {@property = armor} does the {@unit = Zealot} have?
+- What is the {@property = mineral cost} of a {@unit = Zealot}?
+- How many {@property = minerals} does the {@unit = Zealot} cost?
+- What is the {@property = supply} of a {@unit = Zealot}?
+- How many {@property = supply} is the {@unit = Zealot}?
+- {@unit = Zealot} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Zealot}?
+- How much {@property = time} does the {@unit = Zealot} take to build?
+- {@unit = Zealot} {@property = build time}?
+- What are the {@property = shields} of a {@unit = Zealot}?
+- How much {@property = shields} does the {@unit = Zealot} have?
+- {@unit = Zealot} {@property = shields}?
+- What are the {@property = shields} of a {@unit = Zealot}?
+- How much {@property = shields} does the {@unit = Zealot} have?
+- {@unit = Zealot} {@property = shields}?
+- What is the {@property = radius} of a {@unit = Zealot}?
+- {@unit = Zealot} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Zealot}?
+- How far can the {@unit = Zealot} {@property = see}?
+- {@unit = Zealot} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Zealot}?
+- What is the {@property = speed} of a {@unit = Zealot}?
+- How fast is the {@unit = Zealot}?
+- {@unit = Zealot} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Zealot}?
+- {@unit = Zealot} {@property = acceleration}?
+- What is the {@property = cooldown} of a {@unit = Zealot}?
+- {@unit = Zealot} {@property = cooldown}?
+- What is the {@property = armor} of a {@unit = Zergling}?
+- How much {@property = armor} does the {@unit = Zergling} have?
+- What is the {@property = mineral cost} of a {@unit = Zergling}?
+- How many {@property = minerals} does the {@unit = Zergling} cost?
+- What is the {@property = supply} of a {@unit = Zergling}?
+- How many {@property = supply} is the {@unit = Zergling}?
+- {@unit = Zergling} {@property = supply}?
+- What is the {@property = build time} of a {@unit = Zergling}?
+- How much {@property = time} does the {@unit = Zergling} take to build?
+- {@unit = Zergling} {@property = build time}?
+- What is the {@property = radius} of a {@unit = Zergling}?
+- {@unit = Zergling} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Zergling}?
+- How far can the {@unit = Zergling} {@property = see}?
+- {@unit = Zergling} {@property = sight radius}?
+- What is the {@property = movement speed} of a {@unit = Zergling}?
+- What is the {@property = speed} of a {@unit = Zergling}?
+- How fast is the {@unit = Zergling}?
+- {@unit = Zergling} {@property = speed}?
+- What is the {@property = acceleration} of a {@unit = Zergling}?
+- {@unit = Zergling} {@property = acceleration}?
+- What is the {@property = duration} of the ability {@unit = Burrow Zergling Down}?
+- {@unit = Burrow Zergling Down} {@property = duration}?
+- What is the {@property = armor} of a {@unit = Zergling Burrowed}?
+- How much {@property = armor} does the {@unit = Zergling Burrowed} have?
+- What is the {@property = radius} of a {@unit = Zergling Burrowed}?
+- {@unit = Zergling Burrowed} {@property = radius}?
+- What is the {@property = sight radius} of a {@unit = Zergling Burrowed}?
+- How far can the {@unit = Zergling Burrowed} {@property = see}?
+- {@unit = Zergling Burrowed} {@property = sight radius}?
+
+
+> # Entity definitions
+@ ml "units"
+
+@ ml "property"
+
+> # PREBUILT Entity definitions
+
+> # Phrase list definitions
+
+> # List entities
+
+> # RegEx entities

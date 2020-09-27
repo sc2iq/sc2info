@@ -105,6 +105,18 @@ const UnitFull: React.FC<Props> = ({ unit }) => {
                             </div>
                         </div>
                     )}
+
+                {unit.attributes
+                    && (
+                        <div>
+                            <h2>Attributes</h2>
+                            <div className="unit-full__1col">
+                                {unit.attributes.map((attribute: string) =>
+                                    <div>{attribute}</div>
+                                )}
+                            </div>
+                        </div>
+                    )}
             </div>
 
             <div className="unit-full__movement-misc-score">
@@ -214,6 +226,8 @@ const UnitFull: React.FC<Props> = ({ unit }) => {
                                                 <div>{l.cost.minerals}</div>
                                                 <img src="https://sc2iq.blob.core.windows.net/sc2icons/Wireframe-General-VespeneGeyser.png" width={30} height={30} alt="Vespene" />
                                                 <div>{l.cost.vespene}</div>
+                                                <div className="icon-time"><span role="img" aria-label="Time">🕖</span></div>
+                                                <div>{l.cost.time}</div>
                                             </div>
                                         </div>
                                     ))}

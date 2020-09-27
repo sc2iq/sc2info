@@ -3,6 +3,21 @@ export function convertCamelCaseToSpacedCase(camelCaseString: string): string {
     return camelCaseString.replace(regex, '$& ')
 }
 
+let enabled = true
+let timeoutId
+export function throttle<T extends Function>(fn: T, timeMs: number): any {
+    return (...args: any[]) => {
+        if (enabled) {
+            // Prevent future calls until enabled
+            enabled = false
+            // Re-enable after time out
+            timeoutId = setTimeout(() => { enabled = true }, timeMs)
+            // Call fn
+            return fn(args)
+        }
+    }
+}
+
 export interface IMatchSegement {
     text: string
     startIndex: number

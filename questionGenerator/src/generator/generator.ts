@@ -10,7 +10,8 @@ import { generateUpgradeQuestions } from './upgrade'
 import { generateBuildingUpgradeQuestions } from './buildingUpgrade'
 
 const featureEntities: string[] = [
-    'armor',
+    'units',
+    'property',
 ]
 
 export default function generate(balanceData: ICategorizedUnits): models.GenerateResult {
@@ -23,11 +24,16 @@ export default function generate(balanceData: ICategorizedUnits): models.Generat
     const luisEntities: string[] = [
         // Fixed properties of every unit
         ...featureEntities,
-        ...questionsUnits.flatMap(qu => qu.luisEntities),
     ]
 
     const luisIntentsWithUtterances: Record<string, string[]> = {}
-    questionsUnits.forEach(qu => Object.assign(luisIntentsWithUtterances, qu.luisIntentsWithUtterances))
+    questionsUnits.forEach(qu => {
+        Object.entries(qu.luisIntentsWithUtterances)
+            .forEach(([intent, utterances]) => {
+                luisIntentsWithUtterances[intent] = luisIntentsWithUtterances[intent] ?? []
+                luisIntentsWithUtterances[intent].push(...utterances)
+            })
+        })
 
     const sc2iqQuestions: models.sc2iq.QuestionInput[] = [
         ...questionsUnits.flatMap(qu => qu.sc2iqQuestions),

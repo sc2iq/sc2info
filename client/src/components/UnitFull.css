@@ -19,19 +19,25 @@
 
 .unit-full__lift-cost {
     display: grid;
-    grid-template-columns: 60% 40%;
+    grid-template-columns: 50% 25% 25%;
     grid-gap: 1rem;
 }
 .unit-full__life {
     display: grid;
     grid-template-columns: max-content max-content max-content max-content;
-    grid-gap: 0 1em;
+    grid-gap: 0.25rem 1em;
+}
+
+.unit-full__1col {
+    display: grid;
+    grid-template-columns: max-content;
+    grid-gap: .25rem 1em;
 }
 
 .unit-full__section {
     display: grid;
     grid-template-columns: max-content max-content;
-    grid-gap: 0.25em 2em;
+    grid-gap: 0.25rem 2em;
     margin-bottom: 1em;
 }
 
@@ -60,7 +66,7 @@
 .unit-full__weapon-stats {
     display: grid;
     grid-template-columns: max-content max-content;
-    grid-gap: 0.25em 2em;
+    grid-gap: 0.25rem 2em;
 }
 
 .unit-full__upgrade-levels {
@@ -72,4 +78,9 @@
     display: grid;
     grid-template-columns: max-content max-content;
     grid-gap: 0.25em;
+}
+
+.icon-time {
+    opacity: 0.8;
+    filter: saturate(0%)
 }

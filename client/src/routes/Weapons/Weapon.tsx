@@ -38,7 +38,7 @@ query weapon($id: String) {
     }
   }
 }
-  `
+`
 
 type MatchParams = {
     weaponId: string
