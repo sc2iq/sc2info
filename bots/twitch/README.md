@@ -15,7 +15,7 @@ It's important to restate what the bot interpreted such as "A marine costs...." 
 
 ## Running
 
-Can be run locally or from Azure
+App be run locally or from Azure website. sc2info-twitch.azurewebsites.net
 
 ## References
 
