@@ -16,8 +16,18 @@
 name: Twitch Bot Deploy to 'sc2info-twitch.azurewebsites.com'
 
 on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'bots/twitch/**'
+
   release:
     types: [created]
+
+defaults:
+  run:
+    working-directory: 'bots/twitch'
 
 env:
   AZURE_WEBAPP_NAME: sc2info-twitch    # set this to your application's name

@@ -13,6 +13,10 @@ http://sc2info.com/units/marine
 
 It's important to restate what the bot interpreted such as "A marine costs...." so the user can determine if the answer is related and know to re-ask in a different way.
 
+## Running
+
+Can be run locally or from Azure
+
 ## References
 
 - Documentation on Twitch Bots
