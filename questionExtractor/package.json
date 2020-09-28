@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Extract features from a phrase and resolve to answers. E.g. Barracks cost? 150 minerals.",
   "types": "build/index.d.ts",
   "main": "build/index.js",
@@ -12,7 +12,7 @@
     "start": "node ./build/demo.js",
     "build": "tsc",
     "test": "jest",
-    "prepare": "npm run build"
+    "prepack": "npm run build"
   },
   "keywords": [],
   "author": "Matt Mazzola <mattmazzola@live.com> (https://github.com/mattmazzola)",
@@ -33,5 +33,9 @@
     "@types/jest": "^26.0.14",
     "jest": "^26.4.2",
     "ts-jest": "^26.4.0"
-  }
+  },
+  "files": [
+    "build",
+    "src"
+  ]
 }

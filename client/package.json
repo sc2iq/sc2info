@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@sc2/extractor": "1.0.0",
+    "@sc2/extractor": "^1.0.2",
     "@types/jest": "24.0.15",
     "@types/node": "12.0.12",
     "@types/react": "16.8.23",
