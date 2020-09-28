@@ -12,6 +12,8 @@
 #
 # For more information on GitHub Actions for Azure, refer to https://github.com/Azure/Actions
 # For more samples to get started with GitHub Action workflows to deploy to Azure, refer to https://github.com/Azure/actions-workflow-samples
+# https://github.com/Azure/webapps-deploy
+# https://github.com/Azure-Samples/node_express_app
 
 name: Twitch Bot Deploy to 'sc2info-twitch.azurewebsites.com'
 
@@ -31,8 +33,8 @@ defaults:
 
 env:
   AZURE_WEBAPP_NAME: sc2info-twitch    # set this to your application's name
-  AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
-  NODE_VERSION: '10.x'                # set this to the node version to use
+  AZURE_WEBAPP_PACKAGE_PATH: 'bots/twitch'      # set this to the path to your web app project, defaults to the repository root
+  NODE_VERSION: '12.x'                # set this to the node version to use
 
 jobs:
   build-and-deploy:
