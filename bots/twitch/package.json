@@ -8,8 +8,7 @@
   "scripts": {
     "build": "tsc",
     "prestart": "npm run build",
-    "start": "@powershell -Command $env:DEBUG='sc2info:info';node .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "@powershell -Command $env:DEBUG='sc2info:info';node ."
   },
   "keywords": [],
   "author": "Matt Mazzola <mattmazzola@live.com> (https://github.com/mattmazzola)",
