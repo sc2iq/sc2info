@@ -8,7 +8,8 @@
   "scripts": {
     "build": "tsc",
     "prestart": "npm run build",
-    "start": "@powershell -Command $env:DEBUG='sc2info:*';node .",
+    "start": "node .",
+    "startDebug": "@powershell -Command $env:DEBUG='sc2info:*';node .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
