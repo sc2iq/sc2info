@@ -38,13 +38,7 @@ const question: CommandProcessor = async (reply, question: string) => {
 }
 
 const availableCommands: CommandProcessor = async (reply) => {
-    const response = `Sc2Info bot can respond to these commands: !q`
-
-    reply(response)
-}
-
-const website : CommandProcessor = async (reply) => {
-    const response = `https://www.sc2info.com`
+    const response = `Sc2Info bot can respond to these commands: !q (!question), !h (!help)`
 
     reply(response)
 }
@@ -52,8 +46,6 @@ const website : CommandProcessor = async (reply) => {
 export const commands: Record<string, CommandProcessor> = {
     'h': help,
     'help': help,
-    'site': website,
-    'website': website,
     'commands': availableCommands,
     'q': question,
     'question': question,
