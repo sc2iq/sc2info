@@ -724,7 +724,7 @@ ${name} has as radius ${radius}
     },
     {
         name: 'misc.sightRadius',
-        synonyms: ['sight', 'radius'],
+        synonyms: ['sight', 'radius', 'range'],
         type: FeatureType.Unit,
         getUnitValue: x => x.misc.sightRadius,
         getUnitAnswer: (sightRadius, unit) => {
@@ -770,6 +770,41 @@ ${name} has movement acceleration ${movementAccelerated}
             `
         },
     },
+
+    {
+        name: 'strengths',
+        synonyms: ['strengths', 'strong', 'against'],
+        type: FeatureType.Unit,
+        getUnitValue: x => x.original.strengths.map((x: any) => x.name).join(', '),
+        getUnitAnswer: (strengths, unit) => {
+            const name = unit.meta.name
+            const source = getUnitSource(unit.id)
+
+            return `
+    ${name} is strong against ${strengths}
+    
+    - Source: ${source}
+                `
+        },
+    },
+
+    {
+        name: 'weaknesses',
+        synonyms: ['weakness', 'enemies', 'counters'],
+        type: FeatureType.Unit,
+        getUnitValue: x => x.original.weaknesses.map((x: any) => x.name).join(', '),
+        getUnitAnswer: (weaknesses, unit) => {
+            const name = unit.meta.name
+            const source = getUnitSource(unit.id)
+
+            return `
+    ${name} is weak against ${weaknesses}
+    
+    - Source: ${source}
+                `
+        },
+    },
+
     {
         name: 'command.cooldown',
         synonyms: ['cooldown'],

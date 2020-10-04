@@ -46,6 +46,24 @@ describe('extractSc2InfoKeywords', () => {
             type: ExtractionType.Weapon,
             featureName: 'weapon.damage',
             featureType: FeatureType.Weapon,
+        },
+        'tumor sight range': {
+            term: 'Creep Tumor',
+            type: ExtractionType.Building,
+            featureName: 'misc.sightRadius',
+            featureType: FeatureType.Unit
+        },
+        'void strengths': {
+            term: 'Void Ray',
+            type: ExtractionType.Unit,
+            featureName: 'strengths',
+            featureType: FeatureType.Unit
+        },
+        'void counters': {
+            term: 'Void Ray',
+            type: ExtractionType.Unit,
+            featureName: 'weaknesses',
+            featureType: FeatureType.Unit
         }
     }
 

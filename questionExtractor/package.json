@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Extract features from a phrase and resolve to answers. E.g. Barracks cost? 150 minerals.",
   "types": "build/index.d.ts",
   "main": "build/index.js",
