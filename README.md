@@ -81,4 +81,5 @@ It seems mostly complete but would need to test. Mainly questions about Union ty
 This repository uses npm@7 for package consolidation
 
 See Announcement: https://github.blog/2020-10-13-presenting-v7-0-0-of-the-npm-cli/
+Arborist Deep Dive: https://blog.npmjs.org/post/618653678433435649/npm-v7-series-arborist-deep-dive
 See Workspaces RFC: https://github.com/npm/rfcs/blob/latest/implemented/0026-workspaces.md

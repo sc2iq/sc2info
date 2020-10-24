@@ -1,5 +1,5 @@
 {
-  "name": "discord",
+  "name": "@sc2/discord",
   "private": true,
   "version": "1.0.0",
   "description": "",
@@ -26,6 +26,6 @@
     "typescript": "^4.0.3"
   },
   "engines": {
-    "node": "12.x"
+    "node": ">=12.x"
   }
 }

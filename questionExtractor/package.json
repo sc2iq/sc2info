@@ -24,7 +24,7 @@
     "typescript": "^4.0.3"
   },
   "engines": {
-    "node": "12.x"
+    "node": ">=12.x"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.0",
