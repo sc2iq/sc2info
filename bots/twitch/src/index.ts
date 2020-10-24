@@ -49,7 +49,7 @@ function onMessage(client: tmi.Client) {
         // If message is from self disregard
         if (self) return
 
-        // If message does not start with ! then ignore
+        // If message does not start with ! or @sc2info then ignore
         let commandName: string
         let commandContent: string
 
