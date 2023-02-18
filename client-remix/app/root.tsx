@@ -1,5 +1,7 @@
 import type { LinksFunction, MetaFunction } from "@remix-run/node"
+import React from 'react'
 import {
+  CatchBoundaryComponent,
   Links,
   LiveReload,
   Meta,
@@ -7,16 +9,25 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useCatch,
 } from "@remix-run/react"
 import resetStyles from '~/styles/reset.css'
 import rootStyles from '~/styles/root.css'
 import indexStyles from '~/styles/index.css'
+import askStyles from '~/styles/ask.css'
+import browseStyles from '~/styles/browse.css'
+import searchStyles from '~/styles/search.css'
+import componentAbilityPrviewStyles from '~/components/AbilityPreview.css'
 
 export const links: LinksFunction = () => ([
   { rel: 'stylesheet', href: resetStyles },
   { rel: 'stylesheet', href: rootStyles },
-  { rel: 'stylesheet', href: indexStyles },
   { rel: 'stylesheet', href: "https://fonts.googleapis.com/css?family=Roboto&display=swap" },
+  { rel: 'stylesheet', href: indexStyles },
+  { rel: 'stylesheet', href: askStyles },
+  { rel: 'stylesheet', href: browseStyles },
+  { rel: 'stylesheet', href: searchStyles },
+  { rel: 'stylesheet', href: componentAbilityPrviewStyles },
 ])
 
 export const meta: MetaFunction = () => ({
@@ -26,7 +37,27 @@ export const meta: MetaFunction = () => ({
   ['theme-color']: "#000000",
 })
 
+export const CatchBoundary: CatchBoundaryComponent = () => {
+  const caught = useCatch()
+  return (
+    <AppBase>
+      <h1>
+        {caught.status} {caught.statusText}
+      </h1>
+      <div>
+        <NavLink to="/">Return Home</NavLink>
+      </div>
+    </AppBase>
+  )
+}
+
 export default function App() {
+  return <AppBase>
+    <Outlet />
+  </AppBase>
+}
+
+export const AppBase: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
     <html lang="en">
       <head>
@@ -50,11 +81,11 @@ export default function App() {
           </nav>
         </header>
         <main className="container">
-          <Outlet />
+          {children}
         </main>
         <footer>
           <div className="container sc2info-footer">
-            SC2INFO - StarCraft 2 Info on units, buildings, weapons, and more.  &nbsp;&nbsp;<a href="mailto:sc2info1@gmail.com">Contact</a>
+            SC2INFO - StarCraft 2 Info on units, buildings, weapons, and more.  &nbsp;&nbsp;<a href="https://github.com/sc2iq/sc2info/issues/new" target="_blank">Contact</a>
           </div>
         </footer>
         <ScrollRestoration />
