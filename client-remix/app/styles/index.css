@@ -1,0 +1,57 @@
+
+.sc2info__title {
+    padding: 0.75rem 0;
+}
+
+.sc2info__title p {
+    margin-top: 0;
+}
+
+.sc2info__homelink {
+    cursor: pointer;
+}
+
+.sc2info-button {
+    border-radius: 4px;
+    border: none;
+    padding: 0.35em 0.5em;
+    font-size: 1.25rem;
+    cursor: pointer;
+    background-color: cornflowerblue;
+    margin-right: 2em;
+}
+
+.sc2info-loadmore {
+    display: block;
+    border-radius: 4px;
+    border: none;
+    padding: 1em;
+    font-size: 1.25rem;
+    cursor: pointer;
+    width: 100%;
+    background-color: cornflowerblue;
+}
+
+.sc2info-navigation {
+    display: flex;
+    font-size: 18px;
+}
+
+.sc2info-navigation__link {
+    padding: 1em 1.5em;
+    color: white;
+}
+
+a:link.sc2info-navigation__link,
+a:visited.sc2info-navigation__link {
+    color: white;
+}
+
+.sc2info-navigation__link.active {
+    background-color: var(--blueLinkLight);
+}
+
+.full__info table tr td {
+    padding: 0.125em 0.5em;
+    min-width: 10rem;
+}
