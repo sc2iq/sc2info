@@ -1,0 +1,16 @@
+{
+    "folders": [
+      {
+        "path": "."
+      },
+      {
+        "path": "client-remix"
+      },
+      {
+        "path": "bots"
+      },
+      {
+        "path": "../../shared-resources"
+      }
+    ]
+  }
