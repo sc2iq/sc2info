@@ -17,6 +17,7 @@ import indexStyles from '~/styles/index.css'
 import askStyles from '~/styles/ask.css'
 import browseStyles from '~/styles/browse.css'
 import searchStyles from '~/styles/search.css'
+import abilitiesStyles from '~/styles/abilities.css'
 import componentAbilityPrviewStyles from '~/components/AbilityPreview.css'
 
 export const links: LinksFunction = () => ([
@@ -27,6 +28,7 @@ export const links: LinksFunction = () => ([
   { rel: 'stylesheet', href: askStyles },
   { rel: 'stylesheet', href: browseStyles },
   { rel: 'stylesheet', href: searchStyles },
+  { rel: 'stylesheet', href: abilitiesStyles },
   { rel: 'stylesheet', href: componentAbilityPrviewStyles },
 ])
 

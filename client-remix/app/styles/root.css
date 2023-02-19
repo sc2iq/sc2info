@@ -102,3 +102,15 @@ footer {
 button {
     cursor: pointer;
 }
+
+.race-lists {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(200px, 1fr));
+    grid-gap: 2em;
+}
+
+.race-lists h2 {
+    color: var(--primary);
+    margin-bottom: .5em;
+    text-align: center;
+}
