@@ -1,21 +1,17 @@
-import * as xml2js from 'xml2js'
+import convertXmlTojs, { Options } from 'xml-js'
 
-const xmlParserOptions: xml2js.Options = {
-    explicitRoot: false,
-    mergeAttrs: true,
-    emptyTag: null,
-    explicitArray: false,
+const xmlParserOptions: Options.XML2JSON = {
+    
 }
 
 export function xml2jsonAsync(xml: string) {
     return new Promise<any>((resolve, reject) => {
-        xml2js.parseString(xml, xmlParserOptions, (error, json) => {
-            if (error) {
-                reject(error)
-                return
-            }
-
-            resolve(json)
-        })
+        try {
+            const jsonString = convertXmlTojs.xml2json(xml, xmlParserOptions)
+            resolve(JSON.parse(jsonString))
+        }
+        catch (e) {
+            reject(e)
+        }
     })
 }

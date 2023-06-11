@@ -2,7 +2,7 @@
 Library to convert StarCraft 2 exported balance data XML files to JSON.
 
 ```
-npm start -- [folder] [file]
+npm start -- [XML input folder path] [output JSON file path]
 ```
 Defaults to `./balancedata` `./balancedata.json`
 

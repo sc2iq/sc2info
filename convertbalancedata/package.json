@@ -8,7 +8,6 @@
     "build": "tsc",
     "prepublish": "npm run build",
     "prestart": "npm run build",
-    "prettier": "prettier --write src/**/*",
     "start": "node ./build/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -29,18 +28,16 @@
     "url": "https://github.com/mattmazzola/sc2-convertbalancedata"
   },
   "dependencies": {
-    "lodash": "^4.17.11",
-    "prettier": "^1.18.2",
-    "xml2js": "^0.4.19",
-    "xml2json": "^0.11.2",
-    "yargs": "^13.2.4"
+    "@types/node": "^20.3.0",
+    "lodash": "^4.17.21",
+    "xml-js": "^1.6.11",
+    "yargs": "^13.3.2"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.135",
-    "@types/xml2js": "^0.4.4",
-    "@types/xml2json": "^0.10.0",
-    "@types/yargs": "^13.0.0",
-    "typescript": "^3.5.2"
+    "@types/lodash": "^4.14.195",
+    "@types/xml-js": "^1.0.0",
+    "@types/yargs": "^13.0.12",
+    "typescript": "^5.1.3"
   },
   "files": [
     "build",

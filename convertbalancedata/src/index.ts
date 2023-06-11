@@ -13,19 +13,24 @@ export {
     unit
 }
 
-async function main(xmlFolder: string = './balancedata.4.12.1', outputFile: string = `${xmlFolder}.json`) {
+
+const currentDateTimeString = Date.now()
+
+async function main(
+    xmlFolder: string = '../balancedata/xml_20230611.1',
+    outputFile: string = `${xmlFolder}_${currentDateTimeString}.json`
+) {
     fs.existsSync(xmlFolder)
 
     // Raw JSON
     const xml = await mergeXml(xmlFolder)
     const units: Units = await xml2jsonAsync(xml)
 
-    // Output Pre-Processed (.raw.json) file from xml2json.
+    // Output direct / unprocessed file from xml2json conversion
     const unitsJson = JSON.stringify(units, null, '  ')
-    const unprocessedUnitsFilename = outputFile.replace('.json', '.raw.json')
+    const unprocessedUnitsFilename = outputFile.replace('.json', '.unprocessed.json')
     await fs.promises.writeFile(unprocessedUnitsFilename, unitsJson, 'utf8')
 
-    // Processed JSON
     const categorizedUnits = postProcess(units)
 
     // Write Processed JSON (.json)

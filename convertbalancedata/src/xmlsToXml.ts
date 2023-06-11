@@ -21,7 +21,9 @@ export async function mergeXml(folderPath: string): Promise<string> {
         return removedFirstLine
     })
 
-    return `<units>
+    return `
+<units>
     ${unitsWithoutFirstlines.join('\n')}
-  </units>`
+</units>`.trim()
+
 }
