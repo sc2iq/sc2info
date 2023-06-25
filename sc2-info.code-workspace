@@ -4,7 +4,10 @@
         "path": "."
       },
       {
-        "path": "client-remix"
+        "path": "apps/balance-data-upload"
+      },
+      {
+        "path": "apps/client-remix"
       },
       {
         "path": "bots"
@@ -12,5 +15,8 @@
       {
         "path": "../../shared-resources"
       }
-    ]
+    ],
+    "settings": {
+      "debug.internalConsoleOptions": "neverOpen"
+    }
   }

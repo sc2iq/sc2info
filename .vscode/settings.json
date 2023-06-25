@@ -4,5 +4,11 @@
     "appService.deploySubpath": "service",
     "cSpell.words": [
         "vespene"
-    ]
+    ],
+    "azureFunctions.deploySubpath": "functions",
+    "azureFunctions.postDeployTask": "npm install (functions)",
+    "azureFunctions.projectLanguage": "TypeScript",
+    "azureFunctions.projectRuntime": "~4",
+    "azureFunctions.projectLanguageModel": 4,
+    "azureFunctions.preDeployTask": "npm prune (functions)"
 }
