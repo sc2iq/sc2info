@@ -54,6 +54,8 @@ export default function Index() {
           id="filepicker"
           name="files"
           multiple
+          // webkitdirectory is not a valid TypeScript attribute
+          // @ts-ignore
           webkitdirectory="true"
           placeholder="Choose"
           onChange={folderPickerChange}
