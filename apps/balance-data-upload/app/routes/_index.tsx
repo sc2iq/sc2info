@@ -1,7 +1,8 @@
 import { unstable_parseMultipartFormData, type ActionArgs, unstable_composeUploadHandlers, unstable_createFileUploadHandler, unstable_createMemoryUploadHandler } from "@remix-run/node"
 import { Form, useNavigation } from "@remix-run/react"
 import '../types.d.ts'
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
+import { ArrowUpOnSquareIcon, BeakerIcon } from '@heroicons/react/24/solid'
 
 export const action = async ({ request }: ActionArgs) => {
   console.log(`File Upload Action: `, { request })
@@ -76,7 +77,10 @@ export default function Index() {
             className="p-4 rounded-md bg-slate-200 ring-2 ring-blue-200 ring-offset-slate-800 ring-offset-4 border-none text-slate-800 font-semibold cursor-pointer"
           />
           <div>
-            <button type="submit" className="p-4 px-6 rounded-md bg-blue-500 ring-2 ring-blue-200 ring-offset-slate-800 ring-offset-4 border-none text-white font-semibold">Upload</button>
+            <button type="submit" className="flex flex-row gap-2 p-4 px-6 rounded-md bg-blue-500 ring-2 ring-blue-200 ring-offset-slate-800 ring-offset-4 border-none text-white font-semibold">
+              <ArrowUpOnSquareIcon className="h-8 w-8 text-slate-100" />
+              Upload
+            </button>
           </div>
         </Form>
         <div>
