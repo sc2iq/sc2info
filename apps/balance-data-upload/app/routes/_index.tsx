@@ -1,8 +1,8 @@
 import { unstable_parseMultipartFormData, type ActionArgs, unstable_composeUploadHandlers, unstable_createFileUploadHandler, unstable_createMemoryUploadHandler } from "@remix-run/node"
-import { Form, useNavigation } from "@remix-run/react"
+import { Form, useActionData, useNavigation } from "@remix-run/react"
 import '../types.d.ts'
 import { useEffect, useRef, useState } from "react"
-import { ArrowUpOnSquareIcon } from '@heroicons/react/24/solid'
+import { ArrowPathIcon, ArrowUpOnSquareIcon } from '@heroicons/react/24/solid'
 import { containerClient } from "~/services/blobService"
 
 export const action = async ({ request }: ActionArgs) => {
@@ -22,14 +22,18 @@ export const action = async ({ request }: ActionArgs) => {
     uploadHandler,
   )
 
-  const balanceDataFiles = formData.getAll("files")
+  const balanceDataFiles = formData.getAll("files") as File[]
   console.log({ balanceDataFiles })
 
   for (const balanceDataFile of balanceDataFiles) {
     console.log({ balanceDataFile })
+    const filename = `balancedata_${Date.now()}.zip`
+    const fileBuffer = await balanceDataFile.arrayBuffer()
+    await containerClient.uploadBlockBlob(filename, fileBuffer, fileBuffer.byteLength)
 
-
-    // containerClient.uploadBlockBlob('balance-data', balanceDataFile.filename, balanceDataFile.data, balanceDataFile.data.length')
+    return {
+      'uploadstatus': 'success',
+    }
   }
 
   return null
@@ -39,6 +43,7 @@ export default function Index() {
   const navigation = useNavigation()
   const folderPickerRef = useRef<HTMLInputElement>(null)
   const [files, setFiles] = useState<File[]>([])
+  const actionData = useActionData<typeof action>()
 
   const folderPickerChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     console.log(`Folder Picker Change: `, { event })
@@ -48,12 +53,12 @@ export default function Index() {
   }
 
   // After form is submitted, reset the form
-  // useEffect(() => {
-  //   if (navigation.state === "submitting") {
-  //     folderPickerRef.current?.form?.reset()
-  //     setFiles([])
-  //   }
-  // }, [navigation, files])
+  useEffect(() => {
+    if (actionData?.uploadstatus === "success") {
+      folderPickerRef.current?.form?.reset()
+      setFiles([])
+    }
+  }, [actionData, files])
 
   return (
     <>
@@ -97,8 +102,18 @@ export default function Index() {
             </button>
           </div>
         </Form>
-        <div>
-          Status: <span className="text-blue-100 font-medium">{navigation.state === 'submitting' ? 'Uploading...' : 'None'}</span>
+        <div className="w-1/3 flex gap-4">
+          <div>Status:</div>
+          <div className="text-blue-100 font-medium">
+            {navigation.state === 'submitting'
+              ? (<>
+                <div className="flex gap-2">
+                  <ArrowPathIcon className="animate-spin h-8 w-8 text-slate-100 " />
+                  <span>Uploading...</span>
+                </div>
+              </>)
+              : 'None'}
+          </div>
         </div>
         <div className="w-1/3">
           <h3>Files ({files.length}):</h3>
