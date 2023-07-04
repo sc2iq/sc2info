@@ -1,8 +1,9 @@
 import { unstable_parseMultipartFormData, type ActionArgs, unstable_composeUploadHandlers, unstable_createFileUploadHandler, unstable_createMemoryUploadHandler } from "@remix-run/node"
 import { Form, useNavigation } from "@remix-run/react"
 import '../types.d.ts'
-import { useRef, useState } from "react"
-import { ArrowUpOnSquareIcon, BeakerIcon } from '@heroicons/react/24/solid'
+import { useEffect, useRef, useState } from "react"
+import { ArrowUpOnSquareIcon } from '@heroicons/react/24/solid'
+import { containerClient } from "~/services/blobService"
 
 export const action = async ({ request }: ActionArgs) => {
   console.log(`File Upload Action: `, { request })
@@ -24,12 +25,17 @@ export const action = async ({ request }: ActionArgs) => {
   const balanceDataFiles = formData.getAll("files")
   console.log({ balanceDataFiles })
 
-  // success! Redirect to account page
+  for (const balanceDataFile of balanceDataFiles) {
+    console.log({ balanceDataFile })
+
+
+    // containerClient.uploadBlockBlob('balance-data', balanceDataFile.filename, balanceDataFile.data, balanceDataFile.data.length')
+  }
+
   return null
 }
 
 export default function Index() {
-
   const navigation = useNavigation()
   const folderPickerRef = useRef<HTMLInputElement>(null)
   const [files, setFiles] = useState<File[]>([])
@@ -41,9 +47,17 @@ export default function Index() {
     console.log({ files })
   }
 
+  // After form is submitted, reset the form
+  // useEffect(() => {
+  //   if (navigation.state === "submitting") {
+  //     folderPickerRef.current?.form?.reset()
+  //     setFiles([])
+  //   }
+  // }, [navigation, files])
+
   return (
     <>
-      <div className="flex flex-col gap-6 items-center p-10 text-2xl">
+      <div className="flex flex-col gap-6 items-center p-10 text-2xl text-blue-100">
         <h1 className="text-6xl font-bold text-slate-50">SC2 Balance Data Upload</h1>
         <h2 className="text-4xl font-semibold">Instructions</h2>
         <div className="flex gap-10 mb-5">
@@ -86,14 +100,14 @@ export default function Index() {
         <div>
           Status: <span className="text-blue-100 font-medium">{navigation.state === 'submitting' ? 'Uploading...' : 'None'}</span>
         </div>
-        <div>
+        <div className="w-1/3">
           <h3>Files ({files.length}):</h3>
           {files.length === 0
             ? <div>No Files</div>
             : (
               <ul>
                 {files.map((file, index) => (
-                  <li key={index}>{file.webkitRelativePath ?? file.name}</li>
+                  <li key={index}>{index + 1}: {file.webkitRelativePath || file.name}</li>
                 ))}
               </ul>
             )}
