@@ -48,8 +48,24 @@ export default function Index() {
   const folderPickerChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     console.log(`Folder Picker Change: `, { event })
     const files = [...event.target?.files ?? []]
-    setFiles(files)
-    console.log({ files })
+    const fileExtensions = files
+      .map(file => file.name.substring(file.name.lastIndexOf('.') + 1).toLowerCase())
+    const fileExtensionsSet = new Set(fileExtensions)
+    console.log({ fileExtensionsSet })
+    if (fileExtensionsSet.size >= 1) {
+      const uniqueFileExtensions = [...fileExtensionsSet.values()]
+      const containsNonZipFile = uniqueFileExtensions.some(ext => ext !== 'zip')
+      if (containsNonZipFile) {
+        alert(`Please only upload .zip files. Found extentions: ${uniqueFileExtensions.join(', ')}`)
+        event.preventDefault()
+        event.stopPropagation()
+        folderPickerRef.current?.form?.reset()
+      }
+    }
+    else {
+      setFiles(files)
+      console.log({ files })
+    }
   }
 
   // After form is submitted, reset the form
@@ -93,6 +109,7 @@ export default function Index() {
             placeholder="Choose"
             onChange={folderPickerChange}
             required
+            accept=".zip"
             className="p-4 rounded-md bg-slate-200 ring-2 ring-blue-200 ring-offset-slate-800 ring-offset-4 border-none text-slate-800 font-semibold cursor-pointer"
           />
           <div>
