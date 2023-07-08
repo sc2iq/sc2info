@@ -50,7 +50,7 @@ export default function Index() {
   const [files, setFiles] = useState<File[]>([])
   const [uploadedBlobUrl, setUploadedBlobUrl] = useState<string>()
   const actionData = useActionData<typeof action>()
-  const [uploadMachineState, uploadMachineSend] = useMachine(uploadStatusMachine)
+  const [uploadMachineState, uploadMachineSend, uploadActor] = useMachine(uploadStatusMachine)
   // Subscribe to the machine state
   useEffect(() => {
     console.log('Upload Machine State: ', { value: uploadMachineState.value })
@@ -161,14 +161,11 @@ export default function Index() {
           <div>Uploaded File:</div>
           <a href={uploadedBlobUrl} className="text-blue-100 font-medium">{uploadedBlobUrl}</a>
         </div>
-        <button onClick={() => { console.log('send toggle'); uploadMachineSend({ type: 'TOGGLE' }) }}>
-
+        <button onClick={() => uploadMachineSend({ type: 'TOGGLE' })}>
           {uploadMachineState.value === 'inactive'
             ? 'Click to activate'
             : 'Active! Click to deactivate'}
         </button>
-        <pre>{uploadMachineState.value.toString()}</pre>
-        <pre>{JSON.stringify(uploadMachineState.toJSON(), null, 4)}</pre>
       </div>
     </>
   )
