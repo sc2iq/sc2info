@@ -1,14 +1,26 @@
 import { createMachine } from 'xstate'
 
 const uploadStatusMachine = createMachine({
-    id: 'toggle',
+    id: 'uploadmachine',
     initial: 'inactive',
     states: {
         inactive: {
-            on: { TOGGLE: 'active' },
+            on: { UPLOAD: 'Uploading' },
         },
-        active: {
-            on: { TOGGLE: 'inactive' },
+        Uploading: {
+            on: { PROCESS: 'Processing' },
+        },
+        Processing: {
+            on: {
+                SUCCESS: 'Completed',
+                FAILURE: 'Failure'
+            },
+        },
+        Completed: {
+            on: { RESET: 'inactive' },
+        },
+        Failure: {
+            on: { RESET: 'inactive' },
         },
     },
 })

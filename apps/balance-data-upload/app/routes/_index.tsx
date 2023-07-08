@@ -2,7 +2,7 @@ import { unstable_parseMultipartFormData, type ActionArgs, unstable_composeUploa
 import { Form, useActionData, useNavigation } from "@remix-run/react"
 import '../types.d.ts'
 import { useEffect, useRef, useState } from "react"
-import { ArrowPathIcon, ArrowUpOnSquareIcon } from '@heroicons/react/24/solid'
+import { ArrowPathIcon, ArrowUpOnSquareIcon, CheckCircleIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/solid'
 import { containerClient } from "~/services/blobService"
 import { BlockBlobClient, BlockBlobUploadResponse } from "@azure/storage-blob"
 import { useMachine } from "@xstate/react"
@@ -47,7 +47,6 @@ export const action = async ({ request }: ActionArgs) => {
 export default function Index() {
   const navigation = useNavigation()
   const folderPickerRef = useRef<HTMLInputElement>(null)
-  const [files, setFiles] = useState<File[]>([])
   const [uploadedBlobUrl, setUploadedBlobUrl] = useState<string>()
   const actionData = useActionData<typeof action>()
   const [uploadMachineState, uploadMachineSend, uploadActor] = useMachine(uploadStatusMachine)
@@ -57,12 +56,10 @@ export default function Index() {
   }, [uploadMachineState])
 
   const folderPickerChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    console.log(`Folder Picker Change: `, { event })
     const files = [...event.target?.files ?? []]
     const fileExtensions = files
       .map(file => file.name.substring(file.name.lastIndexOf('.') + 1).toLowerCase())
     const fileExtensionsSet = new Set(fileExtensions)
-    console.log({ fileExtensionsSet })
     if (fileExtensionsSet.size >= 1) {
       const uniqueFileExtensions = [...fileExtensionsSet.values()]
       const containsNonZipFile = uniqueFileExtensions.some(ext => ext !== 'zip')
@@ -71,12 +68,13 @@ export default function Index() {
         event.preventDefault()
         event.stopPropagation()
         folderPickerRef.current?.form?.reset()
+        uploadMachineSend({ type: 'RESET' })
       }
     }
-    else {
-      setFiles(files)
-      console.log({ files })
-    }
+  }
+
+  const onFormSubmit: React.FormEventHandler<HTMLFormElement> = async (event) => {
+    uploadMachineSend({ type: 'UPLOAD' })
   }
 
   // After form is submitted, reset the form
@@ -85,9 +83,12 @@ export default function Index() {
     if (blobBlobClient) {
       setUploadedBlobUrl(blobBlobClient.url)
       folderPickerRef.current?.form?.reset()
-      setFiles([])
+      uploadMachineSend({ type: 'PROCESS' })
     }
   }, [actionData])
+
+  const hasUploaded = ['Processing', 'Complete'].includes(uploadMachineState.value.toString())
+  const hasProcessed = ['Complete'].includes(uploadMachineState.value.toString())
 
   return (
     <>
@@ -112,7 +113,7 @@ export default function Index() {
             <img src="/images/step4_upload_zip_file.png" alt="File explorer with .zip file highlighted" width="250" className="ring-2 ring-blue-400 ring-offset-slate-900 ring-offset-4 rounded-2xl" />
           </div>
         </div>
-        <Form method="post" encType="multipart/form-data" className="flex flex-col gap-8 items-center">
+        <Form method="post" encType="multipart/form-data" className="flex flex-col gap-8 items-center" onSubmit={onFormSubmit}>
           <label htmlFor="filepicker" className="text-3xl font-semibold">Upload Balance Data .zip File:</label>
           <input
             ref={folderPickerRef}
@@ -123,7 +124,7 @@ export default function Index() {
             onChange={folderPickerChange}
             required
             accept=".zip"
-            className="p-4 rounded-md bg-slate-200 ring-2 ring-blue-200 ring-offset-slate-900 ring-offset-4 border-none text-slate-800 font-semibold cursor-pointer"
+            className="p-4 rounded-md bg-slate-300 ring-2 ring-blue-200 ring-offset-slate-900 ring-offset-4 border-none text-slate-800 font-semibold cursor-pointer"
           />
           <div>
             <button type="submit" className="flex flex-row gap-2 p-4 px-6 rounded-md bg-blue-500 ring-2 ring-blue-200 ring-offset-slate-900 ring-offset-4 border-none text-white font-semibold">
@@ -132,7 +133,7 @@ export default function Index() {
             </button>
           </div>
         </Form>
-        <div className="w-1/3 flex gap-4">
+        <div className="w-1/2 flex gap-4">
           <div>Status:</div>
           <div className="text-blue-100 font-medium">
             {navigation.state === 'submitting'
@@ -142,30 +143,27 @@ export default function Index() {
                   <span>Uploading...</span>
                 </div>
               </>)
-              : 'None'}
+              : null}
+            {uploadMachineState.value.toString() === 'inactive' ? 'None' : uploadMachineState.value.toString()}
           </div>
         </div>
-        <div className="w-1/3">
-          <h3>Files ({files.length}):</h3>
-          {files.length === 0
-            ? <div>No Files</div>
-            : (
-              <ul>
-                {files.map((file, index) => (
-                  <li key={index}>{index + 1}: {file.webkitRelativePath || file.name}</li>
-                ))}
-              </ul>
-            )}
+        <div className="w-1/2 p-4 rounded-md ring-2 ring-blue-200 ring-offset-slate-900 ring-offset-4 border-none font-semibold">
+          <div className="grid grid-cols-[50px_1fr_50px] gap-4 text-slate-500">
+            <div className={`${hasUploaded ? 'text-slate-200' : ''}`}>1</div>
+            <span className={`${hasUploaded ? 'text-slate-200' : ''}`}>Uploaded</span>
+            <CheckCircleIcon className={`h-8 w-8 ${hasUploaded ? 'text-green-500' : ''}`} />
+            <div className={`${hasProcessed ? 'text-slate-200' : ''}`}>2</div>
+            <span className={`${hasProcessed ? 'text-slate-200' : ''}`}>Processed</span>
+            <CheckCircleIcon className={`h-8 w-8 ${hasProcessed ? 'text-green-500' : ''}`} />
+            <div className={`${hasProcessed ? 'text-slate-200' : ''}`}>3</div>
+            <span className={`${hasProcessed ? 'text-slate-200' : ''}`}>Complete</span>
+            <CheckCircleIcon className={`h-8 w-8 ${hasProcessed ? 'text-green-500' : ''}`} />
+          </div>
         </div>
-        <div className="w-1/3 flex gap-4">
-          <div>Uploaded File:</div>
-          <a href={uploadedBlobUrl} className="text-blue-100 font-medium">{uploadedBlobUrl}</a>
+        <div className="w-1/2 flex gap-4">
+          <div>Uploaded Blob:</div>
+          {uploadedBlobUrl ? <a href={uploadedBlobUrl} className="text-blue-100 font-medium">{uploadedBlobUrl}</a> : 'None'}
         </div>
-        <button onClick={() => uploadMachineSend({ type: 'TOGGLE' })}>
-          {uploadMachineState.value === 'inactive'
-            ? 'Click to activate'
-            : 'Active! Click to deactivate'}
-        </button>
       </div>
     </>
   )
