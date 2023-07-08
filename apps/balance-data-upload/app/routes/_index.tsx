@@ -6,6 +6,7 @@ import { containerClient } from "~/services/blobService"
 import { BlockBlobClient, BlockBlobUploadResponse } from "@azure/storage-blob"
 import { useMachine } from "@xstate/react"
 import { uploadStatusMachine } from "~/stateMachines/uploadStatusMachine"
+import { sendTo } from "xstate"
 
 export const action = async ({ request }: ActionArgs) => {
   const uploadHandler = unstable_composeUploadHandlers(
@@ -48,7 +49,37 @@ export default function Index() {
   const folderPickerRef = useRef<HTMLInputElement>(null)
   const [uploadedBlobUrl, setUploadedBlobUrl] = useState<string>()
   const actionData = useActionData<typeof action>()
-  const [uploadMachineState, uploadMachineSend, uploadActor] = useMachine(uploadStatusMachine)
+  const [uploadMachineState, uploadMachineSend, uploadActor] = useMachine(uploadStatusMachine, {
+    actions: {
+      recordCurrentTime: ({
+        context,
+        event,
+      }) => {
+        console.log('Record Current Time Edited!')
+        context.startTime = Date.now()
+      },
+      resetForm: ({
+        context,
+        event,
+      }) => {
+        console.log('Reset Form Edited!')
+        context.formRef?.reset()
+      },
+      requestBlobs: ({
+        context,
+        event,
+      }) => {
+        console.log('Request Blobs Edited!')
+        console.log('context', context)
+        sendTo(context.uploadActor, { type: 'blobFound' })
+      },
+    },
+  })
+
+  uploadActor.subscribe(state => {
+    console.log('Upload Actor State: ', { value: state.value })
+  })
+
   // Subscribe to the machine state
   useEffect(() => {
     console.log('Upload Machine State: ', { value: uploadMachineState.value })
@@ -87,6 +118,11 @@ export default function Index() {
 
   const hasUploaded = ['Processing', 'Complete'].includes(uploadMachineState.value.toString())
   const hasProcessed = ['Complete'].includes(uploadMachineState.value.toString())
+  const getStateString = (machineValue: typeof uploadMachineState.value): string => {
+    return Object.entries(machineValue as any)
+      .map(([key, subStateValue]) => `${key}: ${getStateString(subStateValue as any)}`)
+      .join(':')
+  }
 
   return (
     <>

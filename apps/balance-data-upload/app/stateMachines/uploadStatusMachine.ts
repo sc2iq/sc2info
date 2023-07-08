@@ -1,4 +1,4 @@
-import { createMachine } from "xstate"
+import { createMachine, sendTo } from "xstate"
 
 export const uploadStatusMachine = createMachine(
     {
@@ -19,48 +19,57 @@ export const uploadStatusMachine = createMachine(
                     params: {},
                     type: "recordCurrentTime",
                 },
-                initial: "StartTimer",
-                states: {
-                    StartTimer: {
-                        after: {
-                            "1000": {
-                                target:
-                                    "#BlobUploadProcessMachine.Processing.ProcessFailure",
-                                actions: [],
-                            },
-                        },
-                    },
-                    ProcessFailure: {
-                        type: "final",
-                    },
-                    RequestLatestBlob:
-                    {
-                        entry: {
-                            params: {},
-                            type: "requestBlobs",
-                        },
-                        on: {
-                            blobNotFound: {
-                                target: "Wait",
-                            },
-                            blobFound: {
-                                target: "ProcessComplete",
-                            },
-                        },
-                    },
-                    Wait: {
-                        after: {
-                            "500": {
-                                target: "#BlobUploadProcessMachine.Processing.RequestLatestBlob",
-                                actions: [],
-                            },
-                        },
-                    },
-                    ProcessComplete: {
-                        type: "final",
-                    },
-                },
                 type: "parallel",
+                states: {
+                    ExpirationTimer: {
+                        initial: "StarTimer",
+                        states: {
+                            StarTimer: {
+                                after: {
+                                    "1000": {
+                                        target:
+                                            "#BlobUploadProcessMachine.Processing.ExpirationTimer.TimerExpired",
+                                        actions: [],
+                                    },
+                                },
+                            },
+                            TimerExpired: {
+                                type: "final",
+                            }
+                        }
+                    },
+                    PollForLatestBlob: {
+                        initial: "RequestLatestBlob",
+                        states: {
+                            RequestLatestBlob:
+                            {
+                                entry: {
+                                    params: {},
+                                    type: "requestBlobs",
+                                },
+                                on: {
+                                    blobNotFound: {
+                                        target: "Wait",
+                                    },
+                                    blobFound: {
+                                        target: "ProcessComplete",
+                                    },
+                                },
+                            },
+                            Wait: {
+                                after: {
+                                    "500": {
+                                        target: "RequestLatestBlob",
+                                        actions: [],
+                                    },
+                                },
+                            },
+                            ProcessComplete: {
+                                type: "final",
+                            },
+                        }
+                    }
+                },
             },
             Inactive: {
                 entry: {
@@ -96,19 +105,23 @@ export const uploadStatusMachine = createMachine(
                 context,
                 event,
             }) => {
+                console.log('Record Current Time')
                 context.startTime = Date.now()
             },
             resetForm: ({
                 context,
                 event,
             }) => {
+                console.log('Reset Form')
                 context.formRef?.reset()
             },
-            createMachine: ({
+            requestBlobs: ({
                 context,
                 event,
             }) => {
                 console.log('Request Blobs')
+                console.log('context', context)
+                sendTo(context.uploadActor, { type: 'blobFound' })
             },
         },
         guards: {},
