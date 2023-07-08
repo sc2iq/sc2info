@@ -1,6 +1,5 @@
 import { unstable_parseMultipartFormData, type ActionArgs, unstable_composeUploadHandlers, unstable_createFileUploadHandler, unstable_createMemoryUploadHandler } from "@remix-run/node"
 import { Form, useActionData, useNavigation } from "@remix-run/react"
-import '../types.d.ts'
 import { useEffect, useRef, useState } from "react"
 import { ArrowPathIcon, ArrowUpOnSquareIcon, CheckCircleIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/solid'
 import { containerClient } from "~/services/blobService"
@@ -68,13 +67,12 @@ export default function Index() {
         event.preventDefault()
         event.stopPropagation()
         folderPickerRef.current?.form?.reset()
-        uploadMachineSend({ type: 'RESET' })
       }
     }
   }
 
   const onFormSubmit: React.FormEventHandler<HTMLFormElement> = async (event) => {
-    uploadMachineSend({ type: 'UPLOAD' })
+    uploadMachineSend({ type: 'upload' })
   }
 
   // After form is submitted, reset the form
@@ -83,7 +81,7 @@ export default function Index() {
     if (blobBlobClient) {
       setUploadedBlobUrl(blobBlobClient.url)
       folderPickerRef.current?.form?.reset()
-      uploadMachineSend({ type: 'PROCESS' })
+      uploadMachineSend({ type: 'process' })
     }
   }, [actionData])
 
@@ -136,15 +134,10 @@ export default function Index() {
         <div className="w-1/2 flex gap-4">
           <div>Status:</div>
           <div className="text-blue-100 font-medium">
-            {navigation.state === 'submitting'
-              ? (<>
-                <div className="flex gap-2">
-                  <ArrowPathIcon className="animate-spin h-8 w-8 text-slate-100 " />
-                  <span>Uploading...</span>
-                </div>
-              </>)
-              : null}
-            {uploadMachineState.value.toString() === 'inactive' ? 'None' : uploadMachineState.value.toString()}
+            <div className="flex gap-2">
+              <span>{uploadMachineState.value.toString()}...</span>
+              {uploadMachineState.value.toString() !== 'Inactive' ? <ArrowPathIcon className="animate-spin h-8 w-8 text-slate-100 " /> : null}
+            </div>
           </div>
         </div>
         <div className="w-1/2 p-4 rounded-md ring-2 ring-blue-200 ring-offset-slate-900 ring-offset-4 border-none font-semibold">
@@ -161,7 +154,7 @@ export default function Index() {
           </div>
         </div>
         <div className="w-1/2 flex gap-4">
-          <div>Uploaded Blob:</div>
+          <div className="whitespace-nowrap">Uploaded Blob:</div>
           {uploadedBlobUrl ? <a href={uploadedBlobUrl} className="text-blue-100 font-medium">{uploadedBlobUrl}</a> : 'None'}
         </div>
       </div>

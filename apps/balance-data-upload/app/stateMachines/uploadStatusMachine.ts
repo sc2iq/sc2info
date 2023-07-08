@@ -1,28 +1,117 @@
-import { createMachine } from 'xstate'
+import { createMachine } from "xstate"
 
-const uploadStatusMachine = createMachine({
-    id: 'uploadmachine',
-    initial: 'inactive',
-    states: {
-        inactive: {
-            on: { UPLOAD: 'Uploading' },
-        },
-        Uploading: {
-            on: { PROCESS: 'Processing' },
-        },
-        Processing: {
-            on: {
-                SUCCESS: 'Completed',
-                FAILURE: 'Failure'
+export const uploadStatusMachine = createMachine(
+    {
+        id: "BlobUploadProcessMachine",
+        context: {},
+        description: "",
+        initial: "Inactive",
+        states: {
+            Uploading: {
+                on: {
+                    process: {
+                        target: "Processing",
+                    },
+                },
+            },
+            Processing: {
+                entry: {
+                    params: {},
+                    type: "recordCurrentTime",
+                },
+                initial: "StartTimer",
+                states: {
+                    StartTimer: {
+                        after: {
+                            "1000": {
+                                target:
+                                    "#BlobUploadProcessMachine.Processing.ProcessFailure",
+                                actions: [],
+                            },
+                        },
+                    },
+                    ProcessFailure: {
+                        type: "final",
+                    },
+                    RequestLatestBlob:
+                    {
+                        entry: {
+                            params: {},
+                            type: "requestBlobs",
+                        },
+                        on: {
+                            blobNotFound: {
+                                target: "Wait",
+                            },
+                            blobFound: {
+                                target: "ProcessComplete",
+                            },
+                        },
+                    },
+                    Wait: {
+                        after: {
+                            "500": {
+                                target: "#BlobUploadProcessMachine.Processing.RequestLatestBlob",
+                                actions: [],
+                            },
+                        },
+                    },
+                    ProcessComplete: {
+                        type: "final",
+                    },
+                },
+                type: "parallel",
+            },
+            Inactive: {
+                entry: {
+                    params: {},
+                    type: "resetForm",
+                },
+                on: {
+                    upload: {
+                        target: "Uploading",
+                    },
+                },
             },
         },
-        Completed: {
-            on: { RESET: 'inactive' },
-        },
-        Failure: {
-            on: { RESET: 'inactive' },
+        types: {
+            events: {} as
+                | {
+                    type: "blobNotFound"
+                }
+                | {
+                    type: "blobFound"
+                }
+                | {
+                    type: "process"
+                }
+                | {
+                    type: "upload"
+                },
         },
     },
-})
-
-export { uploadStatusMachine }
+    {
+        actions: {
+            recordCurrentTime: ({
+                context,
+                event,
+            }) => {
+                context.startTime = Date.now()
+            },
+            resetForm: ({
+                context,
+                event,
+            }) => {
+                context.formRef?.reset()
+            },
+            createMachine: ({
+                context,
+                event,
+            }) => {
+                console.log('Request Blobs')
+            },
+        },
+        guards: {},
+        delays: {},
+    }
+)
