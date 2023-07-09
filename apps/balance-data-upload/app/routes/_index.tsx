@@ -1,12 +1,13 @@
 import { unstable_parseMultipartFormData, type ActionArgs, unstable_composeUploadHandlers, unstable_createFileUploadHandler, unstable_createMemoryUploadHandler } from "@remix-run/node"
 import { Form, useActionData, useNavigation } from "@remix-run/react"
 import { useEffect, useRef, useState } from "react"
-import { ArrowPathIcon, ArrowUpOnSquareIcon, CheckCircleIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/solid'
-import { containerClient } from "~/services/blobService"
+import { ArrowPathIcon, ArrowUpOnSquareIcon, CheckCircleIcon } from '@heroicons/react/24/solid'
+import { xmlContainerClient, jsonContainerClient } from "~/services/blobService"
 import { BlockBlobClient, BlockBlobUploadResponse } from "@azure/storage-blob"
 import { useMachine } from "@xstate/react"
 import { uploadStatusMachine } from "~/stateMachines/uploadStatusMachine"
 import { sendTo } from "xstate"
+import { delay } from "~/utilities"
 
 export const action = async ({ request }: ActionArgs) => {
   const uploadHandler = unstable_composeUploadHandlers(
@@ -29,9 +30,44 @@ export const action = async ({ request }: ActionArgs) => {
 
     for (const balanceDataFile of balanceDataFiles) {
       console.log({ balanceDataFile })
+      const uploadTime = Date.now()
       const filename = `balancedata_${Date.now()}.zip`
       const fileBuffer = await balanceDataFile.arrayBuffer()
-      const uploadResponse = await containerClient.uploadBlockBlob(filename, fileBuffer, fileBuffer.byteLength)
+      const uploadResponse = await xmlContainerClient.uploadBlockBlob(filename, fileBuffer, fileBuffer.byteLength)
+
+      const millisecondsPerSecond = 1000
+      const expirationTIme = uploadTime + (40 * millisecondsPerSecond)
+
+      console.log('Upload Time: ', { uploadTime })
+      console.log('Expiration Time: ', { expirationTIme })
+      console.log('Begin polling for json blob...')
+      const maxPageSize = 3
+      while (Date.now() < expirationTIme) {
+        console.log(`Get top ${maxPageSize} json blobs ${Date.now()}...`)
+        const iterator = jsonContainerClient.listBlobsFlat().byPage({ maxPageSize })
+        const response = (await iterator.next()).value
+
+        for (const blob of response.segment.blobItems) {
+          console.log(`Blob: ${blob.name}`)
+          // Get blob modified date
+          const blobLastModified = new Date(blob.properties.lastModified)
+          console.log(`Blob Last Modified Time: ${blobLastModified.getTime()}`)
+          console.log(`Upload Time: ${uploadTime}`)
+          if (blobLastModified.getTime() > uploadTime) {
+            console.log(`Blob Is After Upload: ${blob.properties.lastModified}`)
+          }
+        }
+
+        const secondsDelay = 4
+        console.log(`None of the blobs modified after start time. Which means they must have existed before. Wait ${secondsDelay} sec...`)
+        await delay(secondsDelay * millisecondsPerSecond)
+
+        if (Date.now() > expirationTIme) {
+          console.log('Expiration time reached. Stop polling.')
+          break
+        }
+      }
+
       uploadResponses.push(uploadResponse)
     }
 
