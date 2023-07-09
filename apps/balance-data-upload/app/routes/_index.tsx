@@ -6,7 +6,7 @@ import { xmlContainerClient, jsonContainerClient } from "~/services/blobService"
 import { BlockBlobClient, BlockBlobUploadResponse } from "@azure/storage-blob"
 import { useMachine } from "@xstate/react"
 import { uploadStatusMachine } from "~/stateMachines/uploadStatusMachine"
-import { sendTo } from "xstate"
+import { ActorMap, MachineContext, ParameterizedObject, ResolveTypegenMeta, StateMachine, sendTo } from "xstate"
 import { delay } from "~/utilities"
 
 export const action = async ({ request }: ActionArgs) => {
@@ -25,45 +25,64 @@ export const action = async ({ request }: ActionArgs) => {
   )
 
   const balanceDataFiles = formData.getAll("files") as File[]
+  let processedBlobClient = null
+
   if (balanceDataFiles.length > 0) {
     const uploadResponses: Array<{ blockBlobClient: BlockBlobClient, response: BlockBlobUploadResponse }> = []
 
     for (const balanceDataFile of balanceDataFiles) {
-      console.log({ balanceDataFile })
-      const uploadTime = Date.now()
+
       const filename = `balancedata_${Date.now()}.zip`
       const fileBuffer = await balanceDataFile.arrayBuffer()
       const uploadResponse = await xmlContainerClient.uploadBlockBlob(filename, fileBuffer, fileBuffer.byteLength)
 
       const millisecondsPerSecond = 1000
-      const expirationTIme = uploadTime + (40 * millisecondsPerSecond)
+      const uploadTime = Date.now()
+      // TODO: Why do we have to modify the upload time by 40 seconds?
+      // I suspect the clock between local client and the server are not synced. The difference is the time we offset.
+      const modifiedUploadTime = uploadTime - (40 * millisecondsPerSecond)
+      const expirationTime = uploadTime + (40 * millisecondsPerSecond)
+      const maxPageSize = 5
 
       console.log('Upload Time: ', { uploadTime })
-      console.log('Expiration Time: ', { expirationTIme })
+      console.log('Expiration Time: ', { expirationTIme: expirationTime })
       console.log('Begin polling for json blob...')
-      const maxPageSize = 3
-      while (Date.now() < expirationTIme) {
+
+      while (!Boolean(processedBlobClient)) {
         console.log(`Get top ${maxPageSize} json blobs ${Date.now()}...`)
         const iterator = jsonContainerClient.listBlobsFlat().byPage({ maxPageSize })
         const response = (await iterator.next()).value
 
-        for (const blob of response.segment.blobItems) {
-          console.log(`Blob: ${blob.name}`)
+        for (const [blobIndex, blob] of response.segment.blobItems.entries()) {
           // Get blob modified date
           const blobLastModified = new Date(blob.properties.lastModified)
-          console.log(`Blob Last Modified Time: ${blobLastModified.getTime()}`)
-          console.log(`Upload Time: ${uploadTime}`)
-          if (blobLastModified.getTime() > uploadTime) {
-            console.log(`Blob Is After Upload: ${blob.properties.lastModified}`)
+          console.log(`⏲️ ${blobIndex}: Last Modified Time: ${blobLastModified.getTime()}`)
+          console.log(`⏲️ ${blobIndex}: Upload Time: ${uploadTime}`)
+          console.log(`⏲️ ${blobIndex}: Upload Time (Modified): ${modifiedUploadTime}`)
+          const timeAgoMilliseconds = blobLastModified.getTime() - modifiedUploadTime // uploadTime
+          const timeAgoSeconds = timeAgoMilliseconds / millisecondsPerSecond
+          console.log(`⏲️ ${blobIndex}: Blob ${blob.name} was modified ${timeAgoSeconds} seconds ago.`)
+          if (timeAgoSeconds > 0) {
+            console.log(`✅ ${blobIndex}: Blob ${blob.name} was modified after upload time.`)
+            console.log(`This means it is highly likely to the blob produced by processing the uploaded file.`)
+
+            processedBlobClient = jsonContainerClient.getBlobClient(blob.name)
+            break
           }
         }
 
-        const secondsDelay = 4
-        console.log(`None of the blobs modified after start time. Which means they must have existed before. Wait ${secondsDelay} sec...`)
-        await delay(secondsDelay * millisecondsPerSecond)
+        const remainingMilliseconds = expirationTime - Date.now()
+        const remainingSeconds = remainingMilliseconds / millisecondsPerSecond
 
-        if (Date.now() > expirationTIme) {
-          console.log('Expiration time reached. Stop polling.')
+        if (!Boolean(processedBlobClient)) {
+          const secondsDelay = 4
+          console.log(`None of the blobs were modified after start time. Which means they must have existed before.`)
+          console.log(`${remainingSeconds} remaining before expiration. Delay ${secondsDelay} seconds before next request...`)
+          await delay(secondsDelay * millisecondsPerSecond)
+        }
+
+        if (remainingSeconds < 0) {
+          console.warn('⚠️ Expiration time reached. Stop polling.')
           break
         }
       }
@@ -71,46 +90,69 @@ export const action = async ({ request }: ActionArgs) => {
       uploadResponses.push(uploadResponse)
     }
 
-    console.log('Action: ', { uploadResponses })
+    console.log('Action: ', { uploadResponses, processedBlob: processedBlobClient })
     return {
       uploadResponses,
+      processedBlobClient,
     }
   }
 
   return null
 }
 
+const getMachineValue = (machine: any): string => {
+  let stateString = ''
+
+  let m = machine
+
+  while (typeof m.value === 'object') {
+    const entries = Object.entries(m.value)
+    const [key, value] = entries[0]
+    stateString += key
+    m = value
+  }
+
+  if (typeof m.value === 'string') {
+    stateString += m.value
+  }
+
+  return stateString
+}
+
 export default function Index() {
   const navigation = useNavigation()
   const folderPickerRef = useRef<HTMLInputElement>(null)
   const [uploadedBlobUrl, setUploadedBlobUrl] = useState<string>()
+  const [processedBlobUrl, setProcessedBlobUrl] = useState<string>()
   const actionData = useActionData<typeof action>()
-  const [uploadMachineState, uploadMachineSend, uploadActor] = useMachine(uploadStatusMachine, {
-    actions: {
-      recordCurrentTime: ({
-        context,
-        event,
-      }) => {
-        console.log('Record Current Time Edited!')
-        context.startTime = Date.now()
+  const [uploadMachineState, uploadMachineSend, uploadActor] = useMachine(
+    uploadStatusMachine.provide({
+      actions: {
+        recordCurrentTime: ({
+          context,
+          event,
+        }) => {
+          console.log('Record Current Time Edited!')
+          context.startTime = Date.now()
+        },
+        resetForm: ({
+          context,
+          event,
+        }) => {
+          console.log('Reset Form Edited!')
+          context.formRef?.reset()
+        },
+        requestBlobs: ({
+          context,
+          event,
+        }) => {
+          console.log('Request Blobs Edited!')
+          console.log('context', context)
+          sendTo(context.uploadActor, { type: 'blobFound' })
+        },
       },
-      resetForm: ({
-        context,
-        event,
-      }) => {
-        console.log('Reset Form Edited!')
-        context.formRef?.reset()
-      },
-      requestBlobs: ({
-        context,
-        event,
-      }) => {
-        console.log('Request Blobs Edited!')
-        console.log('context', context)
-        sendTo(context.uploadActor, { type: 'blobFound' })
-      },
-    },
-  })
+    })
+  )
 
   uploadActor.subscribe(state => {
     console.log('Upload Actor State: ', { value: state.value })
@@ -149,6 +191,11 @@ export default function Index() {
       setUploadedBlobUrl(blobBlobClient.url)
       folderPickerRef.current?.form?.reset()
       uploadMachineSend({ type: 'process' })
+    }
+
+    if (actionData?.processedBlobClient) {
+      setProcessedBlobUrl(actionData?.processedBlobClient.url)
+      uploadMachineSend({ type: 'blobFound' })
     }
   }, [actionData])
 
@@ -207,27 +254,26 @@ export default function Index() {
           <div>Status:</div>
           <div className="text-blue-100 font-medium">
             <div className="flex gap-2">
-              <span>{uploadMachineState.value.toString()}...</span>
-              {uploadMachineState.value.toString() !== 'Inactive' ? <ArrowPathIcon className="animate-spin h-8 w-8 text-slate-100 " /> : null}
+              <span>{getMachineValue(uploadMachineState)}...</span>
+              {getMachineValue(uploadMachineState) !== 'Inactive' ? <ArrowPathIcon className="animate-spin h-8 w-8 text-slate-100 " /> : null}
             </div>
           </div>
         </div>
         <div className="w-1/2 p-4 rounded-md ring-2 ring-blue-200 ring-offset-slate-900 ring-offset-4 border-none font-semibold">
-          <div className="grid grid-cols-[50px_1fr_50px] gap-4 text-slate-500">
+          <div className="grid grid-cols-[50px_1fr_1fr_50px] gap-4 text-slate-500">
             <div className={`${hasUploaded ? 'text-slate-200' : ''}`}>1</div>
             <span className={`${hasUploaded ? 'text-slate-200' : ''}`}>Uploaded</span>
+            <div className={`${hasProcessed ? 'text-slate-400' : ''}`}>{uploadedBlobUrl ? <a href={uploadedBlobUrl} className="text-blue-300 underline font-medium">{uploadedBlobUrl}</a> : null}</div>
             <CheckCircleIcon className={`h-8 w-8 ${hasUploaded ? 'text-green-500' : ''}`} />
             <div className={`${hasProcessed ? 'text-slate-200' : ''}`}>2</div>
             <span className={`${hasProcessed ? 'text-slate-200' : ''}`}>Processed</span>
+            <div className={`${hasProcessed ? 'text-slate-400' : ''}`}>{processedBlobUrl ? <a href={processedBlobUrl} className="text-blue-300 underline font-medium">{processedBlobUrl}</a> : null}</div>
             <CheckCircleIcon className={`h-8 w-8 ${hasProcessed ? 'text-green-500' : ''}`} />
             <div className={`${hasProcessed ? 'text-slate-200' : ''}`}>3</div>
             <span className={`${hasProcessed ? 'text-slate-200' : ''}`}>Complete</span>
+            <div></div>
             <CheckCircleIcon className={`h-8 w-8 ${hasProcessed ? 'text-green-500' : ''}`} />
           </div>
-        </div>
-        <div className="w-1/2 flex gap-4">
-          <div className="whitespace-nowrap">Uploaded Blob:</div>
-          {uploadedBlobUrl ? <a href={uploadedBlobUrl} className="text-blue-100 font-medium">{uploadedBlobUrl}</a> : 'None'}
         </div>
       </div>
     </>
