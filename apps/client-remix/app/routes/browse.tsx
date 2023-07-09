@@ -1,6 +1,9 @@
-import { NavLink } from "@remix-run/react"
+import { NavLink, useOutletContext } from "@remix-run/react"
 
 export default function Browse() {
+  const context = useOutletContext()
+  console.log({ context })
+
   return <>
     <h1>Browse</h1>
 

@@ -1,7 +1,6 @@
-import type { LinksFunction, MetaFunction } from "@remix-run/node"
+import type { LinksFunction, LoaderFunction } from "@remix-run/node"
 import React from 'react'
 import {
-  CatchBoundaryComponent,
   Links,
   LiveReload,
   Meta,
@@ -9,7 +8,10 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useCatch,
+  V2_MetaFunction,
+  isRouteErrorResponse,
+  useLoaderData,
+  useRouteError,
 } from "@remix-run/react"
 import resetStyles from '~/styles/reset.css'
 import rootStyles from '~/styles/root.css'
@@ -32,30 +34,65 @@ export const links: LinksFunction = () => ([
   { rel: 'stylesheet', href: componentAbilityPrviewStyles },
 ])
 
-export const meta: MetaFunction = () => ({
-  charset: "utf-8",
-  title: "SC2 Info",
-  viewport: "width=device-width,initial-scale=1",
-  ['theme-color']: "#000000",
-})
+export const meta: V2_MetaFunction = () => {
+  return [
+    { charset: "utf-8" },
+    { viewport: "width=device-width,initial-scale=1" },
+    { title: "SC2 Info" },
+    { name: "description", content: "StarCraft 2 Information about Units, Buildings, Weapons, and More!" },
+  ]
+}
 
-export const CatchBoundary: CatchBoundaryComponent = () => {
-  const caught = useCatch()
-  return (
-    <AppBase>
-      <h1>
-        {caught.status} {caught.statusText}
-      </h1>
-      <div>
-        <NavLink to="/">Return Home</NavLink>
-      </div>
-    </AppBase>
-  )
+export function ErrorBoundary() {
+  const error = useRouteError()
+
+  if (isRouteErrorResponse(error)) {
+    return (
+      <AppBase>
+        <h1>
+          {error.status} {error.statusText}
+        </h1>
+        <p>{error.data}</p>
+        <div>
+          <NavLink to="/">Return Home</NavLink>
+        </div>
+      </AppBase>
+    )
+  } else if (error instanceof Error) {
+    return (
+      <AppBase>
+        <h1>Error</h1>
+        <p>{error.message}</p>
+        <p>The stack trace is:</p>
+        <pre>{error.stack}</pre>
+        <div>
+          <NavLink to="/">Return Home</NavLink>
+        </div>
+      </AppBase>
+    )
+  } else {
+    return <h1>Unknown Error</h1>
+  }
+}
+
+export const loader: LoaderFunction = async (args) => {
+  const jsonFileUrl = process.env.BALANCE_DATA_JSON!
+  console.log(`Downloading: ${jsonFileUrl}`)
+  const jsonFileResponse = await fetch(jsonFileUrl)
+  const jsonContent = await jsonFileResponse.json()
+  console.log(`Processing...`)
+  console.log(`Complete!`)
+
+  return {
+    jsonContent,
+  }
 }
 
 export default function App() {
+  const loaderData = useLoaderData<typeof loader>()
+  
   return <AppBase>
-    <Outlet />
+    <Outlet context={loaderData} />
   </AppBase>
 }
 
@@ -76,7 +113,7 @@ export const AppBase: React.FC<React.PropsWithChildren> = ({ children }) => {
           </div>
           <nav>
             <div className="container sc2info-navigation">
-              <NavLink to="/" className="sc2info-navigation__link">Search</NavLink>
+              <NavLink to="/search" className="sc2info-navigation__link">Search</NavLink>
               <NavLink to="/browse" className="sc2info-navigation__link" >Browse</NavLink>
               <NavLink to="/ask" className="sc2info-navigation__link" >Ask</NavLink>
             </div>
