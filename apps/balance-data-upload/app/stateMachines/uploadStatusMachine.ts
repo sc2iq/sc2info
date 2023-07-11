@@ -20,6 +20,9 @@ export const uploadStatusMachine = createMachine(
                     type: "recordCurrentTime",
                 },
                 type: "parallel",
+                onDone: {
+                  target: "Complete"
+                },
                 states: {
                     ExpirationTimer: {
                         initial: "StarTimer",
@@ -52,19 +55,19 @@ export const uploadStatusMachine = createMachine(
                                         target: "Wait",
                                     },
                                     blobFound: {
-                                        target: "ProcessComplete",
+                                        target: "BlobFound",
                                     },
                                 },
                             },
                             Wait: {
                                 after: {
-                                    "500": {
+                                    "1000": {
                                         target: "RequestLatestBlob",
                                         actions: [],
                                     },
                                 },
                             },
-                            ProcessComplete: {
+                            BlobFound: {
                                 type: "final",
                             },
                         }
@@ -82,6 +85,9 @@ export const uploadStatusMachine = createMachine(
                     },
                 },
             },
+            Complete: {
+              type: "final"
+            }
         },
         types: {
             events: {} as
@@ -100,30 +106,7 @@ export const uploadStatusMachine = createMachine(
         },
     },
     {
-        actions: {
-            recordCurrentTime: ({
-                context,
-                event,
-            }) => {
-                console.log('Record Current Time')
-                context.startTime = Date.now()
-            },
-            resetForm: ({
-                context,
-                event,
-            }) => {
-                console.log('Reset Form')
-                context.formRef?.reset()
-            },
-            requestBlobs: ({
-                context,
-                event,
-            }) => {
-                console.log('Request Blobs')
-                console.log('context', context)
-                sendTo(context.uploadActor, { type: 'blobFound' })
-            },
-        },
+        actions: {},
         guards: {},
         delays: {},
     }

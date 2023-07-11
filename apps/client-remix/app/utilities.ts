@@ -1,3 +1,33 @@
+type XmlJsonElement = {
+    type: string
+    name: string
+    attributes?: XmlJsonAttributes
+    elements?: XmlJsonElement[]
+}
+
+type XmlJsonAttributes = Record<string, string>
+
+export type XmlRootElement = {
+    elements: XmlJsonElement[]
+}
+
+type Unit = {
+    name: string
+    properties: Record<string, Record<string, string>>
+}
+
+export function getUnits(xmlJson: XmlRootElement): Unit[] {
+    const units = xmlJson.elements.map<Unit>(xmlUnit => {
+
+        return {
+            name: `test`,
+            properties: {}
+        }
+    })
+
+    return units
+}
+
 const regex = /([A-Z])(?=[A-Z][a-z])|([a-z])(?=[A-Z])/g
 export function convertCamelCaseToSpacedCase(camelCaseString: string): string {
     return camelCaseString.replace(regex, '$& ')

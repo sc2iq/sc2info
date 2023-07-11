@@ -12,16 +12,7 @@ export default function Index() {
   console.log({ context })
 
   const searchQuery = 'test'
-  const searchResults = {
-    fetching: true,
-    error: {
-      message: 'test'
-    },
-    data: {
-      results: [],
-      searchAll: [],
-    }
-  }
+  const searchResults: any[] = []
   return <>
     <div className="search-header">
       <div className="search-input">
@@ -39,21 +30,14 @@ export default function Index() {
       </div>
     </div>
 
-    {1 > 0
-      && <h3>Results for: '{searchQuery}'</h3>}
+    <h3>Results for: '{searchQuery}'</h3>
     <section>
-      {searchResults.fetching
-        && <p>&nbsp;Loading...</p>}
-
-      {searchResults.error
-        ? <p>&nbsp;Error! {searchResults.error.message}</p>
-        : searchResults.data
-        && <div className="search-all-list">
-          {(searchResults.data.searchAll as any[]).map((searchResult, i) => {
-            const path = 'asdfa'
-            return <Link to={`/${path}/${searchResult.item.id}`} key={i}><SearchResult searchAllResult={searchResult} /></Link>
-          })}
-        </div>}
+      <div className="search-all-list">
+        {searchResults.map((searchResult, i) => {
+          const path = 'asdfa'
+          return <Link to={`/${path}/${searchResult.id}`} key={i}><SearchResult searchAllResult={searchResult} /></Link>
+        })}
+      </div>
     </section>
     <section className="search-footer">
       <p>Still can't find the item using search? Try <NavLink to={`/browse`}>Browsing</NavLink> through categories or <NavLink to={`/ask`}>Asking</NavLink> a question.</p>

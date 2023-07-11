@@ -21,6 +21,7 @@ import browseStyles from '~/styles/browse.css'
 import searchStyles from '~/styles/search.css'
 import abilitiesStyles from '~/styles/abilities.css'
 import componentAbilityPrviewStyles from '~/components/AbilityPreview.css'
+import { XmlRootElement } from '~/utilities'
 
 export const links: LinksFunction = () => ([
   { rel: 'stylesheet', href: resetStyles },
@@ -79,7 +80,7 @@ export const loader: LoaderFunction = async (args) => {
   const jsonFileUrl = process.env.BALANCE_DATA_JSON!
   console.log(`Downloading: ${jsonFileUrl}`)
   const jsonFileResponse = await fetch(jsonFileUrl)
-  const jsonContent = await jsonFileResponse.json()
+  const jsonContent: XmlRootElement = await jsonFileResponse.json()
   console.log(`Processing...`)
   console.log(`Complete!`)
 
