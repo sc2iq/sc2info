@@ -164,20 +164,22 @@ export default function Index() {
   }
 
   const onFormSubmit: React.FormEventHandler<HTMLFormElement> = async (event) => {
+    console.log('Form Submitted!', { now: Date.now() })
     uploadMachineSend({ type: 'upload' })
   }
 
   // After form is submitted, reset the form
   useEffect(() => {
-    const firstBlobUrl = actionData?.uploadedBlobUrls?.at(0)
+    const firstBlobUrl = (actionData as any)?.uploadedBlobUrls?.at(0)
     if (firstBlobUrl) {
       setUploadedBlobUrl(firstBlobUrl)
       folderPickerRef.current?.form?.reset()
       uploadMachineSend({ type: 'process' })
     }
 
-    if (actionData?.processedBlobUrl) {
-      setProcessedBlobUrl(actionData?.processedBlobUrl)
+    const processedBlobUrl = (actionData as any)?.processedBlobUrl
+    if (processedBlobUrl) {
+      setProcessedBlobUrl(processedBlobUrl)
       uploadMachineSend({ type: 'blobFound' })
     }
   }, [actionData])
@@ -214,7 +216,12 @@ export default function Index() {
             <img src="/images/step4_upload_zip_file.png" alt="File explorer with .zip file highlighted" width="250" className="ring-2 ring-blue-400 ring-offset-slate-900 ring-offset-4 rounded-2xl" />
           </div>
         </div>
-        <Form method="post" encType="multipart/form-data" className="flex flex-col gap-8 items-center" onSubmit={onFormSubmit}>
+        <Form
+          method="post"
+          encType="multipart/form-data"
+          className="flex flex-col gap-8 items-center"
+          onSubmit={onFormSubmit}
+        >
           <label htmlFor="filepicker" className="text-3xl font-semibold">Upload Balance Data .zip File:</label>
           <input
             ref={folderPickerRef}
