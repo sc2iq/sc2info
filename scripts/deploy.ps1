@@ -74,5 +74,5 @@ else {
     -o tsv
 }
 
-Write-Step "Provision $sc2infoResourceNames Resources (What-If: $($WhatIf))"
+Write-Step "Provision $sc2infoResourceGroupName Resources (What-If: $($WhatIf))"
 

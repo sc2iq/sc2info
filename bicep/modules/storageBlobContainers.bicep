@@ -15,6 +15,14 @@ resource blobService 'Microsoft.Storage/storageAccounts/blobServices@2022-09-01'
   name: 'default'
 }
 
+resource zipContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2022-09-01' = {
+  parent: blobService
+  name: 'sc2-balancedata-zip'
+  properties: {
+    publicAccess: 'Blob'
+  }
+}
+
 resource xmlContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2022-09-01' = {
   parent: blobService
   name: 'sc2-balancedata-xml'
@@ -33,7 +41,7 @@ resource jsonContainer 'Microsoft.Storage/storageAccounts/blobServices/container
 
 resource jsonProcessedContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2022-09-01' = {
   parent: blobService
-  name: 'sc2-balancedata-processed'
+  name: 'sc2-balancedata-json-processed'
   properties: {
     publicAccess: 'Blob'
   }
