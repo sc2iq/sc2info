@@ -1,12 +1,12 @@
 import { unstable_parseMultipartFormData, type ActionArgs, unstable_composeUploadHandlers, unstable_createFileUploadHandler, unstable_createMemoryUploadHandler } from "@remix-run/node"
-import { Form, useActionData, useNavigation } from "@remix-run/react"
+import { Form, useActionData } from "@remix-run/react"
 import { useEffect, useRef, useState } from "react"
 import { ArrowPathIcon, ArrowUpOnSquareIcon, CheckCircleIcon } from '@heroicons/react/24/solid'
-import { xmlContainerClient, jsonContainerClient } from "~/services/blobService"
+import { zipContainerClient, jsonContainerClient } from "~/services/blobService"
 import { BlockBlobClient, BlockBlobUploadResponse } from "@azure/storage-blob"
 import { useMachine } from "@xstate/react"
 import { uploadStatusMachine } from "~/stateMachines/uploadStatusMachine"
-import { ActorMap, MachineContext, ParameterizedObject, ResolveTypegenMeta, StateMachine, StateValueMap, sendTo } from "xstate"
+import { sendTo } from "xstate"
 import { delay } from "~/utilities"
 
 export const action = async ({ request }: ActionArgs) => {
@@ -34,7 +34,7 @@ export const action = async ({ request }: ActionArgs) => {
 
       const filename = `balancedata_${Date.now()}.zip`
       const fileBuffer = await balanceDataFile.arrayBuffer()
-      const uploadResponse = await xmlContainerClient.uploadBlockBlob(filename, fileBuffer, fileBuffer.byteLength)
+      const uploadResponse = await zipContainerClient.uploadBlockBlob(filename, fileBuffer, fileBuffer.byteLength)
 
       const millisecondsPerSecond = 1000
       const uploadTime = Date.now()
@@ -90,7 +90,6 @@ export const action = async ({ request }: ActionArgs) => {
       uploadResponses.push(uploadResponse)
     }
 
-    console.log({ uploadResponses })
     const uploadedBlobUrls = uploadResponses.map(({ blockBlobClient }) => blockBlobClient.url)
     const processedBlobUrl = processedBlobClient?.url
     console.log('Action: ', { uploadedBlobUrls, processedBlobUrl })
@@ -229,7 +228,7 @@ export default function Index() {
             className="p-4 rounded-md bg-slate-300 ring-2 ring-blue-200 ring-offset-slate-900 ring-offset-4 border-none text-slate-800 font-semibold cursor-pointer"
           />
           <div>
-            <button type="submit" className={`flex flex-row gap-2 p-4 px-6 rounded-md ring-2 ${(files?.length ?? 0) > 0 ? 'bg-green-500 ring-green-300' : 'bg-blue-500 ring-blue-200'} ring-offset-slate-900 ring-offset-4 border-none text-white font-semibold`}>
+            <button type="submit" className={`flex flex-row gap-2 p-4 px-6 rounded-md ring-2 ${(files?.length ?? 0) > 0 ? 'bg-green-500 ring-green-200 ring-offset-green-900 shadow-[0_5px_80px_-15px_white] shadow-green-200' : 'bg-blue-500 ring-blue-200 ring-offset-slate-900'} ring-offset-4 border-none text-white font-semibold`}>
               <ArrowUpOnSquareIcon className="h-8 w-8 text-slate-100" />
               Upload
             </button>
@@ -238,7 +237,6 @@ export default function Index() {
         <div className="w-1/2 flex gap-4">
           <div>Status:</div>
           <div className="text-blue-100 font-medium">
-            <div>hasUploaded {hasUploaded ? 'true' : 'false'}</div>
             <div className="flex gap-2">
               <span>{machineStateJsonString}...</span>
               {!doesStateStringIncludeStates(['Inactive', 'Complete'], machineStateJsonString)
