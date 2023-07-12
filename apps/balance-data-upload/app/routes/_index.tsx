@@ -9,95 +9,107 @@ import { uploadStatusMachine } from "~/stateMachines/uploadStatusMachine"
 import { sendTo } from "xstate"
 import { delay } from "~/utilities"
 
+const uploadHandler = unstable_composeUploadHandlers(
+  unstable_createFileUploadHandler({
+    maxPartSize: 5_000_000,
+    file: ({ filename }) => filename,
+  }),
+  // parse everything else into memory
+  unstable_createMemoryUploadHandler()
+)
+
 export const action = async ({ request }: ActionArgs) => {
-  const uploadHandler = unstable_composeUploadHandlers(
-    unstable_createFileUploadHandler({
-      maxPartSize: 5_000_000,
-      file: ({ filename }) => filename,
-    }),
-    // parse everything else into memory
-    unstable_createMemoryUploadHandler()
-  )
+  const actionUrl = new URL(request.url)
+  console.log({ actionUrl })
 
-  const formData = await unstable_parseMultipartFormData(
-    request,
-    uploadHandler,
-  )
+  if (actionUrl.searchParams.has('upload')) {
+    const formData = await unstable_parseMultipartFormData(
+      request,
+      uploadHandler,
+    )
 
-  const balanceDataFiles = formData.getAll("files") as File[]
-  let processedBlobClient = null
+    const balanceDataFiles = formData.getAll("files") as File[]
+    let processedBlobClient = null
 
-  if (balanceDataFiles.length > 0) {
-    const uploadResponses: Array<{ blockBlobClient: BlockBlobClient, response: BlockBlobUploadResponse }> = []
+    if (balanceDataFiles.length > 0) {
+      const uploadResponses: Array<{ blockBlobClient: BlockBlobClient, response: BlockBlobUploadResponse }> = []
 
-    for (const balanceDataFile of balanceDataFiles) {
+      for (const balanceDataFile of balanceDataFiles) {
 
-      const filename = `balancedata_${Date.now()}.zip`
-      const fileBuffer = await balanceDataFile.arrayBuffer()
-      const uploadResponse = await zipContainerClient.uploadBlockBlob(filename, fileBuffer, fileBuffer.byteLength)
+        const filename = `balancedata_${Date.now()}.zip`
+        const fileBuffer = await balanceDataFile.arrayBuffer()
+        const uploadResponse = await zipContainerClient.uploadBlockBlob(filename, fileBuffer, fileBuffer.byteLength)
 
-      const millisecondsPerSecond = 1000
-      const uploadTime = Date.now()
-      // TODO: Why do we have to modify the upload time by 40 seconds?
-      // I suspect the clock between local client and the server are not synced. The difference is the time we offset.
-      const modifiedUploadTime = uploadTime - (40 * millisecondsPerSecond)
-      const expirationTime = uploadTime + (40 * millisecondsPerSecond)
-      const maxPageSize = 8
+        const millisecondsPerSecond = 1000
+        const uploadTime = Date.now()
+        // TODO: Why do we have to modify the upload time by 40 seconds?
+        // I suspect the clock between local client and the server are not synced. The difference is the time we offset.
+        const modifiedUploadTime = uploadTime - (40 * millisecondsPerSecond)
+        const expirationTime = uploadTime + (40 * millisecondsPerSecond)
+        const maxPageSize = 8
 
-      console.log('Upload Time: ', { uploadTime })
-      console.log('Expiration Time: ', { expirationTIme: expirationTime })
-      console.log('Begin polling for json blob...')
+        console.log('Upload Time: ', { uploadTime })
+        console.log('Expiration Time: ', { expirationTIme: expirationTime })
+        console.log('Begin polling for json blob...')
 
-      while (!Boolean(processedBlobClient)) {
-        console.log(`Get top ${maxPageSize} json blobs ${Date.now()}...`)
-        const iterator = jsonContainerClient.listBlobsFlat().byPage({ maxPageSize })
-        const response = (await iterator.next()).value
+        while (!Boolean(processedBlobClient)) {
+          console.log(`Get top ${maxPageSize} json blobs ${Date.now()}...`)
+          const iterator = jsonContainerClient.listBlobsFlat().byPage({ maxPageSize })
+          const response = (await iterator.next()).value
 
-        for (const [blobIndex, blob] of response.segment.blobItems.entries()) {
-          // Get blob modified date
-          const blobLastModified = new Date(blob.properties.lastModified)
-          console.log(`⏲️ ${blobIndex + 1}: Last Modified Time: ${blobLastModified.getTime()}`)
-          console.log(`⏲️ ${blobIndex + 1}: Upload Time: ${uploadTime}`)
-          console.log(`⏲️ ${blobIndex + 1}: Upload Time (Modified): ${modifiedUploadTime}`)
-          const timeAgoMilliseconds = blobLastModified.getTime() - modifiedUploadTime // uploadTime
-          const timeAgoSeconds = timeAgoMilliseconds / millisecondsPerSecond
-          console.log(`⏲️ ${blobIndex + 1}: Blob ${blob.name} was modified ${timeAgoSeconds} seconds ago.`)
-          if (timeAgoSeconds > 0) {
-            console.log(`✅ ${blobIndex + 1}: Blob ${blob.name} was modified after upload time.`)
-            console.log(`This means it is highly likely to the blob produced by processing the uploaded file.`)
+          for (const [blobIndex, blob] of response.segment.blobItems.entries()) {
+            // Get blob modified date
+            const blobLastModified = new Date(blob.properties.lastModified)
+            console.log(`⏲️ ${blobIndex + 1}: Last Modified Time: ${blobLastModified.getTime()}`)
+            console.log(`⏲️ ${blobIndex + 1}: Upload Time: ${uploadTime}`)
+            console.log(`⏲️ ${blobIndex + 1}: Upload Time (Modified): ${modifiedUploadTime}`)
+            const timeAgoMilliseconds = blobLastModified.getTime() - modifiedUploadTime // uploadTime
+            const timeAgoSeconds = timeAgoMilliseconds / millisecondsPerSecond
+            console.log(`⏲️ ${blobIndex + 1}: Blob ${blob.name} was modified ${timeAgoSeconds} seconds ago.`)
+            if (timeAgoSeconds > 0) {
+              console.log(`✅ ${blobIndex + 1}: Blob ${blob.name} was modified after upload time.`)
+              console.log(`This means it is highly likely to the blob produced by processing the uploaded file.`)
 
-            processedBlobClient = jsonContainerClient.getBlobClient(blob.name)
+              processedBlobClient = jsonContainerClient.getBlobClient(blob.name)
+              break
+            }
+          }
+
+          const remainingMilliseconds = expirationTime - Date.now()
+          const remainingSeconds = remainingMilliseconds / millisecondsPerSecond
+
+          if (!Boolean(processedBlobClient)) {
+            const secondsDelay = 5
+            console.log(`None of the blobs were modified after start time. Which means they must have existed before.`)
+            console.log(`${remainingSeconds} remaining before expiration. Delay ${secondsDelay} seconds before next request...`)
+            await delay(secondsDelay * millisecondsPerSecond)
+          }
+
+          if (remainingSeconds < 0) {
+            console.warn('⚠️ Expiration time reached. Stop polling.')
             break
           }
         }
 
-        const remainingMilliseconds = expirationTime - Date.now()
-        const remainingSeconds = remainingMilliseconds / millisecondsPerSecond
-
-        if (!Boolean(processedBlobClient)) {
-          const secondsDelay = 5
-          console.log(`None of the blobs were modified after start time. Which means they must have existed before.`)
-          console.log(`${remainingSeconds} remaining before expiration. Delay ${secondsDelay} seconds before next request...`)
-          await delay(secondsDelay * millisecondsPerSecond)
-        }
-
-        if (remainingSeconds < 0) {
-          console.warn('⚠️ Expiration time reached. Stop polling.')
-          break
-        }
+        uploadResponses.push(uploadResponse)
       }
 
-      uploadResponses.push(uploadResponse)
-    }
+      const uploadedBlobUrls = uploadResponses.map(({ blockBlobClient }) => blockBlobClient.url)
+      const processedBlobUrl = processedBlobClient?.url
+      console.log('Action: ', { uploadedBlobUrls, processedBlobUrl })
 
-    const uploadedBlobUrls = uploadResponses.map(({ blockBlobClient }) => blockBlobClient.url)
-    const processedBlobUrl = processedBlobClient?.url
-    console.log('Action: ', { uploadedBlobUrls, processedBlobUrl })
-
-    return {
-      uploadedBlobUrls,
-      processedBlobUrl,
+      return {
+        uploadedBlobUrls,
+        processedBlobUrl,
+      }
     }
+  }
+
+  const rawFormData = await request.formData()
+  const formData = Object.fromEntries(rawFormData.entries())
+  if (formData.intent === 'process') {
+    console.log('Process Form Data: ', formData)
+    return {}
   }
 
   return null
@@ -218,6 +230,7 @@ export default function Index() {
         </div>
         <Form
           method="post"
+          action="?index&upload=true"
           encType="multipart/form-data"
           className="flex flex-col gap-8 items-center"
           onSubmit={onFormSubmit}
