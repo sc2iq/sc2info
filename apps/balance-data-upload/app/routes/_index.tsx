@@ -208,15 +208,11 @@ export default function Index() {
     }
   }, [actionData])
 
-  const doesStateStringIncludeStates = (states: string[], stateString: string) => {
-    return states.some(s => stateString.includes(s))
-  }
   const machineStateJsonString = JSON.stringify(uploadMachineState.value).replace(/["]|[{]|[}]/g, '')
-  const hasUploaded = doesStateStringIncludeStates(['Processing', 'ProcessComplete'], machineStateJsonString)
-  const hasExpired = false
-  // const hasUploaded = uploadMachineState.matches('Processing')
+  const isMachineActive = uploadMachineState.matches('Uploading') || uploadMachineState.matches('Processing')
+  const hasUploaded = uploadMachineState.matches('Processing') || uploadMachineState.matches('ProcessComplete')
+  const hasExpired = uploadMachineState.context.timerExpired === true
   const hasProcessed = uploadMachineState.matches('ProcessComplete')
-
   return (
     <>
       <div className="flex flex-col gap-6 items-center p-10 text-2xl text-blue-100">
@@ -270,8 +266,8 @@ export default function Index() {
           <div>Status:</div>
           <div className="text-blue-100 font-medium">
             <div className="flex gap-2">
-              <span>{machineStateJsonString}...</span>
-              {!doesStateStringIncludeStates(['Inactive', 'Complete'], machineStateJsonString)
+              <span>{machineStateJsonString}{isMachineActive ? '...' : null}</span>
+              {isMachineActive
                 ? <ArrowPathIcon className="animate-spin h-8 w-8 text-slate-100 " />
                 : null}
             </div>
@@ -286,7 +282,7 @@ export default function Index() {
 
             <div className={`${hasProcessed ? 'text-slate-200' : ''}`}>2</div>
             <span className={`${hasProcessed ? 'text-slate-200' : ''}`}>Processed (XML)</span>
-            <div>{processedBlobData ? <a href={processedBlobData.url.replace('sc2-balancedata-json', 'sc2-balancedata-xml').replace('json','xml')} className="text-blue-300 underline font-medium">{processedBlobData.name.replace('json','xml')}</a> : null}</div>
+            <div>{processedBlobData ? <a href={processedBlobData.url.replace('sc2-balancedata-json', 'sc2-balancedata-xml').replace('json', 'xml')} className="text-blue-300 underline font-medium">{processedBlobData.name.replace('json', 'xml')}</a> : null}</div>
             <CheckCircleIcon className={`h-8 w-8 ${hasProcessed ? 'text-green-500' : hasExpired ? 'text-red-400' : ''}`} />
 
             <div className={`${hasProcessed ? 'text-slate-200' : ''}`}>2</div>
