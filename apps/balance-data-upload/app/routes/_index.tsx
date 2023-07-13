@@ -6,7 +6,6 @@ import { zipContainerClient, jsonContainerClient } from "~/services/blobService"
 import { BlockBlobClient, BlockBlobUploadResponse } from "@azure/storage-blob"
 import { useMachine } from "@xstate/react"
 import { uploadStatusMachine } from "~/stateMachines/uploadStatusMachine"
-import { sendTo } from "xstate"
 import { delay } from "~/utilities"
 
 const uploadHandler = unstable_composeUploadHandlers(
@@ -20,7 +19,7 @@ const uploadHandler = unstable_composeUploadHandlers(
 
 export const action = async ({ request }: ActionArgs) => {
   const actionUrl = new URL(request.url)
-  console.log({ actionUrl })
+  console.log({ actionUrl: actionUrl.href })
 
   if (actionUrl.searchParams.has('upload')) {
     const formData = await unstable_parseMultipartFormData(
@@ -35,21 +34,20 @@ export const action = async ({ request }: ActionArgs) => {
       const uploadResponses: Array<{ blockBlobClient: BlockBlobClient, response: BlockBlobUploadResponse }> = []
 
       for (const balanceDataFile of balanceDataFiles) {
-
+        const millisecondsPerSecond = 1000
+        const uploadTime = Date.now()
         const filename = `balancedata_${Date.now()}.zip`
         const fileBuffer = await balanceDataFile.arrayBuffer()
         const uploadResponse = await zipContainerClient.uploadBlockBlob(filename, fileBuffer, fileBuffer.byteLength)
 
-        const millisecondsPerSecond = 1000
-        const uploadTime = Date.now()
-        // TODO: Why do we have to modify the upload time by 40 seconds?
-        // I suspect the clock between local client and the server are not synced. The difference is the time we offset.
-        const modifiedUploadTime = uploadTime - (40 * millisecondsPerSecond)
-        const expirationTime = uploadTime + (40 * millisecondsPerSecond)
-        const maxPageSize = 8
+        // TODO: Why do we have to modify the upload time?
+        // I suspect when we are setting the upload time, is actually later then when the blob is uploaded.
+        // OR the clock between local client and the server are not synced. The difference is the time we offset.
+        const modifiedUploadTime = uploadTime - (50 * millisecondsPerSecond)
+        const expirationTime = uploadTime + (5 * millisecondsPerSecond)
+        const maxPageSize = 40
 
         console.log('Upload Time: ', { uploadTime })
-        console.log('Expiration Time: ', { expirationTIme: expirationTime })
         console.log('Begin polling for json blob...')
 
         while (!Boolean(processedBlobClient)) {
@@ -57,12 +55,12 @@ export const action = async ({ request }: ActionArgs) => {
           const iterator = jsonContainerClient.listBlobsFlat().byPage({ maxPageSize })
           const response = (await iterator.next()).value
 
-          for (const [blobIndex, blob] of response.segment.blobItems.entries()) {
+          for (const [blobIndex, blob] of response.segment.blobItems.reverse().entries()) {
             // Get blob modified date
             const blobLastModified = new Date(blob.properties.lastModified)
-            console.log(`⏲️ ${blobIndex + 1}: Last Modified Time: ${blobLastModified.getTime()}`)
-            console.log(`⏲️ ${blobIndex + 1}: Upload Time: ${uploadTime}`)
-            console.log(`⏲️ ${blobIndex + 1}: Upload Time (Modified): ${modifiedUploadTime}`)
+            // console.debug(`⏲️ ${blobIndex + 1}: Last Modified Time: ${blobLastModified.getTime()}`)
+            // console.debug(`⏲️ ${blobIndex + 1}: Upload Time: ${uploadTime}`)
+            // console.debug(`⏲️ ${blobIndex + 1}: Upload Time (Modified): ${modifiedUploadTime}`)
             const timeAgoMilliseconds = blobLastModified.getTime() - modifiedUploadTime // uploadTime
             const timeAgoSeconds = timeAgoMilliseconds / millisecondsPerSecond
             console.log(`⏲️ ${blobIndex + 1}: Blob ${blob.name} was modified ${timeAgoSeconds} seconds ago.`)
@@ -80,8 +78,8 @@ export const action = async ({ request }: ActionArgs) => {
 
           if (!Boolean(processedBlobClient)) {
             const secondsDelay = 5
-            console.log(`None of the blobs were modified after start time. Which means they must have existed before.`)
-            console.log(`${remainingSeconds} remaining before expiration. Delay ${secondsDelay} seconds before next request...`)
+            console.warn(`None of the blobs were modified after start time. Which means they must have existed before.`)
+            console.warn(`${remainingSeconds} remaining before expiration. Delay ${secondsDelay} seconds before next request...`)
             await delay(secondsDelay * millisecondsPerSecond)
           }
 
@@ -94,13 +92,13 @@ export const action = async ({ request }: ActionArgs) => {
         uploadResponses.push(uploadResponse)
       }
 
-      const uploadedBlobUrls = uploadResponses.map(({ blockBlobClient }) => blockBlobClient.url)
-      const processedBlobUrl = processedBlobClient?.url
-      console.log('Action: ', { uploadedBlobUrls, processedBlobUrl })
+      const uploadedBlobData = uploadResponses.map(({ blockBlobClient }) => ({ url: blockBlobClient.url, name: blockBlobClient.name }))
+      const processedBlobData = { url: processedBlobClient?.url, name: processedBlobClient?.name }
+      console.log('Action: ', { uploadedBlobData, processedBlobData })
 
       return {
-        uploadedBlobUrls,
-        processedBlobUrl,
+        uploadedBlobData,
+        processedBlobData,
       }
     }
   }
@@ -118,24 +116,24 @@ export const action = async ({ request }: ActionArgs) => {
 export default function Index() {
   const folderPickerRef = useRef<HTMLInputElement>(null)
   const [files, setFiles] = useState<File[]>()
-  const [uploadedBlobUrl, setUploadedBlobUrl] = useState<string>()
-  const [processedBlobUrl, setProcessedBlobUrl] = useState<string>()
+  const [uploadedBlobData, setUploadedBlobData] = useState<{ url: string, name: string }>()
+  const [processedBlobData, setProcessedBlobData] = useState<{ url: string, name: string }>()
   const actionData = useActionData<typeof action>()
   const [uploadMachineState, uploadMachineSend, uploadActor] = useMachine(
     uploadStatusMachine.provide({
       actions: {
-        recordCurrentTime: ({
+        recordStartTime: ({
           context,
           event,
         }) => {
-          console.log('Record Current Time Edited!')
+          console.log('Record Start Time')
           context.startTime = Date.now()
         },
         resetForm: ({
           context,
           event,
         }) => {
-          console.log('Reset Form Edited!')
+          console.log('Reset Form')
           context.formRef?.reset()
           setFiles([])
         },
@@ -143,16 +141,29 @@ export default function Index() {
           context,
           event,
         }) => {
-          console.log('Request Blobs Edited!')
-          console.log('context', context)
-          sendTo(context.uploadActor, { type: 'blobFound' })
+          console.log('Request Blobs')
         },
+        timerExpired: ({
+          context,
+          event,
+        }) => {
+          console.log('Timer Expired')
+          context.timerExpired = true
+        },
+        recordEndTime: ({
+          context,
+          event,
+        }) => {
+          console.log('Record End Time')
+          context.endTime = Date.now()
+        }
       },
     })
   )
 
-  uploadActor.subscribe(state => {
-    console.log('Upload Actor State: ', JSON.stringify(state.value).replace(/["]|[{]|[}]/g, ''), { value: state.value })
+  uploadActor.subscribe((state) => {
+    const stateString = JSON.stringify(state.value).replace(/["]|[{]|[}]/g, '')
+    console.log('Upload Actor State: ', stateString, { value: state.value, context: state.context })
   })
 
   const folderPickerChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -182,16 +193,17 @@ export default function Index() {
 
   // After form is submitted, reset the form
   useEffect(() => {
-    const firstBlobUrl = (actionData as any)?.uploadedBlobUrls?.at(0)
-    if (firstBlobUrl) {
-      setUploadedBlobUrl(firstBlobUrl)
+    const firstBlobData = (actionData as any)?.uploadedBlobData?.at(0)
+    if (firstBlobData) {
+      setUploadedBlobData(firstBlobData)
       folderPickerRef.current?.form?.reset()
+      console.log('send process')
       uploadMachineSend({ type: 'process' })
     }
 
-    const processedBlobUrl = (actionData as any)?.processedBlobUrl
-    if (processedBlobUrl) {
-      setProcessedBlobUrl(processedBlobUrl)
+    const processedBlobData = (actionData as any)?.processedBlobData
+    if (processedBlobData) {
+      setProcessedBlobData(processedBlobData)
       uploadMachineSend({ type: 'blobFound' })
     }
   }, [actionData])
@@ -200,10 +212,10 @@ export default function Index() {
     return states.some(s => stateString.includes(s))
   }
   const machineStateJsonString = JSON.stringify(uploadMachineState.value).replace(/["]|[{]|[}]/g, '')
-  const hasUploaded = doesStateStringIncludeStates(['Processing', 'Complete'], machineStateJsonString)
+  const hasUploaded = doesStateStringIncludeStates(['Processing', 'ProcessComplete'], machineStateJsonString)
+  const hasExpired = false
   // const hasUploaded = uploadMachineState.matches('Processing')
-  const hasExpired = uploadMachineState.matches('TimerExpired')
-  const hasProcessed = uploadMachineState.matches('Complete')
+  const hasProcessed = uploadMachineState.matches('ProcessComplete')
 
   return (
     <>
@@ -265,16 +277,23 @@ export default function Index() {
             </div>
           </div>
         </div>
-        <div className="w-1/2 p-4 rounded-md ring-2 ring-blue-200 ring-offset-slate-900 ring-offset-4 border-none font-semibold">
-          <div className="grid grid-cols-[50px_1fr_1fr_50px] gap-4 text-slate-500">
+        <div className="w-3/4 p-4 rounded-md ring-2 ring-blue-200 ring-offset-slate-900 ring-offset-4 border-none font-semibold">
+          <div className="grid grid-cols-[50px_1fr_3fr_50px] gap-4 text-slate-500">
             <div className={`${hasUploaded ? 'text-slate-200' : ''}`}>1</div>
             <span className={`${hasUploaded ? 'text-slate-200' : ''}`}>Uploaded</span>
-            <div className={`${hasProcessed ? 'text-slate-400' : ''}`}>{uploadedBlobUrl ? <a href={uploadedBlobUrl} className="text-blue-300 underline font-medium">{uploadedBlobUrl}</a> : null}</div>
+            <div>{uploadedBlobData ? <a href={uploadedBlobData.url} className="text-blue-300 underline font-medium">{uploadedBlobData.name}</a> : null}</div>
             <CheckCircleIcon className={`h-8 w-8 ${hasUploaded ? 'text-green-500' : ''}`} />
+
             <div className={`${hasProcessed ? 'text-slate-200' : ''}`}>2</div>
-            <span className={`${hasProcessed ? 'text-slate-200' : ''}`}>Processed</span>
-            <div className={`${hasProcessed ? 'text-slate-400' : ''}`}>{processedBlobUrl ? <a href={processedBlobUrl} className="text-blue-300 underline font-medium">{processedBlobUrl}</a> : null}</div>
+            <span className={`${hasProcessed ? 'text-slate-200' : ''}`}>Processed (XML)</span>
+            <div>{processedBlobData ? <a href={processedBlobData.url.replace('sc2-balancedata-json', 'sc2-balancedata-xml').replace('json','xml')} className="text-blue-300 underline font-medium">{processedBlobData.name.replace('json','xml')}</a> : null}</div>
             <CheckCircleIcon className={`h-8 w-8 ${hasProcessed ? 'text-green-500' : hasExpired ? 'text-red-400' : ''}`} />
+
+            <div className={`${hasProcessed ? 'text-slate-200' : ''}`}>2</div>
+            <span className={`${hasProcessed ? 'text-slate-200' : ''}`}>Processed (JSON)</span>
+            <div>{processedBlobData ? <a href={processedBlobData.url} className="text-blue-300 underline font-medium">{processedBlobData.name}</a> : null}</div>
+            <CheckCircleIcon className={`h-8 w-8 ${hasProcessed ? 'text-green-500' : hasExpired ? 'text-red-400' : ''}`} />
+
             <div className={`${uploadMachineState.done ? 'text-slate-200' : ''}`}>3</div>
             <span className={`${uploadMachineState.done ? 'text-slate-200' : ''}`}>Complete</span>
             <div></div>
