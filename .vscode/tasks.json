@@ -13,6 +13,17 @@
       "detail": "tsc"
     },
     {
+      "type": "npm",
+      "script": "build",
+      "path": "convertbalancedata/",
+      "problemMatcher": [
+        "$tsc"
+      ],
+      "group": "build",
+      "label": "npm: build - convertbalancedata",
+      "detail": "tsc"
+    },
+    {
       "type": "func",
       "label": "func: host start",
       "command": "host start",

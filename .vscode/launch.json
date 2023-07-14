@@ -18,6 +18,20 @@
             "sourceMaps": true,
             "preLaunchTask": "npm: build - typeGraphQlTest",
             "console": "integratedTerminal"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Covert Balance Data",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/convertbalancedata/build/index.js",
+            "outFiles": [
+                "${workspaceFolder}/convertbalancedata/**/*.js"
+            ],
+            "sourceMaps": true,
+            "console": "integratedTerminal"
         }
     ]
 }
