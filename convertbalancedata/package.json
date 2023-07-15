@@ -30,12 +30,10 @@
   "dependencies": {
     "@types/node": "^20.3.0",
     "lodash": "^4.17.21",
-    "xml-js": "^1.6.11",
     "yargs": "^13.3.2"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.195",
-    "@types/xml-js": "^1.0.0",
     "@types/yargs": "^13.0.12",
     "typescript": "^5.1.3"
   },

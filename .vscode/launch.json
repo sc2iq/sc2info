@@ -32,6 +32,20 @@
             ],
             "sourceMaps": true,
             "console": "integratedTerminal"
-        }
+        },
+        {
+            "name": "Covert Balance Data (NPM)",
+            "request": "launch",
+            "runtimeArgs": [
+                "run-script",
+                "start"
+            ],
+            "cwd": "${workspaceFolder}/convertbalancedata",
+            "runtimeExecutable": "npm",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
+        },
     ]
 }

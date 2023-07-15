@@ -2,12 +2,9 @@
 
 /// <reference lib="dom" />
 
-import { mergeXml } from './xmlsToXml'
-import { xml2jsonAsync } from './xmlToJson'
-import { postProcess, Units, ICategorizedUnits } from './postProcess'
+import { categorizeUnits, ICategorizedUnits } from './postProcess'
 import yargs from 'yargs'
 import fs from 'fs'
-
 import * as unit from './unit'
 
 export {
@@ -19,17 +16,19 @@ async function main(
     unprocessedJsonUrl: string = 'https://sharedklgoyistorage.blob.core.windows.net/sc2-balancedata-json/balancedata_2023-07-13T04-02-00Z.json',
     outputFile: string
 ) {
-    const unprocessedJsonResponse = await fetch(unprocessedJsonUrl)
-    const unprocessedJson = await unprocessedJsonResponse.json()
     outputFile ??= `balancedata_${Date.now()}.json`
 
-    const categorizedUnits = postProcess(unprocessedJson)
+    // Fetch Unprocessed JSON (.json)
+    const unprocessedJsonResponse = await fetch(unprocessedJsonUrl)
+    const rawXmlAsJson = await unprocessedJsonResponse.json() as unit.RootElement
+
+    // Process JSON
+    const categorizedUnits = categorizeUnits(rawXmlAsJson as any)
     console.log({ categorizedUnits, outputFile })
 
-    // // Write Processed JSON (.json)
-    // const categorizedUnitsJson = JSON.stringify(categorizedUnits, null, '  ')
-    // const finalJson = categorizedUnitsJson
-    // await fs.promises.writeFile(outputFile, finalJson, 'utf8')
+    // Write Processed JSON (.json)
+    const categorizedUnitsJson = JSON.stringify(categorizedUnits, null, '  ')
+    await fs.promises.writeFile(outputFile, categorizedUnitsJson, 'utf8')
 }
 
 const argv = yargs
