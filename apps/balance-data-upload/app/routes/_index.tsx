@@ -325,22 +325,22 @@ export default function Index() {
           <div className="grid grid-cols-[50px_1fr_3fr_50px] gap-4 text-slate-500">
             <div className={`${hasUploaded ? 'text-slate-200' : ''}`}>1</div>
             <span className={`${hasUploaded ? 'text-slate-200' : ''}`}>Uploaded</span>
-            <div>{uploadedBlobData ? <a target="_blank" referrerPolicy="no-referrer" href={uploadedBlobData.url} className="text-blue-300 underline font-medium">{uploadedBlobData.name}</a> : null}</div>
+            <div>{uploadedBlobData ? <a target="_blank" referrerPolicy="no-referrer" href={uploadedBlobData.url} className="text-blue-300 underline font-medium">{uploadedBlobData.name}</a> : '-'}</div>
             <CheckCircleIcon className={`h-8 w-8 ${hasUploaded ? 'text-green-500' : ''}`} />
 
-            <div className={`${hasProcessed ? 'text-slate-200' : ''}`}>2</div>
+            <div className={`${hasProcessed ? 'text-slate-200' : ''}`}>2.1</div>
             <span className={`${hasProcessed ? 'text-slate-200' : ''}`}>Processed (XML)</span>
-            <div>{processedBlobData ? <a target="_blank" referrerPolicy="no-referrer" href={processedBlobData.url.replace('sc2-balancedata-json', 'sc2-balancedata-xml').replace('json', 'xml')} className="text-blue-300 underline font-medium">{processedBlobData.name.replace('json', 'xml')}</a> : null}</div>
+            <div>{processedBlobData ? <a target="_blank" referrerPolicy="no-referrer" href={processedBlobData.url.replace('sc2-balancedata-json', 'sc2-balancedata-xml').replace('json', 'xml')} className="text-blue-300 underline font-medium">{processedBlobData.name.replace('json', 'xml')}</a> : '-'}</div>
             <CheckCircleIcon className={`h-8 w-8 ${hasProcessed ? 'text-green-500' : hasExpired ? 'text-red-400' : ''}`} />
 
-            <div className={`${hasProcessed ? 'text-slate-200' : ''}`}>2</div>
+            <div className={`${hasProcessed ? 'text-slate-200' : ''}`}>2.2</div>
             <span className={`${hasProcessed ? 'text-slate-200' : ''}`}>Processed (JSON)</span>
-            <div>{processedBlobData ? <a target="_blank" referrerPolicy="no-referrer" href={processedBlobData.url} className="text-blue-300 underline font-medium">{processedBlobData.name}</a> : null}</div>
+            <div>{processedBlobData ? <a target="_blank" referrerPolicy="no-referrer" href={processedBlobData.url} className="text-blue-300 underline font-medium">{processedBlobData.name}</a> : '-'}</div>
             <CheckCircleIcon className={`h-8 w-8 ${hasProcessed ? 'text-green-500' : hasExpired ? 'text-red-400' : ''}`} />
 
             <div className={`${uploadMachineState.done ? 'text-slate-200' : ''}`}>3</div>
-            <span className={`${uploadMachineState.done ? 'text-slate-200' : ''}`}>Complete</span>
-            <div></div>
+            <span className={`${uploadMachineState.done ? 'text-slate-200' : ''}`}>Finished</span>
+            <div className={`${uploadMachineState.done ? 'text-blue-300' : ''} font-medium`}>{uploadMachineState.done ? hasExpired ? `${expirationDurationMilliseconds / 1000} Second Timer Expired!` : `Blob Processed Succesfully!` : '-'}</div>
             <CheckCircleIcon className={`h-8 w-8 ${uploadMachineState.done ? 'text-green-500' : hasExpired ? 'text-red-400' : ''}`} />
           </div>
         </div>
