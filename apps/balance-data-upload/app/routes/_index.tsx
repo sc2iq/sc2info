@@ -1,12 +1,15 @@
 import { unstable_parseMultipartFormData, type ActionArgs, unstable_composeUploadHandlers, unstable_createFileUploadHandler, unstable_createMemoryUploadHandler } from "@remix-run/node"
-import { Form, useActionData } from "@remix-run/react"
+import { Form, useActionData, useFetcher } from "@remix-run/react"
 import { useEffect, useRef, useState } from "react"
 import { ArrowPathIcon, ArrowUpOnSquareIcon, CheckCircleIcon } from '@heroicons/react/24/solid'
 import { zipContainerClient, jsonContainerClient } from "~/services/blobService"
-import { BlockBlobClient, BlockBlobUploadResponse } from "@azure/storage-blob"
+import { BlobClient, BlockBlobClient, BlockBlobUploadResponse } from "@azure/storage-blob"
 import { useMachine } from "@xstate/react"
-import { uploadStatusMachine } from "~/stateMachines/uploadStatusMachine"
+import { uploadStatusMachine, expirationDurationMilliseconds, pollIntervalDelayMilliseconds } from "~/stateMachines/uploadStatusMachine"
 import { delay } from "~/utilities"
+
+const millisecondsPerSecond = 1000
+const processFormName = 'process'
 
 const uploadHandler = unstable_composeUploadHandlers(
   unstable_createFileUploadHandler({
@@ -28,13 +31,17 @@ export const action = async ({ request }: ActionArgs) => {
     )
 
     const balanceDataFiles = formData.getAll("files") as File[]
-    let processedBlobClient = null
 
     if (balanceDataFiles.length > 0) {
-      const uploadResponses: Array<{ blockBlobClient: BlockBlobClient, response: BlockBlobUploadResponse }> = []
+      const uploadResponses: Array<{
+        blockBlobClient: BlockBlobClient,
+        response: BlockBlobUploadResponse,
+        uploadTime: number,
+        modifiedUploadTime: number,
+        expirationTime: number,
+      }> = []
 
       for (const balanceDataFile of balanceDataFiles) {
-        const millisecondsPerSecond = 1000
         const uploadTime = Date.now()
         const filename = `balancedata_${Date.now()}.zip`
         const fileBuffer = await balanceDataFile.arrayBuffer()
@@ -44,73 +51,90 @@ export const action = async ({ request }: ActionArgs) => {
         // I suspect when we are setting the upload time, is actually later then when the blob is uploaded.
         // OR the clock between local client and the server are not synced. The difference is the time we offset.
         const modifiedUploadTime = uploadTime - (50 * millisecondsPerSecond)
-        const expirationTime = uploadTime + (5 * millisecondsPerSecond)
-        const maxPageSize = 40
+        const expirationTime = uploadTime + expirationDurationMilliseconds
 
-        console.log('Upload Time: ', { uploadTime })
-        console.log('Begin polling for json blob...')
-
-        while (!Boolean(processedBlobClient)) {
-          console.log(`Get top ${maxPageSize} json blobs ${Date.now()}...`)
-          const iterator = jsonContainerClient.listBlobsFlat().byPage({ maxPageSize })
-          const response = (await iterator.next()).value
-
-          for (const [blobIndex, blob] of response.segment.blobItems.reverse().entries()) {
-            // Get blob modified date
-            const blobLastModified = new Date(blob.properties.lastModified)
-            // console.debug(`⏲️ ${blobIndex + 1}: Last Modified Time: ${blobLastModified.getTime()}`)
-            // console.debug(`⏲️ ${blobIndex + 1}: Upload Time: ${uploadTime}`)
-            // console.debug(`⏲️ ${blobIndex + 1}: Upload Time (Modified): ${modifiedUploadTime}`)
-            const timeAgoMilliseconds = blobLastModified.getTime() - modifiedUploadTime // uploadTime
-            const timeAgoSeconds = timeAgoMilliseconds / millisecondsPerSecond
-            console.log(`⏲️ ${blobIndex + 1}: Blob ${blob.name} was modified ${timeAgoSeconds} seconds ago.`)
-            if (timeAgoSeconds > 0) {
-              console.log(`✅ ${blobIndex + 1}: Blob ${blob.name} was modified after upload time.`)
-              console.log(`This means it is highly likely to the blob produced by processing the uploaded file.`)
-
-              processedBlobClient = jsonContainerClient.getBlobClient(blob.name)
-              break
-            }
-          }
-
-          const remainingMilliseconds = expirationTime - Date.now()
-          const remainingSeconds = remainingMilliseconds / millisecondsPerSecond
-
-          if (!Boolean(processedBlobClient)) {
-            const secondsDelay = 5
-            console.warn(`None of the blobs were modified after start time. Which means they must have existed before.`)
-            console.warn(`${remainingSeconds} remaining before expiration. Delay ${secondsDelay} seconds before next request...`)
-            await delay(secondsDelay * millisecondsPerSecond)
-          }
-
-          if (remainingSeconds < 0) {
-            console.warn('⚠️ Expiration time reached. Stop polling.')
-            break
-          }
-        }
-
-        uploadResponses.push(uploadResponse)
+        console.log('Upload - Times: ', { uploadTime, modifiedUploadTime, expirationTime })
+        uploadResponses.push({ ...uploadResponse, uploadTime, modifiedUploadTime, expirationTime })
       }
 
-      const uploadedBlobData = uploadResponses.map(({ blockBlobClient }) => ({ url: blockBlobClient.url, name: blockBlobClient.name }))
-      const processedBlobData = { url: processedBlobClient?.url, name: processedBlobClient?.name }
-      console.log('Action: ', { uploadedBlobData, processedBlobData })
+      const uploadedBlobData = uploadResponses.map(({ blockBlobClient, response, ...otherProperties }) => {
+        return {
+          url: blockBlobClient.url,
+          name: blockBlobClient.name,
+          ...otherProperties
+        }
+      })
+      console.log('Action: ', { uploadedBlobData })
 
       return {
         uploadedBlobData,
-        processedBlobData,
       }
     }
   }
 
   const rawFormData = await request.formData()
   const formData = Object.fromEntries(rawFormData.entries())
-  if (formData.intent === 'process') {
+  if (formData.intent === processFormName) {
     console.log('Process Form Data: ', formData)
-    return {}
-  }
 
-  return null
+    let processedBlobClient: BlobClient | undefined
+    const maxPageSize = 40
+    const uploadTime = formData.uploadTime as unknown as number
+    const modifiedUploadTime = formData.modifiedUploadTime as unknown as number
+    const expirationTime = formData.expirationTime as unknown as number
+    console.log('Begin polling for json blob...')
+    console.log({ uploadTime, modifiedUploadTime, expirationTime })
+
+    while (!Boolean(processedBlobClient)) {
+      console.log(`Get top ${maxPageSize} json blobs ${Date.now()}...`)
+      const iterator = jsonContainerClient.listBlobsFlat().byPage({ maxPageSize })
+      const response = (await iterator.next()).value
+
+      for (const [blobIndex, blob] of response.segment.blobItems.reverse().entries()) {
+        // Get blob modified date
+        const blobLastModified = new Date(blob.properties.lastModified)
+        // console.debug(`⏲️ ${blobIndex + 1}: Last Modified Time: ${blobLastModified.getTime()}`)
+        // console.debug(`⏲️ ${blobIndex + 1}: Upload Time: ${uploadTime}`)
+        // console.debug(`⏲️ ${blobIndex + 1}: Upload Time (Modified): ${modifiedUploadTime}`)
+        const timeAfterUploadMilliseconds = blobLastModified.getTime() - modifiedUploadTime // uploadTime
+        const timeAfterUploadSeconds = timeAfterUploadMilliseconds / millisecondsPerSecond
+        const isBlobTheUploadedBlob = timeAfterUploadSeconds > 0
+        if (isBlobTheUploadedBlob) {
+          console.log(`✅ ${blobIndex + 1}: Blob ${blob.name} was modified after upload time.`)
+          console.log(`This means it is highly likely to the blob produced by processing the uploaded file.`)
+
+          processedBlobClient = jsonContainerClient.getBlobClient(blob.name)
+          break
+        }
+        else {
+          console.log(`⏲️ ${blobIndex + 1}: Blob ${blob.name} was modified ${timeAfterUploadSeconds} seconds ago.`)
+        }
+      }
+
+      const remainingMilliseconds = expirationTime - Date.now()
+      const remainingSeconds = remainingMilliseconds / millisecondsPerSecond
+      if (!Boolean(processedBlobClient)) {
+        if (remainingSeconds < 0) {
+          console.warn('⚠️ Expiration time reached. Stop polling.')
+          return null
+        }
+
+        console.warn(`None of the blobs were modified after start time. Which means they must have existed before.`)
+        console.warn(`${remainingSeconds} remaining before expiration. Delay ${pollIntervalDelayMilliseconds / millisecondsPerSecond} seconds before next request...`)
+        await delay(pollIntervalDelayMilliseconds)
+      }
+    }
+
+    const processedBlobData = {
+      url: processedBlobClient?.url,
+      name: processedBlobClient?.name
+    }
+    console.log('Action: ', { processedBlobData })
+
+    return {
+      processedBlobData,
+    }
+  }
 }
 
 export default function Index() {
@@ -119,6 +143,8 @@ export default function Index() {
   const [uploadedBlobData, setUploadedBlobData] = useState<{ url: string, name: string }>()
   const [processedBlobData, setProcessedBlobData] = useState<{ url: string, name: string }>()
   const actionData = useActionData<typeof action>()
+  const processFetcher = useFetcher()
+
   const [uploadMachineState, uploadMachineSend, uploadActor] = useMachine(
     uploadStatusMachine.provide({
       actions: {
@@ -126,35 +152,38 @@ export default function Index() {
           context,
           event,
         }) => {
-          console.log('Record Start Time')
+          console.log('Record Start Time', { event })
           context.startTime = Date.now()
         },
         resetForm: ({
           context,
           event,
         }) => {
-          console.log('Reset Form')
+          console.log('Reset', { event })
           context.formRef?.reset()
+          delete context.startTime
+          delete context.timerExpired
+          delete context.endTime
           setFiles([])
         },
         requestBlobs: ({
           context,
           event,
         }) => {
-          console.log('Request Blobs')
+          console.log('Request Blobs', { event })
         },
         timerExpired: ({
           context,
           event,
         }) => {
-          console.log('Timer Expired')
+          console.log('Timer Expired', { event })
           context.timerExpired = true
         },
         recordEndTime: ({
           context,
           event,
         }) => {
-          console.log('Record End Time')
+          console.log('Record End Time', { event })
           context.endTime = Date.now()
         }
       },
@@ -163,7 +192,7 @@ export default function Index() {
 
   uploadActor.subscribe((state) => {
     const stateString = JSON.stringify(state.value).replace(/["]|[{]|[}]/g, '')
-    console.log('Upload Actor State: ', stateString, { value: state.value, context: state.context })
+    console.log('Upload Actor State: ', { stateString, value: JSON.stringify(state.value), context: JSON.stringify(state.context) })
   })
 
   const folderPickerChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -191,27 +220,46 @@ export default function Index() {
     uploadMachineSend({ type: 'upload' })
   }
 
-  // After form is submitted, reset the form
   useEffect(() => {
     const firstBlobData = (actionData as any)?.uploadedBlobData?.at(0)
     if (firstBlobData) {
-      setUploadedBlobData(firstBlobData)
-      folderPickerRef.current?.form?.reset()
-      console.log('send process')
-      uploadMachineSend({ type: 'process' })
-    }
+      const { url, name, uploadTime, modifiedUploadTime, expirationTime } = firstBlobData
+      const uploadedBlobData = { url, name }
+      console.log('useEffect[actionData]: ', { uploadedBlobData })
+      setUploadedBlobData(uploadedBlobData)
 
-    const processedBlobData = (actionData as any)?.processedBlobData
-    if (processedBlobData) {
-      setProcessedBlobData(processedBlobData)
-      uploadMachineSend({ type: 'blobFound' })
+      console.log('uploadMachineSend: process')
+      uploadMachineSend({ type: 'process' })
+
+      console.log('processFetcher: submit')
+      const processSubmitData = {
+        intent: processFormName,
+        uploadTime,
+        modifiedUploadTime,
+        expirationTime
+      }
+
+      processFetcher.submit(processSubmitData, {
+        method: 'POST',
+        action: '?index&process=true',
+      })
     }
   }, [actionData])
+
+  useEffect(() => {
+    const processedBlobData = (processFetcher.data as any)?.processedBlobData
+    if (processedBlobData) {
+      console.log('useEffect[processFetcher]: ', { processedBlobData })
+      setProcessedBlobData(processedBlobData)
+      uploadMachineSend({ type: 'blobFound' })
+      folderPickerRef.current?.form?.reset()
+    }
+  }, [processFetcher])
 
   const machineStateJsonString = JSON.stringify(uploadMachineState.value).replace(/["]|[{]|[}]/g, '')
   const isMachineActive = uploadMachineState.matches('Uploading') || uploadMachineState.matches('Processing')
   const hasUploaded = uploadMachineState.matches('Processing') || uploadMachineState.matches('ProcessComplete')
-  const hasExpired = uploadMachineState.context.timerExpired === true
+  const hasExpired = uploadMachineState.matches('ProcessFailed')
   const hasProcessed = uploadMachineState.matches('ProcessComplete')
   return (
     <>
@@ -277,17 +325,17 @@ export default function Index() {
           <div className="grid grid-cols-[50px_1fr_3fr_50px] gap-4 text-slate-500">
             <div className={`${hasUploaded ? 'text-slate-200' : ''}`}>1</div>
             <span className={`${hasUploaded ? 'text-slate-200' : ''}`}>Uploaded</span>
-            <div>{uploadedBlobData ? <a href={uploadedBlobData.url} className="text-blue-300 underline font-medium">{uploadedBlobData.name}</a> : null}</div>
+            <div>{uploadedBlobData ? <a target="_blank" referrerPolicy="no-referrer" href={uploadedBlobData.url} className="text-blue-300 underline font-medium">{uploadedBlobData.name}</a> : null}</div>
             <CheckCircleIcon className={`h-8 w-8 ${hasUploaded ? 'text-green-500' : ''}`} />
 
             <div className={`${hasProcessed ? 'text-slate-200' : ''}`}>2</div>
             <span className={`${hasProcessed ? 'text-slate-200' : ''}`}>Processed (XML)</span>
-            <div>{processedBlobData ? <a href={processedBlobData.url.replace('sc2-balancedata-json', 'sc2-balancedata-xml').replace('json', 'xml')} className="text-blue-300 underline font-medium">{processedBlobData.name.replace('json', 'xml')}</a> : null}</div>
+            <div>{processedBlobData ? <a target="_blank" referrerPolicy="no-referrer" href={processedBlobData.url.replace('sc2-balancedata-json', 'sc2-balancedata-xml').replace('json', 'xml')} className="text-blue-300 underline font-medium">{processedBlobData.name.replace('json', 'xml')}</a> : null}</div>
             <CheckCircleIcon className={`h-8 w-8 ${hasProcessed ? 'text-green-500' : hasExpired ? 'text-red-400' : ''}`} />
 
             <div className={`${hasProcessed ? 'text-slate-200' : ''}`}>2</div>
             <span className={`${hasProcessed ? 'text-slate-200' : ''}`}>Processed (JSON)</span>
-            <div>{processedBlobData ? <a href={processedBlobData.url} className="text-blue-300 underline font-medium">{processedBlobData.name}</a> : null}</div>
+            <div>{processedBlobData ? <a target="_blank" referrerPolicy="no-referrer" href={processedBlobData.url} className="text-blue-300 underline font-medium">{processedBlobData.name}</a> : null}</div>
             <CheckCircleIcon className={`h-8 w-8 ${hasProcessed ? 'text-green-500' : hasExpired ? 'text-red-400' : ''}`} />
 
             <div className={`${uploadMachineState.done ? 'text-slate-200' : ''}`}>3</div>

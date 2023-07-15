@@ -1,5 +1,8 @@
 import { createMachine } from "xstate"
 
+export const expirationDurationMilliseconds = 15000
+export const pollIntervalDelayMilliseconds = 1000
+
 export const uploadStatusMachine = createMachine(
     {
         id: "BlobUploadProcessMachine",
@@ -32,9 +35,8 @@ export const uploadStatusMachine = createMachine(
                 },
                 initial: "RequestLatestBlob",
                 after: {
-                    5000: {
-                        target: 'ProcessComplete',
-                        actions: ['timerExpired'],
+                    [expirationDurationMilliseconds]: {
+                        target: 'ProcessFailed',
                     },
                 },
                 states: {
@@ -51,7 +53,7 @@ export const uploadStatusMachine = createMachine(
                     },
                     Wait: {
                         after: {
-                            500: {
+                            [pollIntervalDelayMilliseconds]: {
                                 target: "RequestLatestBlob",
                             },
                         },
@@ -60,8 +62,15 @@ export const uploadStatusMachine = createMachine(
             },
             ProcessComplete: {
                 entry: {
-                    params: {},
                     type: "recordEndTime",
+                    params: {},
+                },
+                type: "final",
+            },
+            ProcessFailed: {
+                entry: {
+                    type: "timerExpired",
+                    params: {},
                 },
                 type: "final",
             },
