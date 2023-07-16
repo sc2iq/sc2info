@@ -1,7 +1,7 @@
 import { createMachine } from "xstate"
 
-export const expirationDurationMilliseconds = 15000
-export const pollIntervalDelayMilliseconds = 1000
+export const expirationDurationMilliseconds = 30000
+export const pollIntervalDelayMilliseconds = 2000
 
 export const uploadStatusMachine = createMachine(
     {
