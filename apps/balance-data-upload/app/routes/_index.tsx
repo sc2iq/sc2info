@@ -11,16 +11,16 @@ import { delay } from "~/utilities"
 const millisecondsPerSecond = 1000
 const processFormName = 'process'
 
-const uploadHandler = unstable_composeUploadHandlers(
-  unstable_createFileUploadHandler({
-    maxPartSize: 5_000_000,
-    file: ({ filename }) => filename,
-  }),
-  // parse everything else into memory
-  unstable_createMemoryUploadHandler()
-)
-
 export const action = async ({ request }: ActionArgs) => {
+  const uploadHandler = unstable_composeUploadHandlers(
+    unstable_createFileUploadHandler({
+      maxPartSize: 5_000_000,
+      file: ({ filename }) => filename,
+    }),
+    // parse everything else into memory
+    unstable_createMemoryUploadHandler()
+  )
+
   const actionUrl = new URL(request.url)
   console.log({ actionUrl: actionUrl.href })
 
@@ -75,15 +75,13 @@ export const action = async ({ request }: ActionArgs) => {
   const rawFormData = await request.formData()
   const formData = Object.fromEntries(rawFormData.entries())
   if (formData.intent === processFormName) {
-    console.log('Process Form Data: ', formData)
+    console.log('Begin polling for processed .json blob... ', formData)
 
     let processedBlobClient: BlobClient | undefined
-    const maxPageSize = 40
+    const maxPageSize = 50
     const uploadTime = formData.uploadTime as unknown as number
     const modifiedUploadTime = formData.modifiedUploadTime as unknown as number
     const expirationTime = formData.expirationTime as unknown as number
-    console.log('Begin polling for json blob...')
-    console.log({ uploadTime, modifiedUploadTime, expirationTime })
 
     while (!Boolean(processedBlobClient)) {
       console.log(`Get top ${maxPageSize} json blobs ${Date.now()}...`)
@@ -91,23 +89,18 @@ export const action = async ({ request }: ActionArgs) => {
       const response = (await iterator.next()).value
 
       for (const [blobIndex, blob] of response.segment.blobItems.reverse().entries()) {
-        // Get blob modified date
         const blobLastModified = new Date(blob.properties.lastModified)
-        // console.debug(`⏲️ ${blobIndex + 1}: Last Modified Time: ${blobLastModified.getTime()}`)
-        // console.debug(`⏲️ ${blobIndex + 1}: Upload Time: ${uploadTime}`)
-        // console.debug(`⏲️ ${blobIndex + 1}: Upload Time (Modified): ${modifiedUploadTime}`)
         const timeAfterUploadMilliseconds = blobLastModified.getTime() - modifiedUploadTime // uploadTime
         const timeAfterUploadSeconds = timeAfterUploadMilliseconds / millisecondsPerSecond
+        console.log(`⏲️ ${blobIndex + 1}: Blob ${blob.name} was modified ${timeAfterUploadSeconds} seconds after upload time.`)
         const isBlobTheUploadedBlob = timeAfterUploadSeconds > 0
         if (isBlobTheUploadedBlob) {
-          console.log(`✅ ${blobIndex + 1}: Blob ${blob.name} was modified after upload time.`)
-          console.log(`This means it is highly likely to the blob produced by processing the uploaded file.`)
+          console.log(`✅ ${timeAfterUploadSeconds} is positive which means it is highly likely to the blob produced by processing the uploaded file.`)
 
           processedBlobClient = jsonContainerClient.getBlobClient(blob.name)
           break
         }
         else {
-          console.log(`⏲️ ${blobIndex + 1}: Blob ${blob.name} was modified ${timeAfterUploadSeconds} seconds ago.`)
         }
       }
 
@@ -195,7 +188,12 @@ export default function Index() {
     console.log('Upload Actor State: ', { stateString, value: JSON.stringify(state.value), context: JSON.stringify(state.context) })
   })
 
-  const folderPickerChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+  const onFolderPickerClick: React.MouseEventHandler<HTMLInputElement> = (event) => {
+    console.log('onFolderPickerClick', { event })
+  }
+
+  const onFolderPickerChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    console.log('onFolderPickerChange', { event })
     const files = [...event.target?.files ?? []]
     const fileExtensions = files
       .map(file => file.name.substring(file.name.lastIndexOf('.') + 1).toLowerCase())
@@ -209,6 +207,7 @@ export default function Index() {
         event.stopPropagation()
         folderPickerRef.current?.form?.reset()
         setFiles([])
+        return
       }
     }
 
@@ -298,7 +297,8 @@ export default function Index() {
             id="filepicker"
             name="files"
             placeholder="Choose"
-            onChange={folderPickerChange}
+            onClick={onFolderPickerClick}
+            onChange={onFolderPickerChange}
             required
             accept=".zip"
             className="p-4 rounded-md bg-slate-300 ring-2 ring-blue-200 ring-offset-slate-900 ring-offset-4 border-none text-slate-800 font-semibold cursor-pointer"
