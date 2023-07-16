@@ -8,9 +8,11 @@ function Get-LocalResourceNames {
     )
     
     $resourceNames = [ordered]@{
-        blobContainerInput = "sc2-balancedata-xml"
-        blobContainerOutput = "sc2-balancedata-json"
-        containerAppBalanceDataUploader = "sc2-balancedata-uploader"
+        blobContainerZip = "sc2-balancedata-zip"
+        blobContainerXml = "sc2-balancedata-xml"
+        blobContainerJson = "sc2-balancedata-json"
+        blobContainerJsonProcessed = "sc2-balancedata-json-processed"
+        containerAppBalanceDataUploader = "sc2-info-balancedata-uploader"
     }
 
     return $resourceNames
