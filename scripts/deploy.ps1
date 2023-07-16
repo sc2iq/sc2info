@@ -45,8 +45,10 @@ $balanceDataUploaderImageName = "$($sharedResourceVars.registryUrl)/${balanceDat
 
 $data = [ordered]@{
   "storageConnectionString"      = "$($storageConnectionString.Substring(0, 30))..."
-  "blobContainerInput"           = $sc2infoResourceNames.blobContainerInput
-  "blobContainerOutput"          = $sc2infoResourceNames.blobContainerOutput
+  "blobContainerZip"             = $sc2infoResourceNames.blobContainerZip
+  "blobContainerXml"             = $sc2infoResourceNames.blobContainerXml
+  "blobContainerJson"            = $sc2infoResourceNames.blobContainerJson
+  "blobContainerJsonProcessed"   = $sc2infoResourceNames.blobContainerJsonProcessed
 
   "balanceDataUploaderImageName" = $balanceDataUploaderImageName
 
