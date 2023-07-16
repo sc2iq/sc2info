@@ -341,7 +341,7 @@ export default function Index() {
             <div className={`${uploadMachineState.done ? 'text-slate-200' : ''}`}>3</div>
             <span className={`${uploadMachineState.done ? 'text-slate-200' : ''}`}>Finished</span>
             <div className={`${uploadMachineState.done ? 'text-blue-300' : ''} font-medium`}>{uploadMachineState.done ? hasExpired ? `${expirationDurationMilliseconds / 1000} Second Timer Expired!` : `Blob Processed Succesfully!` : '-'}</div>
-            <CheckCircleIcon className={`h-8 w-8 ${uploadMachineState.done ? 'text-green-500' : hasExpired ? 'text-red-400' : ''}`} />
+            <CheckCircleIcon className={`h-8 w-8 ${uploadMachineState.done ? hasProcessed ? 'text-green-500' : hasExpired ? 'text-red-400' : '' : ''}`} />
           </div>
         </div>
       </div>
