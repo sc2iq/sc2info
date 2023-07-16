@@ -7,6 +7,7 @@ import { BlobClient, BlockBlobClient, BlockBlobUploadResponse } from "@azure/sto
 import { useMachine } from "@xstate/react"
 import { uploadStatusMachine, expirationDurationMilliseconds, pollIntervalDelayMilliseconds } from "~/stateMachines/uploadStatusMachine"
 import { delay } from "~/utilities"
+import classNames from "classnames"
 
 const millisecondsPerSecond = 1000
 const processFormName = 'process'
@@ -260,6 +261,16 @@ export default function Index() {
   const hasUploaded = uploadMachineState.matches('Processing') || uploadMachineState.matches('ProcessComplete')
   const hasExpired = uploadMachineState.matches('ProcessFailed')
   const hasProcessed = uploadMachineState.matches('ProcessComplete')
+
+  const isFormDisabled = isMachineActive || hasUploaded
+  const selectedFilesLength = files?.length ?? 0
+  const uploadButtonClassNames = classNames({
+    [`flex flex-row gap-2 p-4 px-6 rounded-md ring-2 ring-offset-4 border-none font-semibold`]: true,
+    ['text-slate-300 bg-blue-800 ring-blue-400 ring-offset-slate-900']: isFormDisabled,
+    ['text-white bg-green-500 ring-green-200 ring-offset-green-900 shadow-[0_5px_80px_-15px_white] shadow-green-200']: !isFormDisabled && selectedFilesLength > 0,
+    ['text-white bg-blue-500 ring-blue-200 ring-offset-slate-900']: !isFormDisabled && selectedFilesLength <= 0
+  })
+
   return (
     <>
       <div className="flex flex-col gap-6 items-center p-10 text-2xl text-blue-100">
@@ -287,28 +298,32 @@ export default function Index() {
           method="post"
           action="?index&upload=true"
           encType="multipart/form-data"
-          className="flex flex-col gap-8 items-center"
           onSubmit={onFormSubmit}
         >
-          <label htmlFor="filepicker" className="text-3xl font-semibold">Upload Balance Data .zip File:</label>
-          <input
-            ref={folderPickerRef}
-            type="file"
-            id="filepicker"
-            name="files"
-            placeholder="Choose"
-            onClick={onFolderPickerClick}
-            onChange={onFolderPickerChange}
-            required
-            accept=".zip"
-            className="p-4 rounded-md bg-slate-300 ring-2 ring-blue-200 ring-offset-slate-900 ring-offset-4 border-none text-slate-800 font-semibold cursor-pointer"
-          />
-          <div>
-            <button type="submit" className={`flex flex-row gap-2 p-4 px-6 rounded-md ring-2 ${(files?.length ?? 0) > 0 ? 'bg-green-500 ring-green-200 ring-offset-green-900 shadow-[0_5px_80px_-15px_white] shadow-green-200' : 'bg-blue-500 ring-blue-200 ring-offset-slate-900'} ring-offset-4 border-none text-white font-semibold`}>
-              <ArrowUpOnSquareIcon className="h-8 w-8 text-slate-100" />
-              Upload
-            </button>
-          </div>
+          <fieldset
+            className="flex flex-col gap-8 items-center"
+            disabled={isFormDisabled}
+          >
+            <label htmlFor="filepicker" className="text-3xl font-semibold">2 Upload Balance Data .zip File:</label>
+            <input
+              ref={folderPickerRef}
+              type="file"
+              id="filepicker"
+              name="files"
+              placeholder="Choose"
+              onClick={onFolderPickerClick}
+              onChange={onFolderPickerChange}
+              required
+              accept=".zip"
+              className={`p-4 rounded-md bg-slate-300 ring-2 ring-blue-200 ring-offset-slate-900 ring-offset-4 border-none text-slate-800 font-semibold ${isFormDisabled ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+            />
+            <div>
+              <button type="submit" className={uploadButtonClassNames}>
+                <ArrowUpOnSquareIcon className="h-8 w-8 text-slate-100" />
+                Upload
+              </button>
+            </div>
+          </fieldset>
         </Form>
         <div className="w-1/2 flex gap-4">
           <div>Status:</div>
