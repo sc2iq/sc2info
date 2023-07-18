@@ -1,7 +1,7 @@
 import { createMachine } from "xstate"
 
-export const expirationDurationMilliseconds = 30000
-export const pollIntervalDelayMilliseconds = 2000
+export const expirationDurationMilliseconds = 40_000
+export const pollIntervalDelayMilliseconds = 2_000
 
 export const uploadStatusMachine = createMachine(
     {
@@ -26,6 +26,9 @@ export const uploadStatusMachine = createMachine(
                     process: {
                         target: "Processing",
                     },
+                    reset: {
+                        target: "Inactive",
+                    }
                 },
             },
             Processing: {
@@ -88,7 +91,10 @@ export const uploadStatusMachine = createMachine(
                 }
                 | {
                     type: "upload"
-                },
+                }
+                | {
+                    type: "reset"
+                }
         },
     },
     {

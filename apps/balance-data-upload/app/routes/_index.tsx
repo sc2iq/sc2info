@@ -1,7 +1,7 @@
 import { unstable_parseMultipartFormData, type ActionArgs, unstable_composeUploadHandlers, unstable_createFileUploadHandler, unstable_createMemoryUploadHandler } from "@remix-run/node"
 import { Form, useActionData, useFetcher } from "@remix-run/react"
 import { useEffect, useRef, useState } from "react"
-import { ArrowPathIcon, ArrowUpOnSquareIcon, CheckCircleIcon } from '@heroicons/react/24/solid'
+import { ArrowPathIcon, ArrowUpOnSquareIcon, CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid'
 import { zipContainerClient, jsonContainerClient } from "~/services/blobService"
 import { BlobClient, BlockBlobClient, BlockBlobUploadResponse } from "@azure/storage-blob"
 import { useMachine } from "@xstate/react"
@@ -30,6 +30,16 @@ export const action = async ({ request }: ActionArgs) => {
       request,
       uploadHandler,
     )
+
+    const password = formData.get("password") as string
+    if (password !== process.env.UPLOAD_PASSWORD) {
+      console.error(`Invalid password.`, { password, expectedPassword: process.env.UPLOAD_PASSWORD })
+      return {
+        error: {
+          message: 'Invalid password.'
+        }
+      }
+    }
 
     const balanceDataFiles = formData.getAll("files") as File[]
 
@@ -114,7 +124,7 @@ export const action = async ({ request }: ActionArgs) => {
         }
 
         console.warn(`None of the blobs were modified after start time. Which means they must have existed before.`)
-        console.warn(`${remainingSeconds} remaining before expiration. Delay ${pollIntervalDelayMilliseconds / millisecondsPerSecond} seconds before next request...`)
+        console.warn(`${remainingSeconds} seconds remaining before expiration. Delay ${pollIntervalDelayMilliseconds / millisecondsPerSecond} seconds before next request...`)
         await delay(pollIntervalDelayMilliseconds)
       }
     }
@@ -221,6 +231,12 @@ export default function Index() {
   }
 
   useEffect(() => {
+    const isUploadError = typeof (actionData as any)?.error?.message === 'string'
+    if (isUploadError) {
+      console.log({ isUploadError }, "Reset Form")
+      uploadMachineSend({ type: 'reset' })
+    }
+
     const firstBlobData = (actionData as any)?.uploadedBlobData?.at(0)
     if (firstBlobData) {
       const { url, name, uploadTime, modifiedUploadTime, expirationTime } = firstBlobData
@@ -271,6 +287,12 @@ export default function Index() {
     ['text-white bg-blue-500 ring-blue-200 ring-offset-slate-900']: !isFormDisabled && selectedFilesLength <= 0
   })
 
+  const resetButtonClassNames = classNames({
+    [`flex flex-row gap-2 p-3 px-4 rounded-md ring-2 ring-offset-4 border-none font-semibold`]: true,
+    ['text-slate-300 bg-blue-800 ring-blue-400 ring-offset-slate-900']: isFormDisabled,
+    ['text-white bg-red-500 ring-red-200 ring-offset-slate-900']: !isFormDisabled
+  })
+
   return (
     <>
       <div className="flex flex-col gap-6 items-center p-10 text-2xl text-blue-100">
@@ -301,10 +323,20 @@ export default function Index() {
           onSubmit={onFormSubmit}
         >
           <fieldset
-            className="flex flex-col gap-8 items-center"
+            className="flex flex-col gap-8 items-center px-6"
             disabled={isFormDisabled}
           >
-            <label htmlFor="filepicker" className="text-3xl font-semibold">2 Upload Balance Data .zip File:</label>
+            <label htmlFor="password" className="text-3xl font-semibold">Password:</label>
+            <input
+              type="password"
+              className={`p-4 rounded-md bg-slate-300 ring-2 ring-blue-200 ring-offset-slate-900 ring-offset-4 border-none text-slate-800 font-semibold ${isFormDisabled ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+              name="password"
+              id="password"
+              placeholder="Enter password..."
+              required
+            />
+            {typeof (actionData as any)?.error?.message === 'string' && (<div className="text-red-600 font-semibold">Error: {(actionData as any).error.message}</div>)}
+            <label htmlFor="filepicker" className="text-3xl font-semibold">Upload Balance Data .zip File:</label>
             <input
               ref={folderPickerRef}
               type="file"
@@ -317,10 +349,17 @@ export default function Index() {
               accept=".zip"
               className={`p-4 rounded-md bg-slate-300 ring-2 ring-blue-200 ring-offset-slate-900 ring-offset-4 border-none text-slate-800 font-semibold ${isFormDisabled ? 'cursor-not-allowed' : 'cursor-pointer'}`}
             />
+
             <div>
               <button type="submit" className={uploadButtonClassNames}>
-                <ArrowUpOnSquareIcon className="h-8 w-8 text-slate-100" />
+                <ArrowUpOnSquareIcon className="h-8 w-8" />
                 Upload
+              </button>
+            </div>
+            <div>
+              <button type="reset" className={resetButtonClassNames}>
+                <XCircleIcon className="h-8 w-8 text-red-100" />
+                Reset
               </button>
             </div>
           </fieldset>
