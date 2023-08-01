@@ -13,22 +13,26 @@ export {
 }
 
 async function main(
-    unprocessedJsonUrl: string = 'https://sharedklgoyistorage.blob.core.windows.net/sc2-balancedata-json/balancedata_2023-07-13T04-02-00Z.json',
-    outputFile: string
+    unprocessedJsonUrl: string = 'https://sharedklgoyistorage.blob.core.windows.net/sc2-balancedata-json/balancedata_2023-07-30T19-59-44Z.json',
+    outputFileName: string
 ) {
-    outputFile ??= `balancedata_${Date.now()}.json`
+    outputFileName ??= `balancedata_${Date.now()}.json`
 
     // Fetch Unprocessed JSON (.json)
     const unprocessedJsonResponse = await fetch(unprocessedJsonUrl)
+    if (!unprocessedJsonResponse.ok) {
+        throw new Error(`Failed to fetch unprocessed JSON from ${unprocessedJsonUrl}`)
+    }
+
     const rawXmlAsJson = await unprocessedJsonResponse.json() as unit.RootElement
 
     // Process JSON
     const categorizedUnits = categorizeUnits(rawXmlAsJson as any)
-    console.log({ categorizedUnits, outputFile })
+    console.log({ categorizedUnits, outputFileName })
 
     // Write Processed JSON (.json)
     const categorizedUnitsJson = JSON.stringify(categorizedUnits, null, '  ')
-    await fs.promises.writeFile(outputFile, categorizedUnitsJson, 'utf8')
+    await fs.promises.writeFile(outputFileName, categorizedUnitsJson, 'utf8')
 }
 
 const argv = yargs
