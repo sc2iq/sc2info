@@ -70,10 +70,16 @@ export function categorizeUnits(rawXmlAsJson: unit.RootElement): ICategorizedUni
     // const buildings = groupedUnits['buildings'].map(unit.convertUnitToUnitNode)
 
     const buildingUpgrades = nonNeutralUnits.flatMap(u => u.elements?.find(e => e?.name === 'researches')?.elements ?? [])
-    const unitUpgradeContainers = nonNeutralUnits.flatMap(u => u.elements?.find(e => e?.name === 'upgrades')?.elements ?? [])
-    const upgradeLevelElements = unitUpgradeContainers.flatMap(u => u.elements?.filter(e => e?.name === 'level') ?? [])
-    const uniqueUpgradeLevelElements = [...new Map(upgradeLevelElements.map(u => [u.attributes?.id, u]))]
+    const upgradeLevelElements = nonNeutralUnits
+        .flatMap(u => u.elements?.find(e => e?.name === 'upgrades')?.elements ?? [])
+        .flatMap(u => u.elements?.filter(e => e?.name === 'level') ?? [])
+    const upgradeLevelsMap = new Map(upgradeLevelElements.map(u => [u.attributes?.id, u]))
+    upgradeLevelsMap.delete(undefined)
+    const uniqueUpgradeLevelElements = [...upgradeLevelsMap.values()]
 
+    const abilities = nonNeutralUnits.flatMap(u => u.elements?.find(e => e?.name === 'abilities')?.elements ?? [])
+    const attributes = nonNeutralUnits.flatMap(u => u.elements?.find(e => e?.name === 'attributes')?.elements ?? [])
+    const uniqueAttributes = [...(new Set(attributes.map(u => u.attributes?.type)))]
 
     // const abilities = _.uniqBy(
     //     _.flatMap(nonNeutralUnits, x => x.abilities.map(addRaceToAbilityMeta(x.meta.race))),
