@@ -55,34 +55,31 @@ export function categorizeUnits(rawXmlAsJson: unit.RootElement): ICategorizedUni
     // const genericUnits = parsedUnits.unit
     //     .map(parsedUnit => unit.convertUnit(parsedUnit))
 
-    const [nonNeutralUnits, neutralUnits] = groupIntoNeutralAndNonNeutral(unitElements)
+    const unitGroups = groupBy(unitElements, groupIntoNeutralAndNonNeutral)
+    const nonNeutralUnits = unitGroups['nonNeutral']
+    const neutralUnits = unitGroups['neutral']
 
-    const [buildings, other] = nonNeutralUnits
-        .reduce<[unit.Element[],unit.Element[]]>(([buildingsArray, otherArray], u) => {
-            const attributeElements = u.elements?.find(e => e?.name === 'attributes')?.elements ?? []
-            const isStructure = attributeElements?.some(e => e?.attributes?.type == 'Structure')
-            
-            if (isStructure) {
-                buildingsArray.push(u)
-            }
-            else {
-                otherArray.push(u)
-            }
+    const structureGroups = groupBy(nonNeutralUnits, isUnitAStructure)
+    const buildings = structureGroups['structures']
+    const nonStructureElements = structureGroups['nonStructures']
 
-            return [buildingsArray, otherArray]
-        }, [[],[]])
-    
     // const units = groupedUnits['units'].map(unit.convertUnitToUnitNode)
     // const buildings = groupedUnits['buildings'].map(unit.convertUnitToUnitNode)
+    const hasWeaponsGroups = groupBy(nonStructureElements, hasWeapons)
+    const unitsWithWeapons = hasWeaponsGroups['hasWeapons']
+    const unitsWithoutWeapons = hasWeaponsGroups['doesNotHaveWeapons']
 
-    const unitWeaponsElements = nonNeutralUnits.flatMap(u => u.elements?.find(e => e?.name === 'weapons')?.elements ?? [])
+    // Get unit weapons
+    const unitWeaponsElements = unitsWithWeapons.flatMap(u => u.elements?.find(e => e?.name === 'weapons')?.elements ?? [])
     const uniqueUnitWeaponsMap = new Map(unitWeaponsElements.map(u => [u.attributes?.id, u]))
     uniqueUnitWeaponsMap.delete(undefined)
     const uniqueUniqueUnitWeapons = [...uniqueUnitWeaponsMap.values()]
-
+    
+    // Get building upgrades
     const buildingUpgradesElements = nonNeutralUnits.flatMap(u => u.elements?.find(e => e?.name === 'researches')?.elements ?? [])
     const buildingUpgradesMap = new Map(buildingUpgradesElements.map(u => [u.attributes?.id, u]))
 
+    // Get unit upgrades
     const upgradeLevelElements = nonNeutralUnits
         .flatMap(u => u.elements?.find(e => e?.name === 'upgrades')?.elements ?? [])
         .flatMap(u => u.elements?.filter(e => e?.name === 'level') ?? [])
@@ -102,97 +99,67 @@ export function categorizeUnits(rawXmlAsJson: unit.RootElement): ICategorizedUni
     const attributes = nonNeutralUnits.flatMap(u => u.elements?.find(e => e?.name === 'attributes')?.elements ?? [])
     const uniqueAttributes = [...(new Set(attributes.map(u => u.attributes?.type)))]
 
-    // const abilities = _.uniqBy(
-    //     _.flatMap(nonNeutralUnits, x => x.abilities.map(addRaceToAbilityMeta(x.meta.race))),
-    //     x => x.id
-    // ).filter(x => x.command.some(command => !command.meta.icon.includes('btn-missing-kaeo')))
-    // const attributes = _.uniqBy(_.flatMap(nonNeutralUnits, x => x.attributes.map(a => a.type)), x => x)
-
-    // const categorizedUnits: ICategorizedUnits = {
-    //     rawUnits,
-    //     units,
-    //     unitWeapons,
-    //     buildings,
-    //     weapons,
-    //     upgrades: uniqueUpgrades,
-    //     buildingUpgrades,
-    //     abilities,
-    //     attributes,
-    // }
-
     const categorizedUnits = {
         neutralUnits,
         buildings,
         buildingUpgrades,
+        unitsWithWeapons,
         unitWeapons: uniqueUniqueUnitWeapons,
         upgrades: uniqueUpgradeLevelElements,
         abilities,
         attributes: uniqueAttributes,
-        other,
+        nonStructureElements,
     }
 
     console.log({
         neutralUnitsNames: categorizedUnits.neutralUnits.map(b => b?.attributes?.id),
         buildingsNames: categorizedUnits.buildings.map(b => b?.attributes?.id),
         buildingUpgradeNames: categorizedUnits.buildingUpgrades.map(b => b?.attributes?.id),
+        unitsWithWeaponsNames: categorizedUnits.unitsWithWeapons.map(b => b?.attributes?.id),
         unitWeaponsNames: categorizedUnits.unitWeapons.map(b => b?.attributes?.id),
-        upgradeNames: categorizedUnits.upgrades.map(b => b?.attributes?.id).sort((a,b) => a?.localeCompare(b ?? '') ?? 0),
+        upgradeNames: categorizedUnits.upgrades.map(b => b?.attributes?.id).sort((a, b) => a?.localeCompare(b ?? '') ?? 0),
         abilitiesNames: categorizedUnits.abilities.map(b => b?.attributes?.id),
-        attributesNames: categorizedUnits.attributes.sort((a,b) => a?.localeCompare(b ?? '') ?? 0),
+        attributesNames: categorizedUnits.attributes.sort((a, b) => a?.localeCompare(b ?? '') ?? 0),
     })
 
     return categorizedUnits as any
 }
 
-function getElementsOfUnitContainingName(units: unit.Element[], elementName: string): unit.Element[] {
-    const selectedUnits: unit.Element[] = []
-    for (const unit of units) {
-        const unitElementsOfName = unit.elements?.find(e => e?.name === elementName)?.elements ?? []
-        const doesUnitHaveElementOfName = unitElementsOfName.length > 0
-        if (doesUnitHaveElementOfName) {
-            selectedUnits.push(...unitElementsOfName)
-        }
-    }
+function isUnitAStructure(unit: unit.Element) {
+    const attributeElements = unit.elements?.find(e => e?.name === 'attributes')?.elements ?? []
+    const isStructure = attributeElements?.some(e => e?.attributes?.type == 'Structure')
 
-    return selectedUnits
+    return isStructure ? 'structures' : 'nonStructures'
 }
 
-function groupIntoBuildingsUnitWeaponsAndOther(nonNeutralUnits: unit.Element[]): unit.Element[][] {
-    let buildings: unit.Element[] = []
-    let otherUnits: unit.Element[] = []
+function hasWeapons(unit: unit.Element) {
+    const hasWeapons = unit.elements?.some(e => e?.name === 'weapons')
 
-    for (const unit of nonNeutralUnits) {
-
-        const metaAttributes = unit.elements?.find(a => a.name === 'meta')?.attributes
-        const isBuilding = metaAttributes?.icon?.includes('btn-building') ?? false
-
-        if (isBuilding) {
-            buildings.push(unit)
-        }
-        else {
-            otherUnits.push(unit)
-        }
-    }
-    return [buildings, otherUnits]
+    return hasWeapons ? 'hasWeapons' : 'doesNotHaveWeapons'
 }
 
-function groupIntoNeutralAndNonNeutral(unitElements: unit.Element[]): unit.Element[][] {
-    let neutralUnits: unit.Element[] = []
-    let nonNeutralUnits: unit.Element[] = []
+function groupIntoNeutralAndNonNeutral(unitElement: unit.Element) {
+    const metaAttributes = unitElement.elements?.find(a => a.name === 'meta')?.attributes
+    const isNeutral = metaAttributes?.race?.toLowerCase().includes('neut') ?? false
+    const isMissingIcon = metaAttributes?.icon?.includes('btn-missing-kaeo') ?? false
 
-    for (const unit of unitElements) {
-        const metaAttributes = unit.elements?.find(a => a.name === 'meta')?.attributes
-        const isNeutral = metaAttributes?.race?.toLowerCase().includes('neut') ?? false
-        const isMissingIcon = metaAttributes?.icon?.includes('btn-missing-kaeo') ?? false
-
-        if (isNeutral || isMissingIcon) {
-            neutralUnits.push(unit)
-        }
-        else {
-            nonNeutralUnits.push(unit)
-        }
+    if (isNeutral || isMissingIcon) {
+        return 'neutral'
     }
-
-    return [nonNeutralUnits, neutralUnits]
+    else {
+        return 'nonNeutral'
+    }
 }
 
+function groupBy<T>(xs: T[], groupFn: (x: T) => string): Record<string, T[]> {
+    let groups: Record<string, T[]> = {}
+
+    for (const x of xs) {
+        const group = groupFn(x)
+
+        groups[group] ??= []
+        groups[group].push(x)
+    }
+
+    return groups
+}
