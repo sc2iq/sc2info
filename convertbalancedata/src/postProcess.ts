@@ -55,6 +55,27 @@ export function categorizeUnits(rawXmlAsJson: unit.RootElement): ICategorizedUni
     // const genericUnits = parsedUnits.unit
     //     .map(parsedUnit => unit.convertUnit(parsedUnit))
 
+    unitElements.forEach(unitElement => {
+        const metaAttributes = unitElement.elements?.find(a => a.name === 'meta')?.attributes ?? {}
+        if (typeof metaAttributes?.race != 'string') {
+            unitElement.attributes ??= {}
+            
+            const iconName = metaAttributes?.icon ?? ''
+            if (iconName.toLowerCase().includes('protoss')) {
+                unitElement.attributes.race = 'protoss'
+            }
+            else if (iconName.toLowerCase().includes('zerg')) {
+                unitElement.attributes.race = 'zerg'
+            }
+            else if (iconName.toLowerCase().includes('terran')) {
+                unitElement.attributes.race = 'terran'
+            }
+            else {
+                unitElement.attributes.race = 'neural'
+            }
+        }
+    })
+
     const unitGroups = groupBy(unitElements, groupIntoNeutralAndNonNeutral)
     const nonNeutralUnits = unitGroups['nonNeutral']
     const neutralUnits = unitGroups['neutral']
