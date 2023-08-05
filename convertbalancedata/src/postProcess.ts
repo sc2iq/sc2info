@@ -1,59 +1,9 @@
 import * as unit from './unit'
-import * as _ from 'lodash'
 
-export interface ICategorizedUnits {
-    rawUnits: unit.IUnit[]
-    units: unit.IUnitNode[]
-    unitWeapons: unit.IUnit[]
-    buildings: unit.IUnitNode[]
-    weapons: unit.IWeapon[]
-    upgrades: unit.IUpgradeLevel[]
-    buildingUpgrades: unit.IBuildingUpgrade[]
-    abilities: unit.IAbility[]
-    attributes: string[]
-}
-
-function addRaceToWeaponMeta(race: string) {
-    return (x: unit.IWeapon) => {
-        if (x.meta.icon.includes('protoss')) {
-            x.meta.race = 'protoss'
-        } else if (x.meta.icon.includes('zerg')) {
-            x.meta.race = 'zerg'
-        } else if (x.meta.icon.includes('terran')) {
-            x.meta.race = 'terran'
-        } else {
-            x.meta.race = race
-        }
-
-        return x
-    }
-}
-
-function addRaceToUpgradeMeta(race: string) {
-    return (x: unit.IBuildingUpgrade) => {
-        x.meta.race = race
-        return x
-    }
-}
-
-function addRaceToAbilityMeta(race: string) {
-    return (x: unit.IAbility) => {
-        x.command.forEach(command => (command.meta.race = race))
-        return x
-    }
-}
-
-export interface Units {
-    unit: unit.IParsedUnit[]
-}
-
-export function categorizeUnits(rawXmlAsJson: unit.RootElement): ICategorizedUnits {
+export function categorizeUnits(rawXmlAsJson: unit.RootElement) {
     const unitElements = rawXmlAsJson.elements
         .find(e => e.name === 'units')
         ?.elements ?? []
-
-    // const genericUnits = parsedUnits.unit
-    //     .map(parsedUnit => unit.convertUnit(parsedUnit))
 
     unitElements.forEach(unitElement => {
         const metaAttributes = unitElement.elements?.find(a => a.name === 'meta')?.attributes ?? {}
@@ -84,8 +34,6 @@ export function categorizeUnits(rawXmlAsJson: unit.RootElement): ICategorizedUni
     const buildings = structureGroups['structures']
     const nonStructureElements = structureGroups['nonStructures']
 
-    // const units = groupedUnits['units'].map(unit.convertUnitToUnitNode)
-    // const buildings = groupedUnits['buildings'].map(unit.convertUnitToUnitNode)
     const hasWeaponsGroups = groupBy(nonStructureElements, hasWeapons)
     const unitsWithWeapons = hasWeaponsGroups['hasWeapons']
     const unitsWithoutWeapons = hasWeaponsGroups['doesNotHaveWeapons']
