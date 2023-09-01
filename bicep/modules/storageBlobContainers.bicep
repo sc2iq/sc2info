@@ -46,3 +46,11 @@ resource jsonProcessedContainer 'Microsoft.Storage/storageAccounts/blobServices/
     publicAccess: 'Blob'
   }
 }
+
+resource iconsContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2022-09-01' = {
+  parent: blobService
+  name: 'sc2-balancedata-icons'
+  properties: {
+    publicAccess: 'Blob'
+  }
+}
