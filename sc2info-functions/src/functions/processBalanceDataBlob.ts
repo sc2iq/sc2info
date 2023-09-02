@@ -1,0 +1,43 @@
+import { app, InvocationContext, input, output } from "@azure/functions"
+
+export async function blobTriggerFn(
+    blob: ReadableStream,
+    context: InvocationContext,
+): Promise<unknown> {
+    context.log(`context: ${JSON.stringify(context, null, 2)}`)
+
+    try {
+        const { name: blobTriggerName, uri: blobTriggerUri } = context.triggerMetadata
+        console.log({ blobTriggerName, blobTriggerUri })
+
+        const balanceDataJsonString = (blob as any).toString()
+        const balanceDataJson = JSON.parse(balanceDataJsonString)
+
+        context.log(`json: ${JSON.stringify(balanceDataJson).slice(0, 1000)}`)
+        const json = {
+            'data': `test_${Date.now()}`
+        }
+    
+        return json
+    }
+    catch (error) {
+        context.log(`Error: ${error}`)
+        const outputJson = {
+            'data': JSON.stringify(error, null, 2)
+        }
+
+        return outputJson
+    }
+}
+
+const jsonBlobOutput = output.storageBlob({
+    path: 'sc2-balancedata-json-processed/balancedata_{DateTime}.json',
+    connection: 'AzureWebJobsStorage',
+})
+
+app.storageBlob('processBalanceDataBlob', {
+    path: 'sc2-balancedata-json/{name}',
+    connection: 'AzureWebJobsStorage',
+    handler: blobTriggerFn,
+    return: jsonBlobOutput,
+})
