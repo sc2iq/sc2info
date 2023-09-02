@@ -83,6 +83,7 @@ footer {
 }
 
 .sc2info__homelink {
+  margin-block: 5rem;
   cursor: pointer;
 }
 

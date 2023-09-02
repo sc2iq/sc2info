@@ -2,13 +2,12 @@
 
 /// <reference lib="dom" />
 
-import { categorizeUnits, ICategorizedUnits } from './postProcess'
+import { categorizeUnits } from './postProcess'
 import yargs from 'yargs'
 import fs from 'fs'
 import * as unit from './unit'
 
 export {
-    ICategorizedUnits,
     unit
 }
 
@@ -16,7 +15,11 @@ async function main(
     unprocessedJsonUrl: string = 'https://sharedklgoyistorage.blob.core.windows.net/sc2-balancedata-json/balancedata_2023-07-30T19-59-44Z.json',
     outputFileName: string
 ) {
-    outputFileName ??= `balancedata_${Date.now()}.json`
+    const dateString = (new Date()).toISOString()
+        .replace(/[^A-Za-z0-9]+/g, '')
+        // .replace(/:/g, '')
+        // .replace(/\./g, '')
+    outputFileName ??= `balancedata_${dateString}.json`
 
     // Fetch Unprocessed JSON (.json)
     const unprocessedJsonResponse = await fetch(unprocessedJsonUrl)

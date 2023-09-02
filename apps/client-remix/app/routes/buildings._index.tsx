@@ -1,35 +1,23 @@
-import { DataFunctionArgs, LinksFunction } from "@remix-run/node"
-import { Link, NavLink, useLoaderData } from "@remix-run/react"
+import { LinksFunction } from "@remix-run/node"
+import { Link, NavLink, useOutletContext } from "@remix-run/react"
 import componentAbilityPrviewStyles from '~/components/AbilityPreview.css'
 import BuildingPreview from "~/components/BuildingPreview"
+import { loader as rootLoader } from "~/root"
 
 export const links: LinksFunction = () => ([
     { rel: 'stylesheet', href: componentAbilityPrviewStyles },
 ])
 
-export const loader = ({ }: DataFunctionArgs) => {
-    return {
-        terran: [] as any[],
-        zerg: [] as any[],
-        protoss: [] as any[],
-    }
-}
-
 export default function Buildings() {
-    const {
-        terran,
-        zerg,
-        protoss,
-    } = useLoaderData<typeof loader>()
+    const context = useOutletContext<Awaited<ReturnType<typeof rootLoader>>>()
+    const terran: any[] = []
+    const zerg: any[] = []
+    const protoss: any[] = []
 
     return <>
         <h1>
             <NavLink to="/browse" >Browse</NavLink> &gt; Buildings
         </h1>
-        <div>
-            <Link to="xyz">XYZ</Link>
-        </div>
-
         <section>
             <div className="race-lists">
                 <div>

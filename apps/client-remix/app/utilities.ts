@@ -1,4 +1,4 @@
-type XmlJsonElement = {
+export type XmlJsonElement = {
     type: string
     name: string
     attributes?: XmlJsonAttributes

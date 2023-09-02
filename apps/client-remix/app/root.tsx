@@ -1,4 +1,4 @@
-import type { LinksFunction, LoaderFunction } from "@remix-run/node"
+import type { LinksFunction, LoaderArgs, LoaderFunction } from "@remix-run/node"
 import React from 'react'
 import {
   Links,
@@ -76,15 +76,17 @@ export function ErrorBoundary() {
   }
 }
 
-export const loader: LoaderFunction = async (args) => {
+export const loader = async (args: LoaderArgs) => {
   const jsonFileUrl = process.env.BALANCE_DATA_JSON!
   console.log(`Downloading: ${jsonFileUrl}`)
   const jsonFileResponse = await fetch(jsonFileUrl)
-  const jsonContent: XmlRootElement = await jsonFileResponse.json()
+  const jsonContent: any = await jsonFileResponse.json()
   console.log(`Processing...`)
   console.log(`Complete!`)
-
+  const iconsContainerUrl = process.env.ICONS_CONTAINER_URL
+  
   return {
+    iconsContainerUrl,
     jsonContent,
   }
 }

@@ -7,7 +7,7 @@ type Props = {
 }
 
 const IconImage: React.FC<Props> = (props) => {
-    if (props.url.includes('undefined')) {
+    if (props.url == undefined || props.url.includes('undefined')) {
         return <div></div>
     }
 
