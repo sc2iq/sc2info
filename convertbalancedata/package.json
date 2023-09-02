@@ -1,14 +1,18 @@
 {
   "name": "@sc2/convertbalancedata",
-  "version": "0.0.3",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "0.0.7",
   "description": "Library to convert StarCraft 2 exported balance data XML files to JSON.",
-  "main": "./build/index.js",
-  "typings": "./build/index.d.ts",
+  "main": "./build/postProcess.js",
+  "typings": "./build/postProcess.d.ts",
   "scripts": {
     "build": "tsc",
-    "prepublish": "npm run build",
+    "prepublishOnly": "npm run build",
     "prestart": "npm run build",
-    "start": "node .",
+    "start": "node ./build/index.js",
+    "clean": "powershell rm -erroraction silentlycontinue -r -fo ./build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -28,7 +32,9 @@
     "url": "https://github.com/mattmazzola/sc2-convertbalancedata"
   },
   "dependencies": {
+    "@types/dotenv-flow": "^3.3.1",
     "@types/node": "^20.3.0",
+    "dotenv-flow": "^3.3.0",
     "lodash": "^4.17.21",
     "yargs": "^13.3.2"
   },

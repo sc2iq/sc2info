@@ -6,15 +6,23 @@ import { categorizeUnits } from './postProcess'
 import yargs from 'yargs'
 import fs from 'fs'
 import * as unit from './unit'
+import { config } from 'dotenv-flow'
 
 export {
     unit
 }
 
+export { categorizeUnits } from './postProcess'
+
 async function main(
     unprocessedJsonUrl: string = 'https://sharedklgoyistorage.blob.core.windows.net/sc2-balancedata-json/balancedata_2023-07-30T19-59-44Z.json',
     outputFileName: string
 ) {
+    // Load .env file
+    config()
+
+    const iconsContainerUrl = process.env.ICONS_CONTAINER_URL
+
     const dateString = (new Date()).toISOString()
         .replace(/[^A-Za-z0-9]+/g, '')
         // .replace(/:/g, '')
@@ -31,7 +39,18 @@ async function main(
 
     // Process JSON
     const categorizedUnits = categorizeUnits(rawXmlAsJson as any)
-    console.log({ categorizedUnits, outputFileName })
+
+    // console.log({
+    //     neutralUnitsNames: categorizedUnits.neutralUnits.map(b => b?.attributes?.id),
+    //     buildingsNames: categorizedUnits.buildings.map(b => b?.attributes?.id),
+    //     buildingUpgradeNames: categorizedUnits.buildingUpgrades.map(b => b?.attributes?.id),
+    //     unitsWithWeaponsNames: categorizedUnits.unitsWithWeapons.map(b => b?.attributes?.id),
+    //     unitWeaponsNames: categorizedUnits.unitWeapons.map(b => b?.attributes?.id),
+    //     upgradeNames: categorizedUnits.upgrades.map(b => b?.attributes?.id).sort((a, b) => a?.localeCompare(b ?? '') ?? 0),
+    //     abilitiesNames: categorizedUnits.abilities.map(b => b?.attributes?.id),
+    //     attributesNames: categorizedUnits.attributes.sort((a, b) => a?.localeCompare(b ?? '') ?? 0),
+    // })
+    // console.log({ categorizedUnits, outputFileName })
 
     // Write Processed JSON (.json)
     const categorizedUnitsJson = JSON.stringify(categorizedUnits, null, '  ')

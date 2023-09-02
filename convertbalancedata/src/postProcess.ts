@@ -63,7 +63,10 @@ export function categorizeUnits(rawXmlAsJson: unit.RootElement) {
 
     const uniqueUpgradeLevelElements = [...upgradeLevelsMap.values()]
 
-    const abilities = nonNeutralUnits.flatMap(u => u.elements?.find(e => e?.name === 'abilities')?.elements ?? [])
+    const abilities = nonNeutralUnits.flatMap(a => a.elements?.find(e => e?.name === 'abilities')?.elements ?? [])
+    const uniqueAbilitiesMap = new Map(abilities.map(a => [a.attributes?.id, a]))
+    uniqueAbilitiesMap.delete(undefined)
+    const uniqueUniqueAbilities = [...uniqueAbilitiesMap.values()]
 
     const attributes = nonNeutralUnits.flatMap(u => u.elements?.find(e => e?.name === 'attributes')?.elements ?? [])
     const uniqueAttributes = [...(new Set(attributes.map(u => u.attributes?.type)))]
@@ -75,21 +78,10 @@ export function categorizeUnits(rawXmlAsJson: unit.RootElement) {
         unitsWithWeapons,
         unitWeapons: uniqueUniqueUnitWeapons,
         upgrades: uniqueUpgradeLevelElements,
-        abilities,
+        abilities: uniqueUniqueAbilities,
         attributes: uniqueAttributes,
         nonStructureElements,
     }
-
-    console.log({
-        neutralUnitsNames: categorizedUnits.neutralUnits.map(b => b?.attributes?.id),
-        buildingsNames: categorizedUnits.buildings.map(b => b?.attributes?.id),
-        buildingUpgradeNames: categorizedUnits.buildingUpgrades.map(b => b?.attributes?.id),
-        unitsWithWeaponsNames: categorizedUnits.unitsWithWeapons.map(b => b?.attributes?.id),
-        unitWeaponsNames: categorizedUnits.unitWeapons.map(b => b?.attributes?.id),
-        upgradeNames: categorizedUnits.upgrades.map(b => b?.attributes?.id).sort((a, b) => a?.localeCompare(b ?? '') ?? 0),
-        abilitiesNames: categorizedUnits.abilities.map(b => b?.attributes?.id),
-        attributesNames: categorizedUnits.attributes.sort((a, b) => a?.localeCompare(b ?? '') ?? 0),
-    })
 
     return categorizedUnits as any
 }
