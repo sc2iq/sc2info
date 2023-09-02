@@ -82,6 +82,25 @@ az group create -l $resourceGroupLocation -g $sc2infoResourceGroupName --query n
 
 Write-Step "Provision $sc2infoResourceGroupName Resources (What-If: $($WhatIf))"
 
+Write-Step "Deploy $clientImageName Container App (What-If: $($WhatIf))"
+$functionsAppDeploymentFilePath = "$repoRoot/bicep/modules/functionsApp.bicep"
+
+if ($WhatIf -eq $True) {
+  az deployment group create `
+    -g $sc2infoResourceGroupName `
+    -f $functionsAppDeploymentFilePath `
+    --what-if
+}
+else {
+  $provisioningState = $(az deployment group create `
+      -g $sc2infoResourceGroupName `
+      -f $functionsAppDeploymentFilePath `
+      --query "properties.provisioningState")
+
+  Write-Output "Provisioning State: $provisioningState"
+}
+
+
 Write-Step "Build $balanceDataUploaderImageName Image (What-If: $($WhatIf))"
 docker build -t $balanceDataUploaderImageName "$repoRoot/apps/balance-data-upload"
 
