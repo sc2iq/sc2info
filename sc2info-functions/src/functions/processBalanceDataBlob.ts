@@ -1,4 +1,5 @@
 import { app, InvocationContext, input, output } from "@azure/functions"
+import { categorizeUnits } from "@sc2/convertbalancedata"
 
 export async function blobTriggerFn(
     blob: ReadableStream,
@@ -12,13 +13,12 @@ export async function blobTriggerFn(
 
         const balanceDataJsonString = (blob as any).toString()
         const balanceDataJson = JSON.parse(balanceDataJsonString)
+        const balanceDataJsonProcessed = categorizeUnits(balanceDataJson)
 
-        context.log(`json: ${JSON.stringify(balanceDataJson).slice(0, 1000)}`)
-        const json = {
-            'data': `test_${Date.now()}`
-        }
+        context.log(`input json: ${JSON.stringify(balanceDataJson).slice(0, 1000)}`)
+        context.log(`processed json: ${JSON.stringify(balanceDataJsonProcessed).slice(0, 1000)}`)
     
-        return json
+        return balanceDataJsonProcessed
     }
     catch (error) {
         context.log(`Error: ${error}`)
