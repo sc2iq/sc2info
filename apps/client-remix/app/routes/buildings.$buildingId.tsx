@@ -8,7 +8,9 @@ export default function Building() {
   
   const context = useOutletContext<Awaited<ReturnType<typeof rootLoader>>>()
   const building = context.jsonContent.buildings.find(e => e.attributes?.id === buildingId)
-  if (!building) throw new Error(`Could not find building with id ${buildingId}`)
+  if (!building) {
+    return <div>Could not find building with id {buildingId}</div>
+  }
 
   return <>
     <h1>

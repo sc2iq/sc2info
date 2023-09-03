@@ -4,10 +4,9 @@ import SearchResult from '~/components/SearchResult'
 
 export default function Index() {
   const context = useOutletContext()
-  console.log({ context })
-
   const searchQuery = 'test'
   const searchResults: any[] = []
+
   return <>
     <div className="search-header">
       <div className="search-input">

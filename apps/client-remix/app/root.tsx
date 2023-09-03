@@ -21,17 +21,14 @@ import askStyles from '~/styles/ask.css'
 import browseStyles from '~/styles/browse.css'
 import searchStyles from '~/styles/search.css'
 import abilitiesStyles from '~/styles/abilities.css'
-import componentAbilityPreviewStyles from '~/components/AbilityPreview.css'
-import componentBuildingPreviewStyles from '~/components/BuildingPreview.css'
+import componentPreviewStyles from '~/components/Preview.css'
 import componentFuseMatchStyles from '~/components/FuseMatch.css'
 import componentSearchResultStyles from '~/components/SearchResult.css'
 import componentUnitFullStyles from '~/components/UnitFull.css'
-import componentUnitPreviewStyles from '~/components/UnitPreview.css'
 import componentUpgradeFullStyles from '~/components/UpgradeFull.css'
-import componentUpgradePreviewStyles from '~/components/UpgradePreview.css'
 import componentWeaponFullStyles from '~/components/WeaponFull.css'
-import componentWeaponPreviewStyles from '~/components/WeaponPreview.css'
 import { XmlJsonElement } from '~/utilities'
+import type { ShouldRevalidateFunction } from "@remix-run/react";
 
 export const links: LinksFunction = () => ([
   { rel: 'stylesheet', href: resetStyles },
@@ -42,16 +39,12 @@ export const links: LinksFunction = () => ([
   { rel: 'stylesheet', href: browseStyles },
   { rel: 'stylesheet', href: searchStyles },
   { rel: 'stylesheet', href: abilitiesStyles },
-  { rel: 'stylesheet', href: componentAbilityPreviewStyles },
-  { rel: 'stylesheet', href: componentBuildingPreviewStyles },
+  { rel: 'stylesheet', href: componentPreviewStyles },
   { rel: 'stylesheet', href: componentFuseMatchStyles },
   { rel: 'stylesheet', href: componentSearchResultStyles },
   { rel: 'stylesheet', href: componentUnitFullStyles },
-  { rel: 'stylesheet', href: componentUnitPreviewStyles },
   { rel: 'stylesheet', href: componentUpgradeFullStyles },
-  { rel: 'stylesheet', href: componentUpgradePreviewStyles },
   { rel: 'stylesheet', href: componentWeaponFullStyles },
-  { rel: 'stylesheet', href: componentWeaponPreviewStyles },
 ])
 
 export const meta: V2_MetaFunction = () => {
@@ -65,6 +58,8 @@ export const meta: V2_MetaFunction = () => {
 
 export function ErrorBoundary() {
   const error = useRouteError()
+
+  console.error(error)
 
   if (isRouteErrorResponse(error)) {
     return (
@@ -109,6 +104,11 @@ export const loader = async (args: LoaderArgs) => {
     jsonContent,
   }
 }
+
+
+export const shouldRevalidate: ShouldRevalidateFunction = () => {
+  return false;
+};
 
 export default function App() {
   const loaderData = useLoaderData<typeof loader>()

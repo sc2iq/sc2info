@@ -14,6 +14,7 @@ const BuildingFull: React.FC<Props> = ({ building }) => {
     const context = useOutletContext<Awaited<ReturnType<typeof rootLoader>>>()
     const metaAttributes = building.elements?.find(e => e.name === 'meta')?.attributes ?? {}
     const iconUrl = `${context.iconsContainerUrl}/${metaAttributes.icon}.png`
+    const race = getRaceFromString(metaAttributes.icon ?? '') as Race
 
     const lifeAttributes = building.elements?.find(e => e.name === 'life')?.attributes ?? {}
     const armorAttributes = building.elements?.find(e => e.name === 'armor')?.attributes ?? {}
@@ -25,8 +26,8 @@ const BuildingFull: React.FC<Props> = ({ building }) => {
     return (
         <div className="building-full">
             <div>
-                <RaceImg race={getRaceFromString(metaAttributes.icon ?? '') as Race} width={50} height={90} />
-                <IconImage url={iconUrl} width={150} height={100} />
+                <RaceImg race={race} width={50} height={90} />
+                <IconImage url={iconUrl} />
             </div>
 
             <div className="unit-full__lift-cost">

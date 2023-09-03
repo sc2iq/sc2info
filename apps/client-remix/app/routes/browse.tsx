@@ -3,7 +3,6 @@ import { loader as rootLoader } from "~/root"
 
 export default function Browse() {
   const context = useOutletContext<Awaited<ReturnType<typeof rootLoader>>>()
-  console.log({ context })
 
   return <>
     <h1>Browse</h1>

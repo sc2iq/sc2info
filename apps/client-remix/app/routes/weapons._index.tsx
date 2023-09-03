@@ -1,39 +1,38 @@
-import { DataFunctionArgs, LinksFunction } from "@remix-run/node"
-import { Link, NavLink, useLoaderData } from "@remix-run/react"
+import { Link, NavLink, useLoaderData, useOutletContext } from "@remix-run/react"
 import UpgradePreview from "~/components/UpgradePreview"
-
-export const loader = ({ }: DataFunctionArgs) => {
-    return {
-        terran: [] as any[],
-        zerg: [] as any[],
-        protoss: [] as any[],
-    }
-}
+import { getRaceFromString } from "~/helpers"
+import { loader as rootLoader } from "~/root"
 
 export default function Weapons() {
-    const {
-        terran,
-        zerg,
-        protoss,
-    } = useLoaderData<typeof loader>()
+    const context = useOutletContext<Awaited<ReturnType<typeof rootLoader>>>()
+    const weaponsWithRace = context.jsonContent.unitWeapons.map(e => {
+        const metaAttributes = e.elements?.find(we => we.name === 'meta')?.attributes
+        const race = getRaceFromString(metaAttributes?.icon ?? '')
+
+        return {
+            race,
+            weapon: e,
+        }
+    })
+
+    const terran = weaponsWithRace.filter(x => x.race === 'terran').map(x => x.weapon)
+    const zerg = weaponsWithRace.filter(x => x.race === 'zerg').map(x => x.weapon)
+    const protoss = weaponsWithRace.filter(x => x.race === 'protoss').map(x => x.weapon)
 
     return <>
         <h1>
             <NavLink to="/browse" >Browse</NavLink> &gt; Weapons
         </h1>
-        <div>
-            <Link to="xyz">XYZ</Link>
-        </div>
 
         <section>
             <div className="race-lists">
                 <div>
                     <h2>Terran</h2>
                     <div className="ability-preview-list">
-                        {terran.map((upgrade, i) => {
+                        {terran.map((weapon, i) => {
                             return (
-                                <Link key={i} to={upgrade.id}>
-                                    <UpgradePreview upgrade={upgrade} />
+                                <Link key={i} to={weapon.attributes?.id ?? ''}>
+                                    <UpgradePreview upgrade={weapon} />
                                 </Link>
                             )
                         })}
@@ -43,10 +42,10 @@ export default function Weapons() {
                 <div>
                     <h2>Zerg</h2>
                     <div className="ability-preview-list">
-                        {zerg.map((upgrade, i) => {
+                        {zerg.map((weapon, i) => {
                             return (
-                                <Link key={i} to={upgrade.id}>
-                                    <UpgradePreview upgrade={upgrade} />
+                                <Link key={i} to={weapon.attributes?.id ?? ''}>
+                                    <UpgradePreview upgrade={weapon} />
                                 </Link>
                             )
                         })}
@@ -56,10 +55,10 @@ export default function Weapons() {
                 <div>
                     <h2>Protoss</h2>
                     <div className="ability-preview-list">
-                        {protoss.map((upgrade, i) => {
+                        {protoss.map((weapon, i) => {
                             return (
-                                <Link key={i} to={upgrade.id}>
-                                    <UpgradePreview upgrade={upgrade} />
+                                <Link key={i} to={weapon.attributes?.id ?? ''}>
+                                    <UpgradePreview upgrade={weapon} />
                                 </Link>
                             )
                         })}

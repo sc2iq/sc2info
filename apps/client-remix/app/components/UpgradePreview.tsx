@@ -1,21 +1,21 @@
 import React from 'react'
-import { convertCamelCaseToSpacedCase } from '../utilities'
+import { XmlJsonElement, convertCamelCaseToSpacedCase } from '../utilities'
 import IconImage from './IconImage'
+import { loader as rootLoader } from "~/root"
+import { useOutletContext } from '@remix-run/react'
+import Preview from './Preview'
 
 type Props = {
-    upgrade: any
+    upgrade: XmlJsonElement
 }
 
 const UnitPreview: React.FC<Props> = ({ upgrade }) => {
+    const context = useOutletContext<Awaited<ReturnType<typeof rootLoader>>>()
+    const metaAttributes = upgrade.elements?.find(e => e.name === 'meta')?.attributes ?? {}
+    const iconUrl = `${context.iconsContainerUrl}/${metaAttributes.icon}.png`
+    const name = upgrade.attributes?.id ?? ''
     return (
-        <div className="upgrade-preview">
-            <div className="upgrade-preview__picture">
-                <IconImage url={upgrade.meta.icon} />
-            </div>
-            <div className="upgrade-preview__info">
-                {convertCamelCaseToSpacedCase(upgrade.meta.name)}
-            </div>
-        </div>
+        <Preview iconUrl={iconUrl} name={name} />
     )
 }
 

@@ -1,28 +1,41 @@
 import React from 'react'
 import RaceImg from './RaceImg'
 import IconImage from './IconImage'
+import { Race, XmlJsonElement } from '~/utilities'
+import { loader as rootLoader } from "~/root"
+import { useOutletContext } from '@remix-run/react'
+import { getRaceFromString } from '~/helpers'
 
 type Props = {
-    weapon: any
+    weapon: XmlJsonElement
 }
 
 const WeaponFull: React.FC<Props> = ({ weapon }) => {
+    const context = useOutletContext<Awaited<ReturnType<typeof rootLoader>>>()
+    const metaAttributes = weapon.elements?.find(e => e.name === 'meta')?.attributes ?? {}
+    const iconUrl = `${context.iconsContainerUrl}/${metaAttributes.icon}.png`
+    const race = getRaceFromString(metaAttributes.icon ?? '') as Race
+
+    const miscAttributes = weapon.elements?.find(e => e.name === 'misc')?.attributes ?? {}
+    const effectElement = weapon.elements?.find(e => e.name === 'effect') ?? {} as XmlJsonElement
+    const effectBonusAttributes = effectElement.elements?.find(e => e.name === 'bonus')?.attributes ?? {}
+
     return (
         <div className="unit-full">
             <div>
-                <RaceImg race={weapon.meta.race} />
-                <IconImage url={weapon.meta.icon} width={150} height={150} />
+                <RaceImg race={race} width={50} height={75} />
+                <IconImage url={iconUrl} />
             </div>
 
             <div>
                 <h2>Miscellaneous</h2>
                 <div className="unit-full__section">
                     <div>Range</div>
-                    <div>{weapon.misc.range}</div>
+                    <div>{miscAttributes.range}</div>
                     <div>Speed</div>
-                    <div>{weapon.misc.speed}</div>
+                    <div>{miscAttributes.speed}</div>
                     <div>Targets</div>
-                    <div>{weapon.misc.targets}</div>
+                    <div>{miscAttributes.targets}</div>
                 </div>
             </div>
 
@@ -30,21 +43,21 @@ const WeaponFull: React.FC<Props> = ({ weapon }) => {
                 <h2>Effect</h2>
                 <div className="unit-full__section">
                     <div>Radius</div>
-                    <div>{weapon.effect.radius}</div>
+                    <div>{effectElement.attributes?.radius}</div>
                     <div>Max</div>
-                    <div>{weapon.effect.max}</div>
+                    <div>{effectElement.attributes?.max}</div>
                     <div>Death</div>
-                    <div>{weapon.effect.death}</div>
+                    <div>{effectElement.attributes?.death}</div>
                     <div>Kind</div>
-                    <div>{weapon.effect.kind}</div>
-                    {weapon.effect.bonus
+                    <div>{effectElement.attributes?.kind}</div>
+                    {Object.keys(effectBonusAttributes).length > 0
                         && <>
                             <div>Bonus Damage</div>
-                            <div>{weapon.effect.bonus.damage}</div>
+                            <div>{effectBonusAttributes.damage}</div>
                             <div>Bonus Max</div>
-                            <div>{weapon.effect.bonus.max}</div>
+                            <div>{effectBonusAttributes.max}</div>
                             <div>Bonus Type</div>
-                            <div>{weapon.effect.bonus.type}</div>
+                            <div>{effectBonusAttributes.type}</div>
                         </>}
                 </div>
             </div>

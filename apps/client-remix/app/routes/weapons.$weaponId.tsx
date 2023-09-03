@@ -1,17 +1,15 @@
-import { DataFunctionArgs } from "@remix-run/node"
-import { NavLink, useLoaderData } from "@remix-run/react"
+import { NavLink, useOutletContext, useParams } from "@remix-run/react"
 import WeaponFull from "~/components/WeaponFull"
+import { loader as rootLoader } from "~/root"
 
-export const loader = ({ params }: DataFunctionArgs) => {
-  const weaponId = params.weaponId
-
-  return {
-    weaponId
+export default function Weapon() {
+  const { weaponId } = useParams()
+  
+  const context = useOutletContext<Awaited<ReturnType<typeof rootLoader>>>()
+  const weapon = context.jsonContent.unitWeapons.find(e => e.attributes?.id === weaponId)
+  if (!weapon) {
+    return <div>Could not find weapon with id {weaponId}</div>
   }
-}
-
-export default function Unit() {
-  const { weaponId } = useLoaderData()
 
   return <>
     <h1>
@@ -19,7 +17,7 @@ export default function Unit() {
     </h1>
 
     <section>
-      {/* <WeaponFull upgrade={response.data.upgrade} /> */}
+      <WeaponFull weapon={weapon} />
     </section>
   </>
 }

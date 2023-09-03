@@ -1,13 +1,13 @@
 import React from 'react'
 import { XmlJsonElement, convertCamelCaseToSpacedCase } from '../utilities'
 import IconImage from './IconImage'
+import Preview from './Preview'
 
 type Props = {
     ability: XmlJsonElement
 }
 
 const AbilityPreview: React.FC<Props> = ({ ability }) => {
-    console.log({ ability })
     const camelCaseName = ability.attributes?.id ?? ''
     const abilityCommandAttributes = ability
         .elements?.find(e => e?.name === "command")
@@ -25,18 +25,9 @@ const AbilityPreview: React.FC<Props> = ({ ability }) => {
     // }
 
     const iconUrl = `https://sharedklgoyistorage.blob.core.windows.net/sc2-balancedata-icons/${abilityMetaAttributes?.icon ?? ''}.png`
-    
+
     return (
-        <>
-            <div className="preview">
-                <div className="preview__picture">
-                    <IconImage url={iconUrl} />
-                </div>
-                <div className="preview__info">
-                    {name}
-                </div>
-            </div>
-        </>
+        <Preview name={name} iconUrl={iconUrl} />
     )
 }
 
