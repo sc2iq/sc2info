@@ -1,23 +1,21 @@
-import { DataFunctionArgs } from "@remix-run/node"
-import { NavLink, useLoaderData } from "@remix-run/react"
-
-export const loader = ({ params }: DataFunctionArgs) => {
-  const buildingId = params.buildingId
-
-  return {
-    buildingId
-  }
-}
+import { NavLink, useOutletContext, useParams } from "@remix-run/react"
+import { convertCamelCaseToSpacedCase } from "~/utilities"
+import { loader as rootLoader } from "~/root"
+import BuildingFull from "~/components/BuildingFull"
 
 export default function Building() {
-  const { buildingId } = useLoaderData()
+  const { buildingId } = useParams()
+  
+  const context = useOutletContext<Awaited<ReturnType<typeof rootLoader>>>()
+  const building = context.jsonContent.buildings.find(e => e.attributes?.id === buildingId)
+  if (!building) throw new Error(`Could not find building with id ${buildingId}`)
 
   return <>
     <h1>
-      <NavLink to="/browse" >Browse</NavLink> &gt; <NavLink to="/buildings" >Buildings</NavLink> &gt; {buildingId}
+      <NavLink to="/browse" >Browse</NavLink> &gt; <NavLink to="/buildings" >Buildings</NavLink> &gt; {convertCamelCaseToSpacedCase(buildingId ?? '')}
     </h1>
     <section>
-      {/* <BuildingFull building={response.data.building} />} */}
+      <BuildingFull building={building} />
     </section>
   </>
 }

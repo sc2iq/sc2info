@@ -2,7 +2,6 @@ import React from 'react'
 import RaceImg from './RaceImg'
 import FuseMatch from './FuseMatch'
 import { convertMatchedTextIntoMatchedSegements } from '../utilities'
-import './SearchResult.css'
 import IconImage from './IconImage'
 
 type Props = {

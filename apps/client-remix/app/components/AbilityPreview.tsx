@@ -1,5 +1,4 @@
 import React from 'react'
-import './AbilityPreview.css'
 import { XmlJsonElement, convertCamelCaseToSpacedCase } from '../utilities'
 import IconImage from './IconImage'
 

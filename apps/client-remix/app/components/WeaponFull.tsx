@@ -1,6 +1,5 @@
 import React from 'react'
 import RaceImg from './RaceImg'
-import './WeaponFull.css'
 import IconImage from './IconImage'
 
 type Props = {

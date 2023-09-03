@@ -1,6 +1,5 @@
 import React from 'react'
 import RaceImg from './RaceImg'
-import './UnitFull.css'
 import { convertCamelCaseToSpacedCase } from '../utilities'
 import IconImage from './IconImage'
 

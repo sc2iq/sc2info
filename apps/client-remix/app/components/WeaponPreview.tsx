@@ -1,5 +1,4 @@
 import React from 'react'
-import './WeaponPreview.css'
 import { convertCamelCaseToSpacedCase } from '../utilities'
 import IconImage from './IconImage'
 

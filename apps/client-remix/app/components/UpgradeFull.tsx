@@ -1,5 +1,4 @@
 import React from 'react'
-import './UpgradeFull.css'
 import IconImage from './IconImage'
 
 type Props = {

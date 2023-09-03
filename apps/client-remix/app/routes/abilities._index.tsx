@@ -5,10 +5,6 @@ import { getRaceFromString } from "~/helpers"
 import { loader as rootLoader } from "~/root"
 import { XmlJsonElement } from "~/utilities"
 
-export const links: LinksFunction = () => ([
-    { rel: 'stylesheet', href: componentAbilityPrviewStyles },
-])
-
 export default function Abilities() {
     const context = useOutletContext<Awaited<ReturnType<typeof rootLoader>>>()
     const abilitiesByRace = context.jsonContent.abilities.map(a => {

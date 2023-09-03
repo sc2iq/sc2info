@@ -11,6 +11,8 @@ export type XmlRootElement = {
     elements: XmlJsonElement[]
 }
 
+export type Race = 'zerg' | 'terran' | 'protoss'
+
 type Unit = {
     name: string
     properties: Record<string, Record<string, string>>

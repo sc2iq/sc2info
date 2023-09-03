@@ -1,5 +1,4 @@
 import React from 'react'
-import './UpgradePreview.css'
 import { convertCamelCaseToSpacedCase } from '../utilities'
 import IconImage from './IconImage'
 

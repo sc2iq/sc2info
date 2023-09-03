@@ -1,11 +1,6 @@
 import { LinksFunction } from '@remix-run/node'
 import { Link, NavLink, useOutletContext } from '@remix-run/react'
 import SearchResult from '~/components/SearchResult'
-import indexStyles from '~/styles/index.css'
-
-export const links: LinksFunction = () => ([
-  { rel: 'stylesheet', href: indexStyles },
-])
 
 export default function Index() {
   const context = useOutletContext()

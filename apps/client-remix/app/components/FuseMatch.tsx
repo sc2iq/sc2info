@@ -1,6 +1,4 @@
-import * as React from 'react'
 import { IMatchSegement } from '../utilities'
-import './FuseMatch.css'
 
 interface Props {
     matches: IMatchSegement[]
