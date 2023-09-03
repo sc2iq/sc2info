@@ -1,10 +1,9 @@
 import { DataFunctionArgs, LinksFunction } from "@remix-run/node"
 import { Link, NavLink, useLoaderData, useOutletContext } from "@remix-run/react"
 import AbilityPreview from "~/components/AbilityPreview"
-import componentAbilityPrviewStyles from '~/components/AbilityPreview.css'
 import { getRaceFromString } from "~/helpers"
 import { loader as rootLoader } from "~/root"
-import { XmlJsonElement, XmlRootElement } from "~/utilities"
+import { XmlJsonElement } from "~/utilities"
 
 export const links: LinksFunction = () => ([
     { rel: 'stylesheet', href: componentAbilityPrviewStyles },
@@ -12,7 +11,7 @@ export const links: LinksFunction = () => ([
 
 export default function Abilities() {
     const context = useOutletContext<Awaited<ReturnType<typeof rootLoader>>>()
-    const abilitiesByRace =context.jsonContent.abilities.map((a: XmlRootElement) => {
+    const abilitiesByRace = context.jsonContent.abilities.map(a => {
         const abilityMetaAttributes = a
             .elements?.find(e => e?.name === "command")
             ?.elements?.find(e => e?.name === "meta")
@@ -26,7 +25,7 @@ export default function Abilities() {
         }
     })
 
-    const terran: XmlJsonElement[] = abilitiesByRace.filter((a: any) => a.race === "terran").map((a: any) => a.ability as XmlJsonElement)
+    const terran = abilitiesByRace.filter(a => a.race === "terran").map(a => a.ability as XmlJsonElement)
     const zerg: any[] = abilitiesByRace.filter((a: any) => a.race === "zerg").map((a: any) => a.ability as XmlJsonElement)
     const protoss: any[] = abilitiesByRace.filter((a: any) => a.race === "protoss").map((a: any) => a.ability as XmlJsonElement)
 

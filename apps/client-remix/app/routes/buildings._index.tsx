@@ -1,18 +1,22 @@
-import { LinksFunction } from "@remix-run/node"
 import { Link, NavLink, useOutletContext } from "@remix-run/react"
-import componentAbilityPrviewStyles from '~/components/AbilityPreview.css'
 import BuildingPreview from "~/components/BuildingPreview"
+import { getRaceFromString } from "~/helpers"
 import { loader as rootLoader } from "~/root"
-
-export const links: LinksFunction = () => ([
-    { rel: 'stylesheet', href: componentAbilityPrviewStyles },
-])
 
 export default function Buildings() {
     const context = useOutletContext<Awaited<ReturnType<typeof rootLoader>>>()
-    const terran: any[] = []
-    const zerg: any[] = []
-    const protoss: any[] = []
+    const buildingsWithRace = context.jsonContent.buildings.map(be => {
+        const metaAttributes = be.elements?.find(e => e.name === 'meta')?.attributes
+        const race = getRaceFromString(metaAttributes?.icon ?? '')
+
+        return {
+            race,
+            building: be,
+        }
+    })
+    const terran = buildingsWithRace.filter(x => x.race === 'terran').map(x => x.building)
+    const zerg = buildingsWithRace.filter(x => x.race === 'zerg').map(x => x.building)
+    const protoss = buildingsWithRace.filter(x => x.race === 'protoss').map(x => x.building)
 
     return <>
         <h1>
@@ -25,7 +29,7 @@ export default function Buildings() {
                     <div className="ability-preview-list">
                         {terran.map((building, i) => {
                             return (
-                                <Link key={i} to={building.id}>
+                                <Link key={i} to={building.attributes?.id ?? ''}>
                                     <BuildingPreview building={building} />
                                 </Link>
                             )
@@ -38,7 +42,7 @@ export default function Buildings() {
                     <div className="ability-preview-list">
                         {zerg.map((building, i) => {
                             return (
-                                <Link key={i} to={building.id}>
+                                <Link key={i} to={building.attributes?.id ?? ''}>
                                     <BuildingPreview building={building} />
                                 </Link>
                             )
@@ -51,7 +55,7 @@ export default function Buildings() {
                     <div className="ability-preview-list">
                         {protoss.map((building, i) => {
                             return (
-                                <Link key={i} to={building.id}>
+                                <Link key={i} to={building.attributes?.id ?? ''}>
                                     <BuildingPreview building={building} />
                                 </Link>
                             )

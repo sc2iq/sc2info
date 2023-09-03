@@ -13,6 +13,7 @@ import {
   useLoaderData,
   useRouteError,
 } from "@remix-run/react"
+
 import resetStyles from '~/styles/reset.css'
 import rootStyles from '~/styles/root.css'
 import indexStyles from '~/styles/index.css'
@@ -20,8 +21,17 @@ import askStyles from '~/styles/ask.css'
 import browseStyles from '~/styles/browse.css'
 import searchStyles from '~/styles/search.css'
 import abilitiesStyles from '~/styles/abilities.css'
-import componentAbilityPrviewStyles from '~/components/AbilityPreview.css'
-import { XmlRootElement } from '~/utilities'
+import componentAbilityPreviewStyles from '~/components/AbilityPreview.css'
+import componentBuildingPreviewStyles from '~/components/BuildingPreview.css'
+import componentFuseMatchStyles from '~/components/FuseMatch.css'
+import componentSearchResultStyles from '~/components/SearchResult.css'
+import componentUnitFullStyles from '~/components/UnitFull.css'
+import componentUnitPreviewStyles from '~/components/UnitPreview.css'
+import componentUpgradeFullStyles from '~/components/UpgradeFull.css'
+import componentUpgradePreviewStyles from '~/components/UpgradePreview.css'
+import componentWeaponFullStyles from '~/components/WeaponFull.css'
+import componentWeaponPreviewStyles from '~/components/WeaponPreview.css'
+import { XmlJsonElement } from '~/utilities'
 
 export const links: LinksFunction = () => ([
   { rel: 'stylesheet', href: resetStyles },
@@ -32,7 +42,16 @@ export const links: LinksFunction = () => ([
   { rel: 'stylesheet', href: browseStyles },
   { rel: 'stylesheet', href: searchStyles },
   { rel: 'stylesheet', href: abilitiesStyles },
-  { rel: 'stylesheet', href: componentAbilityPrviewStyles },
+  { rel: 'stylesheet', href: componentAbilityPreviewStyles },
+  { rel: 'stylesheet', href: componentBuildingPreviewStyles },
+  { rel: 'stylesheet', href: componentFuseMatchStyles },
+  { rel: 'stylesheet', href: componentSearchResultStyles },
+  { rel: 'stylesheet', href: componentUnitFullStyles },
+  { rel: 'stylesheet', href: componentUnitPreviewStyles },
+  { rel: 'stylesheet', href: componentUpgradeFullStyles },
+  { rel: 'stylesheet', href: componentUpgradePreviewStyles },
+  { rel: 'stylesheet', href: componentWeaponFullStyles },
+  { rel: 'stylesheet', href: componentWeaponPreviewStyles },
 ])
 
 export const meta: V2_MetaFunction = () => {
@@ -80,7 +99,7 @@ export const loader = async (args: LoaderArgs) => {
   const jsonFileUrl = process.env.BALANCE_DATA_JSON!
   console.log(`Downloading: ${jsonFileUrl}`)
   const jsonFileResponse = await fetch(jsonFileUrl)
-  const jsonContent: any = await jsonFileResponse.json()
+  const jsonContent: Record<string, XmlJsonElement[]> = await jsonFileResponse.json()
   console.log(`Processing...`)
   console.log(`Complete!`)
   const iconsContainerUrl = process.env.ICONS_CONTAINER_URL

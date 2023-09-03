@@ -1,11 +1,6 @@
 import { DataFunctionArgs, LinksFunction } from "@remix-run/node"
 import { Link, NavLink, useLoaderData } from "@remix-run/react"
-import componentAbilityPrviewStyles from '~/components/AbilityPreview.css'
 import UpgradePreview from "~/components/UpgradePreview"
-
-export const links: LinksFunction = () => ([
-    { rel: 'stylesheet', href: componentAbilityPrviewStyles },
-])
 
 export const loader = ({ }: DataFunctionArgs) => {
     return {
