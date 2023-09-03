@@ -13,11 +13,11 @@ const BuildingPreview: React.FC<Props> = ({ building }) => {
     const metaAttributes = building.elements?.find(e => e.name === 'meta')?.attributes ?? {}
     const iconUrl = `${context.iconsContainerUrl}/${metaAttributes.icon}.png`
     return (
-        <div className="building-preview">
-            <div className="building-preview__picture">
+        <div className="preview">
+            <div className="preview__picture">
                 <IconImage url={iconUrl} />
             </div>
-            <div className="building-preview__info">
+            <div className="preview__info">
                 {convertCamelCaseToSpacedCase(metaAttributes.name)}
             </div>
         </div>

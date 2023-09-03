@@ -28,11 +28,11 @@ const AbilityPreview: React.FC<Props> = ({ ability }) => {
     
     return (
         <>
-            <div className="ability-preview">
-                <div className="ability-preview__picture">
+            <div className="preview">
+                <div className="preview__picture">
                     <IconImage url={iconUrl} />
                 </div>
-                <div className="ability-preview__info">
+                <div className="preview__info">
                     {name}
                 </div>
             </div>
