@@ -9,6 +9,13 @@ param containerName string
 var storageAccountConnectionStringSecretName = 'storage-account-connection-string'
 @secure()
 param storageAccountConnectionString string
+param blobContainerZip string
+param blobContainerJson string
+param blobContainerXml string
+
+var uploadPasswordSecretName = 'upload-password'
+@secure()
+param uploadPassword string
 
 param registryUrl string
 param registryUsername string
@@ -44,6 +51,10 @@ resource containerApp 'Microsoft.App/containerapps@2022-03-01' = {
           name: storageAccountConnectionStringSecretName
           value: storageAccountConnectionString
         }
+        {
+          name: uploadPasswordSecretName
+          value: uploadPassword
+        }
       ]
     }
     template: {
@@ -59,8 +70,24 @@ resource containerApp 'Microsoft.App/containerapps@2022-03-01' = {
           env: [
             {
               name: 'AZURE_STORAGE_CONNECTION_STRING'
-              value: storageAccountConnectionStringSecretName
+              secretRef: storageAccountConnectionStringSecretName
             }
+             {
+              name: 'AZURE_STORAGE_BLOB_ZIP_CONTAINER_NAME'
+              value: blobContainerZip
+             }
+             {
+              name: 'AZURE_STORAGE_BLOB_XML_CONTAINER_NAME'
+              value: blobContainerXml
+             }
+             {
+              name: 'AZURE_STORAGE_BLOB_JSON_CONTAINER_NAME'
+              value: blobContainerJson
+             }
+             {
+              name: 'UPLOAD_PASSWORD'
+              secretRef: uploadPasswordSecretName
+             }
           ]
         }
       ]

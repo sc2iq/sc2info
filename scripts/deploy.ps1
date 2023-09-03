@@ -30,6 +30,7 @@ $sc2infoResourceNames = Get-LocalResourceNames $sc2infoResourceGroupName 'unused
 $envFilePath = $(Resolve-Path "$repoRoot/scripts/.env").Path
 
 Write-Step "Get ENV Vars from $envFilePath"
+$uploadPassword = $(Get-EnvVarFromFile $envFilePath "UPLOAD_PASSWORD")
 
 Write-Step "Fetch params from Azure"
 $storageConnectionString = $(az storage account show-connection-string -g $sharedResourceGroupName -n $($sharedResourceNames.storageAccount) --query "connectionString" -o tsv)
@@ -49,6 +50,7 @@ $data = [ordered]@{
   "blobContainerXml"             = $sc2infoResourceNames.blobContainerXml
   "blobContainerJson"            = $sc2infoResourceNames.blobContainerJson
   "blobContainerJsonProcessed"   = $sc2infoResourceNames.blobContainerJsonProcessed
+  "uploadPassword"               = "$($uploadPassword.Substring(0, 5))..."
 
   "balanceDataUploaderImageName" = $balanceDataUploaderImageName
 
@@ -129,6 +131,11 @@ if ($WhatIf -eq $True) {
     imageName=$balanceDataUploaderImageName `
     containerName=$balanceDataUploaderContainerName `
     storageAccountConnectionString=$storageConnectionString `
+    blobContainerZip=$($sc2infoResourceNames.blobContainerZip) `
+    blobContainerJson=$($sc2infoResourceNames.blobContainerJson) `
+    blobContainerXml=$($sc2infoResourceNames.blobContainerXml) `
+    blobContainerJsonProcessed=$($sc2infoResourceNames.blobContainerJsonProcessed) `
+    uploadPassword=$uploadPassword `
     --what-if
 }
 else {
@@ -142,6 +149,11 @@ else {
       imageName=$balanceDataUploaderImageName `
       containerName=$balanceDataUploaderContainerName `
       storageAccountConnectionString=$storageConnectionString `
+      blobContainerZip=$($sc2infoResourceNames.blobContainerZip) `
+      blobContainerJson=$($sc2infoResourceNames.blobContainerJson) `
+      blobContainerXml=$($sc2infoResourceNames.blobContainerXml) `
+      blobContainerJsonProcessed=$($sc2infoResourceNames.blobContainerJsonProcessed) `
+      uploadPassword=$uploadPassword `
       --query "properties.outputs.fqdn.value" `
       -o tsv)
 
