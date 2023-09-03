@@ -31,7 +31,7 @@ export async function blobTriggerFn(
 }
 
 const jsonBlobOutput = output.storageBlob({
-    path: 'sc2-balancedata-json-processed/balancedata_{DateTime}.json',
+    path: 'sc2-balancedata-json-processed/balancedata_processed_{DateTime}.json',
     connection: 'AzureWebJobsStorage',
 })
 

@@ -8,6 +8,8 @@
     "watch": "tsc -w",
     "clean": "rimraf dist",
     "prestart": "npm run clean && npm run build",
+    "predeploy": "npm run prestart",
+    "deploy": "func azure functionapp publish sc2-info-functions",
     "start": "func start",
     "test": "echo \"No tests yet...\""
   },
