@@ -13,7 +13,7 @@ const UnitPreview: React.FC<Props> = ({ upgrade }) => {
     const context = useOutletContext<Awaited<ReturnType<typeof rootLoader>>>()
     const metaAttributes = upgrade.elements?.find(e => e.name === 'meta')?.attributes ?? {}
     const iconUrl = `${context.iconsContainerUrl}/${metaAttributes.icon}.png`
-    const name = upgrade.attributes?.id ?? ''
+    const name = convertCamelCaseToSpacedCase(upgrade.attributes?.id ?? '')
     return (
         <Preview iconUrl={iconUrl} name={name} />
     )

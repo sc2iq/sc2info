@@ -8,7 +8,6 @@ type Props = {
 }
 
 const AbilityPreview: React.FC<Props> = ({ ability }) => {
-    const camelCaseName = ability.attributes?.id ?? ''
     const abilityCommandAttributes = ability
         .elements?.find(e => e?.name === "command")
         ?.attributes ?? {}
@@ -18,7 +17,7 @@ const AbilityPreview: React.FC<Props> = ({ ability }) => {
         ?.elements?.find(e => e?.name === "meta")
         ?.attributes ?? {}
 
-    let name = convertCamelCaseToSpacedCase(camelCaseName)
+    let name = convertCamelCaseToSpacedCase(ability.attributes?.id ?? '')
     // const commandName = convertCamelCaseToSpacedCase(abilityCommandAttributes?.id ?? '')
     // if (typeof commandName === 'string' && commandName.length > 0) {
     //     name += ` - ${commandName}`
