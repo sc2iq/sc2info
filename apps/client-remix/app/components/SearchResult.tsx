@@ -2,7 +2,7 @@ import React from 'react'
 import RaceImg from './RaceImg'
 import FuseMatch from './FuseMatch'
 import { loader as rootLoader } from "~/root"
-import { convertMatchedTextIntoMatchedSegements } from '../utilities'
+import { convertCamelCaseToSpacedCase, convertMatchedTextIntoMatchedSegements } from '../utilities'
 import IconImage from './IconImage'
 import { useOutletContext } from '@remix-run/react'
 

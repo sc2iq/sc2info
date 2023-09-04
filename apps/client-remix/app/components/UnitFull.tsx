@@ -238,8 +238,8 @@ const UnitFull: React.FC<Props> = ({ unit }) => {
                     </div>
                     <h2>Abilities</h2>
                     <div className="unit-full__list">
-                        {unitAbilities.map(ability => {
-                            return <div key={ability.name} className="unit-full__weapon">
+                        {unitAbilities.map((ability, i) => {
+                            return <div key={i} className="unit-full__weapon">
                                 <img className="unit-full__weapon-img" src={ability.iconUrl} alt={ability.name} />
                                 <div>
                                     <h3>{ability.name}</h3>

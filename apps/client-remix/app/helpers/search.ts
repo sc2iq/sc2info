@@ -1,6 +1,6 @@
 import Fuse from 'fuse.js'
 import { XmlJsonElement } from '~/utilities'
-import { getNameIconRace } from '.'
+import { getNameIconRace, getRaceFromString } from '.'
 
 export interface IGenericSearchItem {
     name: string
@@ -53,7 +53,7 @@ function convertAbilityToGenericSearchItem(ability: XmlJsonElement): IGenericSea
         type: 'ability',
         id: -1, // TODO: ability.id, Type of id field is number so assigning string gets turned into null
         icon: abilityMetaAttributes.icon,
-        race: abilityMetaAttributes.race,
+        race: getRaceFromString(abilityMetaAttributes.icon ?? ''),
     }
 }
 

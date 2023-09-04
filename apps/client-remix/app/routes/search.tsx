@@ -1,5 +1,5 @@
-import { ActionArgs, redirect } from '@remix-run/node'
-import { Form, Link, NavLink, useActionData, useOutletContext } from '@remix-run/react'
+import { ActionArgs, LoaderArgs, redirect } from '@remix-run/node'
+import { Form, Link, NavLink, useActionData, useLoaderData, useOutletContext } from '@remix-run/react'
 import React from 'react'
 import SearchResult from '~/components/SearchResult'
 import { IGenericSearchItem, getFuseObject } from '~/helpers/search'
@@ -10,16 +10,14 @@ let fuseInstance: Fuse<IGenericSearchItem> | undefined = undefined
 
 const minSearchQuery = 3
 
-export const action = async ({ request }: ActionArgs) => {
-  const rawFormData = await request.formData()
-  const formData = Object.fromEntries(rawFormData.entries())
+export const loader = async ({ request }: LoaderArgs) => {
+  const url = new URL(request.url)
 
-  if (formData.intent === 'search') {
-    console.log('Search', { formData })
-    const searchQuery = formData.query as string
+  if (url.searchParams.get('intent') === 'search') {
+    const searchQuery = url.searchParams.get('query') ?? ''
+    console.log('Search', { searchQuery })
+
     if (searchQuery.length >= minSearchQuery) {
-      console.log({ searchQuery })
-
       if (typeof fuseInstance === 'undefined') {
         const jsonFileUrl = process.env.BALANCE_DATA_JSON_URL!
         console.log(`Search: Downloading: ${jsonFileUrl}`)
@@ -43,8 +41,7 @@ export const action = async ({ request }: ActionArgs) => {
 }
 
 export default function Index() {
-  const context = useOutletContext()
-  const actionData = useActionData<typeof action>()
+  const loaderData = useLoaderData<typeof loader>()
   const formRef = React.useRef<HTMLFormElement>(null)
 
   const onSearchKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -53,12 +50,18 @@ export default function Index() {
     }
   }
 
-  console.log({ actionData })
-  const searchResults = actionData?.searchResults ?? []
+  console.log({ loaderData })
+  const searchQuery = loaderData?.searchQuery ?? ''
+  // if (searchQuery.length > 0 && formRef.current) {
+  //   console.log(`Set form to ${searchQuery}`)
+  //   formRef.current.value = searchQuery
+  // }
+
+  const searchResults = loaderData?.searchResults ?? []
 
   return <>
     <div className="search-header">
-      <Form method='POST' className="search-input" ref={formRef}>
+      <Form method='GET' className="search-input" ref={formRef}>
         <div className="search-input__icon">
         </div>
         <input
@@ -76,7 +79,7 @@ export default function Index() {
       </Form>
     </div>
 
-    <h3>Results for: '{actionData?.searchQuery}'</h3>
+    <h3>Results for: '{}'</h3>
     <section>
       <div className="search-all-list">
         {searchResults.map((searchResult, i) => {
