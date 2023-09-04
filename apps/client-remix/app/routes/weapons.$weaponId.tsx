@@ -1,6 +1,7 @@
 import { NavLink, useOutletContext, useParams } from "@remix-run/react"
 import WeaponFull from "~/components/WeaponFull"
 import { loader as rootLoader } from "~/root"
+import { convertCamelCaseToSpacedCase } from "~/utilities"
 
 export default function Weapon() {
   const { weaponId } = useParams()
@@ -13,7 +14,7 @@ export default function Weapon() {
 
   return <>
     <h1>
-      <NavLink to="/browse" >Browse</NavLink> &gt; <NavLink to="/weapons" >Weapons</NavLink> &gt; {weaponId}
+      <NavLink to="/browse" >Browse</NavLink> &gt; <NavLink to="/weapons" >Weapons</NavLink> &gt; {convertCamelCaseToSpacedCase(weaponId ?? '')}
     </h1>
 
     <section>

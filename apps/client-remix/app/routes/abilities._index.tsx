@@ -1,5 +1,4 @@
-import { DataFunctionArgs, LinksFunction } from "@remix-run/node"
-import { Link, NavLink, useLoaderData, useOutletContext } from "@remix-run/react"
+import { NavLink, useOutletContext } from "@remix-run/react"
 import AbilityPreview from "~/components/AbilityPreview"
 import { getRaceFromString } from "~/helpers"
 import { loader as rootLoader } from "~/root"

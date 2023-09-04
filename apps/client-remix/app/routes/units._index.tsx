@@ -1,21 +1,23 @@
 import { DataFunctionArgs, LinksFunction } from "@remix-run/node"
-import { Link, NavLink, useLoaderData } from "@remix-run/react"
+import { Link, NavLink, useOutletContext } from "@remix-run/react"
 import UnitPreview from "~/components/UnitPreview"
-
-export const loader = ({ }: DataFunctionArgs) => {
-    return {
-        terran: [] as any[],
-        zerg: [] as any[],
-        protoss: [] as any[],
-    }
-}
+import { getRaceFromString } from "~/helpers"
+import { loader as rootLoader } from "~/root"
 
 export default function Units() {
-    const {
-        terran,
-        zerg,
-        protoss,
-    } = useLoaderData<typeof loader>()
+    const context = useOutletContext<Awaited<ReturnType<typeof rootLoader>>>()
+    const unitsWithRace = context.jsonContent.unitsWithWeapons.map(be => {
+        const metaAttributes = be.elements?.find(e => e.name === 'meta')?.attributes
+        const race = getRaceFromString(metaAttributes?.icon ?? '')
+
+        return {
+            race,
+            unit: be,
+        }
+    })
+    const terran = unitsWithRace.filter(x => x.race === 'terran').map(x => x.unit)
+    const zerg = unitsWithRace.filter(x => x.race === 'zerg').map(x => x.unit)
+    const protoss = unitsWithRace.filter(x => x.race === 'protoss').map(x => x.unit)
 
     return <>
         <h1>
@@ -29,7 +31,7 @@ export default function Units() {
                     <div className="ability-preview-list">
                         {terran.map((unit, i) => {
                             return (
-                                <Link key={i} to={unit.id}>
+                                <Link key={i} to={unit.attributes?.id ?? ''}>
                                     <UnitPreview unit={unit} />
                                 </Link>
                             )
@@ -42,7 +44,7 @@ export default function Units() {
                     <div className="ability-preview-list">
                         {zerg.map((unit, i) => {
                             return (
-                                <Link key={i} to={unit.id}>
+                                <Link key={i} to={unit.attributes?.id ?? ''}>
                                     <UnitPreview unit={unit} />
                                 </Link>
                             )
@@ -55,7 +57,7 @@ export default function Units() {
                     <div className="ability-preview-list">
                         {protoss.map((unit, i) => {
                             return (
-                                <Link key={i} to={unit.id}>
+                                <Link key={i} to={unit.attributes?.id ?? ''}>
                                     <UnitPreview unit={unit} />
                                 </Link>
                             )

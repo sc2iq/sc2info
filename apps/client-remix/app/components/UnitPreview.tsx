@@ -1,23 +1,24 @@
 import React from 'react'
-import IconImage from './IconImage'
-import { convertCamelCaseToSpacedCase } from '../utilities'
+import { XmlJsonElement } from '../utilities'
+import { loader as rootLoader } from "~/root"
+import { useOutletContext } from '@remix-run/react'
+import Preview from './Preview'
 
 type Props = {
-    unit: any
+    unit: XmlJsonElement
 }
 
 const UnitPreview: React.FC<Props> = ({ unit }) => {
+    const context = useOutletContext<Awaited<ReturnType<typeof rootLoader>>>()
+    const metaAttributes = unit.elements?.find(e => e.name === 'meta')?.attributes ?? {}
+    const iconUrl = `${context.iconsContainerUrl}/${metaAttributes.icon}.png`
+    const name = unit.attributes?.id ?? ''
+    
     return (
-        <div className="unit-preview">
-            <div className="unit-preview__picture">
-                <IconImage url={unit.meta.icon} />
-            </div>
-            <div className="unit-preview__info">
-                {convertCamelCaseToSpacedCase(unit.meta.name)}
-            </div>
-        </div>
+        <Preview iconUrl={iconUrl} name={name} />
     )
 }
 
 export default UnitPreview
+
 
