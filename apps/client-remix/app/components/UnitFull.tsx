@@ -31,55 +31,87 @@ const UnitFull: React.FC<Props> = ({ unit }) => {
         'movement',
         'misc',
         'score',
+        'weapons'
     ]
-    const attributesEntries = elementNames.map(elementName => {
+
+    const unitCategorizedAttributes = Object.fromEntries(elementNames.map(elementName => {
         const attributesOfType = unit.elements?.find(e => e.name === elementName)?.attributes ?? {}
         return [elementName, attributesOfType]
-    })
-    const attributes = Object.fromEntries(attributesEntries)
+    }))
 
-    const abilities = [] as AbilityDisplay[]
-    // const abilities = (unit.original.abilities as any[])
-    //     .reduce<AbilityDisplay[]>((abilitiesGroup: AbilityDisplay[], ability: any) => {
-    //         const remove = [/stop/i, /move/i, /attack/i,].some(regex => regex.test(ability.id))
-    //         if (remove) {
-    //             return abilitiesGroup
-    //         }
+    const unitCategorizedQualities = (unit.elements?.find(e => e.name === 'attributes')?.elements ?? [])
+        .map(e => e.attributes?.type ?? '') ?? []
 
-    //         const abilityCommands = (ability?.command ?? [])
-    //             .map((command: any) => {
-    //                 let name = ability.id
-    //                 if (command.id !== 'Execute') {
-    //                     name += ` - ${command.id}`
-    //                 }
+    const stringNames = [
+        'strengths',
+        'weaknesses'
+    ]
+    const unitCategorizedStringAttributes = Object.fromEntries(stringNames.map(elementName => {
+        const elementsOfType = unit.elements?.find(e => e.name === elementName)?.elements ?? []
+        const stringValues = elementsOfType.map(e => e.attributes?.id ?? '') ?? []
+        return [elementName, stringValues]
+    }))
 
-    //                 let attributes: [string, string][] = [
-    //                     ['Cooldown', command?.cost?.cooldown ?? ''],
-    //                     ['Energy', command?.cost?.energy ?? ''],
-    //                     ['Range', command?.misc?.range ?? ''],
-    //                     ['Radius', command?.effect?.radius ?? ''],
-    //                 ]
+    const unitWeapons = (unit.elements?.find(e => e.name === 'weapons')?.elements ?? [])
+        .map(e => {
+            const metaAttributes = e.elements?.find(e => e.name === 'meta')?.attributes ?? {}
+            const miscAttributes = e.elements?.find(e => e.name === 'misc')?.attributes ?? {}
+            const effectElement = e.elements?.find(e => e.name === 'effect')
+            const effectAttributes = effectElement?.attributes ?? {}
+            const effectBonusAttributes = effectElement?.elements?.find(e => e.name === 'bonus')?.attributes ?? {}
 
-    //                 attributes = attributes.filter(([key, value]) => value !== '')
+            return {
+                name: e.attributes?.id ?? 'Unknown',
+                meta: metaAttributes,
+                misc: miscAttributes,
+                effect: {
+                    ...effectAttributes,
+                    bonus: effectBonusAttributes
+                } as any
+            }
+        })
 
-    //                 const unitAbility: AbilityDisplay = {
-    //                     name: convertCamelCaseToSpacedCase(name),
-    //                     icon: command.meta.icon,
-    //                     attributes,
-    //                 }
+    const unitAbilities = (unit.elements?.find(e => e.name === 'abilities')?.elements ?? [])
+        .map(e => {
+            const commandElement = e.elements?.find(e => e.name === 'command') ?? {} as XmlJsonElement
+            const name = commandElement.attributes?.id ?? 'Unknown Ability'
+            const metaAttributes = commandElement.elements?.find(e => e.name === 'meta')?.attributes ?? {}
+            const iconUrl = `${context.iconsContainerUrl}/${metaAttributes.icon}.png`
 
-    //                 return unitAbility
-    //             })
+            return {
+                name,
+                iconUrl: iconUrl,
+            }
+        })
 
-    //         abilitiesGroup.push(...abilityCommands)
+    const unitUpgrades = (unit.elements?.find(e => e.name === 'upgrades')?.elements ?? [])
+        .map(e => {
+            const upgradeName = e.attributes?.id ?? 'Unknown Upgrade'
+            const levelElements = ((e.elements?.filter(e => e.name === 'level') ?? []) as XmlJsonElement[])
+                .map(e => {
+                    const levelName = e.attributes?.id ?? 'Unknown Upgrade Level'
+                    const metaAttributes = e.elements?.find(e => e.name === 'meta')?.attributes ?? {}
+                    const iconUrl = `${context.iconsContainerUrl}/${metaAttributes.icon}.png`
+                    const costAttributes = e.elements?.find(e => e.name === 'cost')?.attributes ?? {}
 
-    //         return abilitiesGroup
-    //     }, [])
+                    return {
+                        name: levelName,
+                        iconUrl,
+                        meta: metaAttributes,
+                        cost: costAttributes,
+                    }
+                })
+
+            return {
+                name: upgradeName,
+                levels: levelElements
+            }
+        })
 
     return (
         <div className="unit-full">
             <div>
-                <RaceImg race={race} />
+                <RaceImg race={race} height={100} />
                 <IconImage url={iconUrl} width={150} height={150} />
             </div>
 
@@ -92,48 +124,48 @@ const UnitFull: React.FC<Props> = ({ unit }) => {
                         <div>Armor</div>
                         <div>Shield Armor</div>
                         <div>Start</div>
-                        <div>{attributes.life.start}</div>
-                        <div>{attributes.armor.start}</div>
-                        <div>{attributes.shieldArmor.start}</div>
+                        <div>{unitCategorizedAttributes.life.start}</div>
+                        <div>{unitCategorizedAttributes.armor.start}</div>
+                        <div>{unitCategorizedAttributes.shieldArmor.start}</div>
                         <div>Max</div>
-                        <div>{attributes.life.max}</div>
-                        <div>{attributes.armor.max}</div>
-                        <div>{attributes.shieldArmor.max}</div>
+                        <div>{unitCategorizedAttributes.life.max}</div>
+                        <div>{unitCategorizedAttributes.armor.max}</div>
+                        <div>{unitCategorizedAttributes.shieldArmor.max}</div>
 
                         <div>Regeneration Rate</div>
-                        <div>{attributes.life.regenRate}</div>
-                        <div>{attributes.armor.regenRate}</div>
-                        <div>{attributes.shieldArmor.regenRate}</div>
+                        <div>{unitCategorizedAttributes.life.regenRate}</div>
+                        <div>{unitCategorizedAttributes.armor.regenRate}</div>
+                        <div>{unitCategorizedAttributes.shieldArmor.regenRate}</div>
 
                         <div>Regeneration Delay</div>
-                        <div>{attributes.life.delay}</div>
-                        <div>{attributes.armor.delay}</div>
-                        <div>{attributes.shieldArmor.delay}</div>
+                        <div>{unitCategorizedAttributes.life.delay}</div>
+                        <div>{unitCategorizedAttributes.armor.delay}</div>
+                        <div>{unitCategorizedAttributes.shieldArmor.delay}</div>
                     </div>
                 </div>
-                {Boolean(attributes.cost) && Object.keys(attributes.cost).length > 0
+                {Boolean(unitCategorizedAttributes.cost) && Object.keys(unitCategorizedAttributes.cost).length > 0
                     && (
                         <div>
                             <h2>Cost</h2>
                             <div className="unit-full__section">
                                 <div>Minerals</div>
-                                <div>{attributes.cost.minerals}</div>
+                                <div>{unitCategorizedAttributes.cost.minerals}</div>
                                 <div>Vespene</div>
-                                <div>{attributes.cost.vespene}</div>
+                                <div>{unitCategorizedAttributes.cost.vespene}</div>
                                 <div>Time</div>
-                                <div>{attributes.cost.time}</div>
+                                <div>{unitCategorizedAttributes.cost.time}</div>
                                 <div>Supply</div>
-                                <div>{attributes.cost.supply}</div>
+                                <div>{unitCategorizedAttributes.cost.supply}</div>
                             </div>
                         </div>
                     )}
 
-                {Boolean(attributes.attributes) && Object.keys(attributes.attributes).length > 0
+                {unitCategorizedQualities.length > 0
                     && (
                         <div>
                             <h2>Attributes</h2>
                             <div className="unit-full__1col">
-                                {attributes.attributes.map((attribute: string) =>
+                                {unitCategorizedQualities.map(attribute =>
                                     <div>{attribute}</div>
                                 )}
                             </div>
@@ -142,18 +174,18 @@ const UnitFull: React.FC<Props> = ({ unit }) => {
             </div>
 
             <div className="unit-full__movement-misc-score">
-                {attributes.movement
+                {unitCategorizedAttributes.movement
                     && (<div>
                         <h2>Movement</h2>
                         <div className="unit-full__section">
                             <div>Speed</div>
-                            <div>{attributes.movement.speed}</div>
+                            <div>{unitCategorizedAttributes.movement.speed}</div>
                             <div>Acceleration</div>
-                            <div>{attributes.movement.acceleration}</div>
+                            <div>{unitCategorizedAttributes.movement.acceleration}</div>
                             <div>Deceleration</div>
-                            <div>{attributes.movement.deceleration}</div>
+                            <div>{unitCategorizedAttributes.movement.deceleration}</div>
                             <div>Turn Rate</div>
-                            <div>{attributes.movement.turnRate}</div>
+                            <div>{unitCategorizedAttributes.movement.turnRate}</div>
                         </div>
                     </div>)}
 
@@ -161,19 +193,19 @@ const UnitFull: React.FC<Props> = ({ unit }) => {
                     <h2>Miscellaneous</h2>
                     <div className="unit-full__section">
                         <div>Radius</div>
-                        <div>{attributes.misc.radius}</div>
+                        <div>{unitCategorizedAttributes.misc.radius}</div>
                         <div>Cargo Size</div>
-                        <div>{attributes.misc.cargoSize}</div>
+                        <div>{unitCategorizedAttributes.misc.cargoSize}</div>
                         <div>Foot Print</div>
-                        <div>{attributes.misc.footprint}</div>
+                        <div>{unitCategorizedAttributes.misc.footprint}</div>
                         <div>Sight Radius</div>
-                        <div>{attributes.misc.sightRadius}</div>
+                        <div>{unitCategorizedAttributes.misc.sightRadius}</div>
                         <div>Supply</div>
-                        <div>{attributes.misc.supply}</div>
+                        <div>{unitCategorizedAttributes.misc.supply}</div>
                         <div>Speed</div>
-                        <div>{attributes.misc.speed}</div>
+                        <div>{unitCategorizedAttributes.misc.speed}</div>
                         <div>Targets</div>
-                        <div>{attributes.misc.targets}</div>
+                        <div>{unitCategorizedAttributes.misc.targets}</div>
                     </div>
                 </div>
 
@@ -181,50 +213,50 @@ const UnitFull: React.FC<Props> = ({ unit }) => {
                     <h2>Score</h2>
                     <div className="unit-full__section">
                         <div>Build</div>
-                        <div>{attributes.score.build}</div>
+                        <div>{unitCategorizedAttributes.score.build}</div>
                         <div>Kill</div>
-                        <div>{attributes.score.kill}</div>
+                        <div>{unitCategorizedAttributes.score.kill}</div>
                     </div>
                 </div>
             </div>
 
-        {/* 
             <div className="unit-full-50-50">
                 <div>
                     <h2>Weapons</h2>
                     <div className="unit-full__list">
-                        {((unit.original?.weapons as any[]) ?? []).map((u, i) => {
+                        {unitWeapons.map((unitWeapon, i) => {
+                            const weaponIconUrl = `${context.iconsContainerUrl}/${unitWeapon.meta.icon}.png`
+
                             return <div key={i} className="unit-full__weapon">
-                                <img className="unit-full__weapon-img" src={u.meta.icon} alt={u.meta.name} />
+                                <img className="unit-full__weapon-img" src={weaponIconUrl} alt={unitWeapon.name} />
                                 <div>
-                                    <h3>{convertCamelCaseToSpacedCase(u.meta.name)}</h3>
+                                    <h3>{convertCamelCaseToSpacedCase(unitWeapon.name)}</h3>
                                     <div className="unit-full__weapon-stats">
-                                        <div>Range</div><div>{u.misc.range}</div>
-                                        <div>Speed</div><div>{u.misc.speed}</div>
-                                        <div>Targets</div><div>{u.misc.targets}</div>
-                                        <div>Max</div><div>{u.effect.max}</div>
-                                        <div>Kind</div><div>{u.effect.kind}</div>
+                                        <div>Range</div><div>{unitWeapon.misc.range}</div>
+                                        <div>Speed</div><div>{unitWeapon.misc.speed}</div>
+                                        <div>Targets</div><div>{unitWeapon.misc.targets}</div>
+                                        <div>Max</div><div>{unitWeapon.effect.max}</div>
+                                        <div>Kind</div><div>{unitWeapon.effect.kind}</div>
                                     </div>
                                 </div>
                             </div>
                         })}
                     </div>
-
                     <h2>Abilities</h2>
                     <div className="unit-full__list">
-                        {abilities.map(ability => {
+                        {unitAbilities.map(ability => {
                             return <div key={ability.name} className="unit-full__weapon">
-                                <img className="unit-full__weapon-img" src={ability.icon} alt={ability.name} />
+                                <img className="unit-full__weapon-img" src={ability.iconUrl} alt={ability.name} />
                                 <div>
                                     <h3>{ability.name}</h3>
-                                    <div className="unit-full__weapon-stats">
+                                    {/* <div className="unit-full__weapon-stats">
                                         {ability.attributes.map(([key, value], i) => 
                                             <React.Fragment key={i}>
                                                 <div>{key}</div>
                                                 <div>{value}</div>
                                             </React.Fragment>
                                         )}
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         })}
@@ -233,21 +265,20 @@ const UnitFull: React.FC<Props> = ({ unit }) => {
                 <div>
                     <h2>Upgrades</h2>
                     <div>
-                        {(unit.original.upgrades as any[]).map((u, i) => {
+                        {unitUpgrades.map((u, i) => {
                             return <div key={i} className="unit-full__upgrade">
                                 <h3>{convertCamelCaseToSpacedCase(u.name)}</h3>
                                 <div className="unit-full__upgrade-levels">
 
-                                    {(u.levels as any[]).map((l, j) => (
+                                    {u.levels.map((l, j) => (
                                         <div key={j}>
                                             <div>
-                                                <IconImage url={l.meta.icon} />
+                                                <IconImage url={l.iconUrl} />
                                             </div>
                                             <div className="unit-full__upgrade-stats">
-                                                <div>{l.meta.name}</div>
-                                                <img src="https://sc2iq.blob.core.windows.net/sc2icons/Wireframe-General-MineralField.png" width={30} height={30} alt="Minerals" />
+                                                <img src={`${context.iconsContainerUrl}/Wireframe-General-MineralField.png`} width={30} height={30} alt="Minerals" />
                                                 <div>{l.cost.minerals}</div>
-                                                <img src="https://sc2iq.blob.core.windows.net/sc2icons/Wireframe-General-VespeneGeyser.png" width={30} height={30} alt="Vespene" />
+                                                <img src={`${context.iconsContainerUrl}/Wireframe-General-VespeneGeyser.png`} width={30} height={30} alt="Vespene" />
                                                 <div>{l.cost.vespene}</div>
                                                 <div className="icon-time"><span role="img" aria-label="Time">🕖</span></div>
                                                 <div>{l.cost.time}</div>
@@ -257,32 +288,31 @@ const UnitFull: React.FC<Props> = ({ unit }) => {
                                 </div>
                             </div>
                         })}
+
                     </div>
                 </div>
             </div>
+
 
             <div className="unit-full-50-50">
                 <div>
                     <h2>Strengths</h2>
                     <ul>
-                        {(unit.original.strengths as any[]).map(strength =>
-                            <li key={strength.name}>{convertCamelCaseToSpacedCase(strength.name)}</li>
+                        {unitCategorizedStringAttributes.strengths?.map(strength =>
+                            <li key={strength}>{convertCamelCaseToSpacedCase(strength)}</li>
                         )}
                     </ul>
                 </div>
                 <div>
                     <h2>Weaknesses</h2>
                     <ul>
-                        {(unit.original.weaknesses as any[]).map(strength =>
-                            <li key={strength.name}>{convertCamelCaseToSpacedCase(strength.name)}</li>
+                        {unitCategorizedStringAttributes.weaknesses?.map(strength =>
+                            <li key={strength}>{convertCamelCaseToSpacedCase(strength)}</li>
                         )}
                     </ul>
                 </div>
             </div>
-             */}
-
-        </div >
-
+        </div>
     )
 }
 
