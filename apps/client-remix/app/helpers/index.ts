@@ -19,14 +19,16 @@ export function getRaceFromString(s: string): Race {
 }
 
 export function getNameIconRace(e: XmlJsonElement) {
-    const id = e.attributes?.id
-        ? parseInt(e.attributes.id)
-        : -1
+    let id = parseInt(e.attributes?.id ?? '')
+    if (Number.isNaN(id)) {
+        id = -1
+    }
+
     const metaAttributes = e.elements?.find(e => e.name === 'meta')?.attributes ?? {}
-    const name = convertCamelCaseToSpacedCase(e.attributes?.id ?? '') 
+    const name = convertCamelCaseToSpacedCase(e.attributes?.id ?? '')
     const icon = metaAttributes.icon ?? ''
     const race = getRaceFromString(icon)
-    
+
     return {
         id,
         name,

@@ -1,4 +1,4 @@
-import { ActionArgs } from '@remix-run/node'
+import { ActionArgs, redirect } from '@remix-run/node'
 import { Form, Link, NavLink, useActionData, useOutletContext } from '@remix-run/react'
 import React from 'react'
 import SearchResult from '~/components/SearchResult'
@@ -16,7 +16,7 @@ export const action = async ({ request }: ActionArgs) => {
 
   if (formData.intent === 'search') {
     console.log('Search', { formData })
-    const searchQuery = formData.searchQuery as string
+    const searchQuery = formData.query as string
     if (searchQuery.length >= minSearchQuery) {
       console.log({ searchQuery })
 
@@ -66,7 +66,7 @@ export default function Index() {
           placeholder="Search... zergling, hatchery, or guass rifle. (Must be at least 3 characters)"
           spellCheck={false}
           autoComplete="off"
-          name='searchQuery'
+          name='query'
           onKeyUp={onSearchKeyUp}
         />
         <input type="hidden" name="intent" value="search" />
