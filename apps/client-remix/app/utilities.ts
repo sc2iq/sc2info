@@ -1,3 +1,5 @@
+import { getRaceFromString } from "./helpers"
+
 export type XmlJsonElement = {
     type: string
     name: string
@@ -12,6 +14,30 @@ export type XmlRootElement = {
 }
 
 export type Race = 'zerg' | 'terran' | 'protoss'
+
+export function groupByRace(xs: XmlJsonElement[], getMetaAttributes?: (e: XmlJsonElement) => Record<string, string>) {
+    const upgradesWithRace = xs.map(e => {
+        const metaAttributes = typeof getMetaAttributes === 'function'
+            ? getMetaAttributes(e)
+            : e.elements?.find(innerE => innerE.name === 'meta')?.attributes
+        const race = getRaceFromString(metaAttributes?.icon ?? '')
+
+        return {
+            race,
+            item: e,
+        }
+    })
+
+    const terran = upgradesWithRace.filter(x => x.race === 'terran').map(x => x.item)
+    const zerg = upgradesWithRace.filter(x => x.race === 'zerg').map(x => x.item)
+    const protoss = upgradesWithRace.filter(x => x.race === 'protoss').map(x => x.item)
+
+    return {
+        terran,
+        zerg,
+        protoss,
+    }
+}
 
 type Unit = {
     name: string

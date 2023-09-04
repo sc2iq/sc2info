@@ -1,22 +1,11 @@
 import { Link, NavLink, useOutletContext } from "@remix-run/react"
 import BuildingPreview from "~/components/BuildingPreview"
-import { getRaceFromString } from "~/helpers"
 import { loader as rootLoader } from "~/root"
+import { groupByRace } from "~/utilities"
 
 export default function Buildings() {
     const context = useOutletContext<Awaited<ReturnType<typeof rootLoader>>>()
-    const buildingsWithRace = context.jsonContent.buildings.map(be => {
-        const metaAttributes = be.elements?.find(e => e.name === 'meta')?.attributes
-        const race = getRaceFromString(metaAttributes?.icon ?? '')
-
-        return {
-            race,
-            building: be,
-        }
-    })
-    const terran = buildingsWithRace.filter(x => x.race === 'terran').map(x => x.building)
-    const zerg = buildingsWithRace.filter(x => x.race === 'zerg').map(x => x.building)
-    const protoss = buildingsWithRace.filter(x => x.race === 'protoss').map(x => x.building)
+    const { terran, zerg, protoss } = groupByRace(context.jsonContent.buildings)
 
     return <>
         <h1>

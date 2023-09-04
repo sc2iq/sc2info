@@ -3,21 +3,11 @@ import { Link, NavLink, useOutletContext } from "@remix-run/react"
 import UnitPreview from "~/components/UnitPreview"
 import { getRaceFromString } from "~/helpers"
 import { loader as rootLoader } from "~/root"
+import { groupByRace } from "~/utilities"
 
 export default function Units() {
     const context = useOutletContext<Awaited<ReturnType<typeof rootLoader>>>()
-    const unitsWithRace = context.jsonContent.unitsWithWeapons.map(be => {
-        const metaAttributes = be.elements?.find(e => e.name === 'meta')?.attributes
-        const race = getRaceFromString(metaAttributes?.icon ?? '')
-
-        return {
-            race,
-            unit: be,
-        }
-    })
-    const terran = unitsWithRace.filter(x => x.race === 'terran').map(x => x.unit)
-    const zerg = unitsWithRace.filter(x => x.race === 'zerg').map(x => x.unit)
-    const protoss = unitsWithRace.filter(x => x.race === 'protoss').map(x => x.unit)
+    const { terran, zerg, protoss } = groupByRace(context.jsonContent.unitsWithWeapons)
 
     return <>
         <h1>

@@ -1,10 +1,10 @@
 import React from 'react'
 import RaceImg from './RaceImg'
-import IconImage from './IconImage'
 import { Race, XmlJsonElement } from '~/utilities'
-import { loader as rootLoader } from "~/root"
+import IconImage from './IconImage'
 import { useOutletContext } from '@remix-run/react'
 import { getRaceFromString } from '~/helpers'
+import { loader as rootLoader } from "~/root"
 
 type Props = {
     building: XmlJsonElement
@@ -24,7 +24,7 @@ const BuildingFull: React.FC<Props> = ({ building }) => {
     const buildingAttributes = attributesElements.map(e => e.attributes?.type ?? '')
 
     return (
-        <div className="building-full">
+        <div className="unit-full">
             <div>
                 <RaceImg race={race} width={50} height={90} />
                 <IconImage url={iconUrl} />
@@ -37,7 +37,7 @@ const BuildingFull: React.FC<Props> = ({ building }) => {
                         <b></b>
                         <div>Life</div>
                         <div>Armor</div>
-                        <div>SheildArmor</div>
+                        <div>Shield Armor</div>
                         <div>Start</div>
                         <div>{lifeAttributes?.start}</div>
                         <div>{armorAttributes?.start}</div>
@@ -59,7 +59,7 @@ const BuildingFull: React.FC<Props> = ({ building }) => {
                     </div>
                 </div>
 
-                {costAttributes
+                {Object.keys(costAttributes).length > 0
                     && (
                         <div>
                             <h2>Cost</h2>

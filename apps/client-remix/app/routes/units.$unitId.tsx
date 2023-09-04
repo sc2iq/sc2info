@@ -6,7 +6,7 @@ import { loader as rootLoader } from "~/root"
 
 export default function Unit() {
   const { unitId } = useParams()
-  
+
   const context = useOutletContext<Awaited<ReturnType<typeof rootLoader>>>()
   const unit = context.jsonContent.unitsWithWeapons.find(e => e.attributes?.id === unitId)
   if (!unit) {
@@ -14,12 +14,12 @@ export default function Unit() {
   }
 
   return <>
-  <h1>
-    <NavLink to="/browse" >Browse</NavLink> &gt; <NavLink to="/units" >Units</NavLink> &gt; {convertCamelCaseToSpacedCase(unitId ?? '')}
-  </h1>
+    <h1>
+      <NavLink to="/browse" >Browse</NavLink> &gt; <NavLink to="/units" >Units</NavLink> &gt; {convertCamelCaseToSpacedCase(unitId ?? '')}
+    </h1>
 
-  <section>
-    <UnitFull unit={unit} />
-  </section>
+    <section>
+      <UnitFull unit={unit} />
+    </section>
   </>
 }

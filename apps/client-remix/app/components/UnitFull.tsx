@@ -10,12 +10,6 @@ type Props = {
     unit: XmlJsonElement
 }
 
-type AbilityDisplay = {
-    name: string
-    icon: string
-    attributes: [string, string][]
-}
-
 const UnitFull: React.FC<Props> = ({ unit }) => {
     const context = useOutletContext<Awaited<ReturnType<typeof rootLoader>>>()
     const metaAttributes = unit.elements?.find(e => e.name === 'meta')?.attributes ?? {}

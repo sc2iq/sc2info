@@ -1,32 +1,12 @@
-import { DataFunctionArgs } from "@remix-run/node"
 import { Link, NavLink, useOutletContext } from "@remix-run/react"
 import UpgradePreview from "~/components/UpgradePreview"
 import { getRaceFromString } from "~/helpers"
 import { loader as rootLoader } from "~/root"
-
-export const loader = ({ }: DataFunctionArgs) => {
-    return {
-        terran: [] as any[],
-        zerg: [] as any[],
-        protoss: [] as any[],
-    }
-}
+import { groupByRace } from "~/utilities"
 
 export default function Upgrades() {
     const context = useOutletContext<Awaited<ReturnType<typeof rootLoader>>>()
-    const upgradesWithRace = context.jsonContent.upgrades.map(be => {
-        const metaAttributes = be.elements?.find(e => e.name === 'meta')?.attributes
-        const race = getRaceFromString(metaAttributes?.icon ?? '')
-
-        return {
-            race,
-            building: be,
-        }
-    })
-    const terran = upgradesWithRace.filter(x => x.race === 'terran').map(x => x.building)
-    const zerg = upgradesWithRace.filter(x => x.race === 'zerg').map(x => x.building)
-    const protoss = upgradesWithRace.filter(x => x.race === 'protoss').map(x => x.building)
-
+    const { terran, zerg, protoss } = groupByRace(context.jsonContent.upgrades)
 
     return <>
         <h1>

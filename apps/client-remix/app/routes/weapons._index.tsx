@@ -1,23 +1,12 @@
-import { Link, NavLink, useLoaderData, useOutletContext } from "@remix-run/react"
+import { Link, NavLink, useOutletContext } from "@remix-run/react"
 import UpgradePreview from "~/components/UpgradePreview"
 import { getRaceFromString } from "~/helpers"
 import { loader as rootLoader } from "~/root"
+import { groupByRace } from "~/utilities"
 
 export default function Weapons() {
     const context = useOutletContext<Awaited<ReturnType<typeof rootLoader>>>()
-    const weaponsWithRace = context.jsonContent.unitWeapons.map(e => {
-        const metaAttributes = e.elements?.find(we => we.name === 'meta')?.attributes
-        const race = getRaceFromString(metaAttributes?.icon ?? '')
-
-        return {
-            race,
-            weapon: e,
-        }
-    })
-
-    const terran = weaponsWithRace.filter(x => x.race === 'terran').map(x => x.weapon)
-    const zerg = weaponsWithRace.filter(x => x.race === 'zerg').map(x => x.weapon)
-    const protoss = weaponsWithRace.filter(x => x.race === 'protoss').map(x => x.weapon)
+    const { terran, zerg, protoss } = groupByRace(context.jsonContent.unitWeapons)
 
     return <>
         <h1>
