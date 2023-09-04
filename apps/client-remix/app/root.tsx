@@ -91,7 +91,7 @@ export function ErrorBoundary() {
 }
 
 export const loader = async (args: LoaderArgs) => {
-  const jsonFileUrl = process.env.BALANCE_DATA_JSON!
+  const jsonFileUrl = process.env.BALANCE_DATA_JSON_URL!
   console.log(`Downloading: ${jsonFileUrl}`)
   const jsonFileResponse = await fetch(jsonFileUrl)
   const jsonContent: Record<string, XmlJsonElement[]> = await jsonFileResponse.json()

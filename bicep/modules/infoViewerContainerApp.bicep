@@ -1,4 +1,4 @@
-param name string = '${resourceGroup().name}-balancedata-uploader'
+param name string = '${resourceGroup().name}-viewer'
 param location string = resourceGroup().location
 
 param managedEnvironmentResourceId string
@@ -6,16 +6,8 @@ param managedEnvironmentResourceId string
 param imageName string
 param containerName string
 
-var storageAccountConnectionStringSecretName = 'storage-account-connection-string'
-@secure()
-param storageAccountConnectionString string
-param blobContainerZip string
-param blobContainerJson string
-param blobContainerXml string
-
-var uploadPasswordSecretName = 'upload-password'
-@secure()
-param uploadPassword string
+param balanceDataJsonUrl string
+param iconsContainerUrl string
 
 param registryUrl string
 param registryUsername string
@@ -46,14 +38,6 @@ resource containerApp 'Microsoft.App/containerapps@2022-03-01' = {
           name: registryPasswordName
           value: registryPassword
         }
-        {
-          name: storageAccountConnectionStringSecretName
-          value: storageAccountConnectionString
-        }
-        {
-          name: uploadPasswordSecretName
-          value: uploadPassword
-        }
       ]
     }
     template: {
@@ -68,24 +52,12 @@ resource containerApp 'Microsoft.App/containerapps@2022-03-01' = {
           }
           env: [
             {
-              name: 'AZURE_STORAGE_CONNECTION_STRING'
-              secretRef: storageAccountConnectionStringSecretName
+              name: 'BALANCE_DATA_JSON_URL'
+              value: balanceDataJsonUrl
             }
             {
-              name: 'AZURE_STORAGE_BLOB_ZIP_CONTAINER_NAME'
-              value: blobContainerZip
-            }
-            {
-              name: 'AZURE_STORAGE_BLOB_XML_CONTAINER_NAME'
-              value: blobContainerXml
-            }
-            {
-              name: 'AZURE_STORAGE_BLOB_JSON_CONTAINER_NAME'
-              value: blobContainerJson
-            }
-            {
-              name: 'UPLOAD_PASSWORD'
-              secretRef: uploadPasswordSecretName
+              name: 'ICONS_CONTAINER_URL'
+              value: iconsContainerUrl
             }
           ]
         }
