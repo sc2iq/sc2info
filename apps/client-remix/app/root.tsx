@@ -90,18 +90,24 @@ export function ErrorBoundary() {
   }
 }
 
+let balanceData: Record<string, XmlJsonElement[]> | undefined = undefined
+
 export const loader = async (args: LoaderArgs) => {
-  const jsonFileUrl = process.env.BALANCE_DATA_JSON_URL!
-  console.log(`Downloading: ${jsonFileUrl}`)
-  const jsonFileResponse = await fetch(jsonFileUrl)
-  const jsonContent: Record<string, XmlJsonElement[]> = await jsonFileResponse.json()
-  console.log(`Processing...`)
-  console.log(`Complete!`)
+  if (typeof balanceData === 'undefined') {
+    const jsonFileUrl = process.env.BALANCE_DATA_JSON_URL!
+    console.log(`Root: Downloading: ${jsonFileUrl}`)
+    const jsonFileResponse = await fetch(jsonFileUrl)
+    const jsonContent: Record<string, XmlJsonElement[]> = await jsonFileResponse.json()
+    console.log(`Root: Complete!`)
+    balanceData = jsonContent
+    console.log(`Root: typeof balanceData: `, typeof balanceData)
+  }
+
   const iconsContainerUrl = process.env.ICONS_CONTAINER_URL
   
   return {
     iconsContainerUrl,
-    jsonContent,
+    balanceData,
   }
 }
 

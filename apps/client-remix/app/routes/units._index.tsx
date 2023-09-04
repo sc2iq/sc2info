@@ -7,7 +7,7 @@ import { groupByRace } from "~/utilities"
 
 export default function Units() {
     const context = useOutletContext<Awaited<ReturnType<typeof rootLoader>>>()
-    const { terran, zerg, protoss } = groupByRace(context.jsonContent.unitsWithWeapons)
+    const { terran, zerg, protoss } = groupByRace(context.balanceData.unitsWithWeapons)
 
     return <>
         <h1>

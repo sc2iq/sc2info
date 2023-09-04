@@ -8,7 +8,7 @@ export default function Unit() {
   const { unitId } = useParams()
 
   const context = useOutletContext<Awaited<ReturnType<typeof rootLoader>>>()
-  const unit = context.jsonContent.unitsWithWeapons.find(e => e.attributes?.id === unitId)
+  const unit = context.balanceData.unitsWithWeapons.find(e => e.attributes?.id === unitId)
   if (!unit) {
     return <div>Could not find unit with id {unitId}</div>
   }

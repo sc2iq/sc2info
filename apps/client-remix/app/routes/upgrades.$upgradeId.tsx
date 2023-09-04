@@ -7,7 +7,7 @@ export default function Unit() {
   const { upgradeId } = useParams()
   
   const context = useOutletContext<Awaited<ReturnType<typeof rootLoader>>>()
-  const upgrade = context.jsonContent.upgrades.find(e => e.attributes?.id === upgradeId)
+  const upgrade = context.balanceData.upgrades.find(e => e.attributes?.id === upgradeId)
   if (!upgrade) {
     return <div>Could not find upgrade with id {upgradeId}</div>
   }

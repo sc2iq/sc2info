@@ -11,7 +11,7 @@ export default function Abilities() {
         ?.elements?.find(e => e?.name === "meta")
         ?.attributes ?? {}
         
-    const { terran, zerg, protoss } = groupByRace(context.jsonContent.abilities, getMetaAttributes)
+    const { terran, zerg, protoss } = groupByRace(context.balanceData.abilities, getMetaAttributes)
 
     return <>
         <h1>

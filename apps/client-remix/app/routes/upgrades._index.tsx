@@ -6,7 +6,7 @@ import { groupByRace } from "~/utilities"
 
 export default function Upgrades() {
     const context = useOutletContext<Awaited<ReturnType<typeof rootLoader>>>()
-    const { terran, zerg, protoss } = groupByRace(context.jsonContent.upgrades)
+    const { terran, zerg, protoss } = groupByRace(context.balanceData.upgrades)
 
     return <>
         <h1>

@@ -5,7 +5,7 @@ import { groupByRace } from "~/utilities"
 
 export default function Buildings() {
     const context = useOutletContext<Awaited<ReturnType<typeof rootLoader>>>()
-    const { terran, zerg, protoss } = groupByRace(context.jsonContent.buildings)
+    const { terran, zerg, protoss } = groupByRace(context.balanceData.buildings)
 
     return <>
         <h1>

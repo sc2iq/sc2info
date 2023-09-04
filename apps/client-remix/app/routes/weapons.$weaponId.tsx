@@ -7,7 +7,7 @@ export default function Weapon() {
   const { weaponId } = useParams()
   
   const context = useOutletContext<Awaited<ReturnType<typeof rootLoader>>>()
-  const weapon = context.jsonContent.unitWeapons.find(e => e.attributes?.id === weaponId)
+  const weapon = context.balanceData.unitWeapons.find(e => e.attributes?.id === weaponId)
   if (!weapon) {
     return <div>Could not find weapon with id {weaponId}</div>
   }
