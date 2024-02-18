@@ -82,8 +82,7 @@ export default function Index() {
 
           let toUrl = `/units/${searchResult.item.name}`
           if (searchResult.item.type === 'ability') {
-            let name = convertCamelCaseToSpacedCase(searchResult.item.name ?? '')
-            name = name.replace(/\s/g, '').replace('%20', '').toLowerCase()
+            let name = searchResult.item.name.replace(/\s/g, '').replace('%20', '').toLowerCase()
 
             toUrl = `/abilities#${name}`
           }

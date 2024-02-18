@@ -23,8 +23,7 @@ export default function Abilities() {
                     <h2>Terran</h2>
                     <div className="ability-preview-list">
                         {terran.map((ability, i) => {
-                            let name = convertCamelCaseToSpacedCase(ability.attributes?.id ?? '')
-                            name = name.replace(/\s/g, '').replace('%20', '').toLowerCase()
+                            let name = (ability.attributes?.id ?? '').replace(/\s/g, '').replace('%20', '').toLowerCase()
                             const isSelected = name == hash.replace('#', '')
 
                             return (
