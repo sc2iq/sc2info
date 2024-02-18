@@ -93,6 +93,9 @@ export default function Index() {
           else if (searchResult.item.type === 'weapon') {
             toUrl = `/weapons/${searchResult.item.name}`
           }
+          else if (searchResult.item.type === 'upgrade') {
+            toUrl = `/upgrades/${searchResult.item.name}`
+          }
 
           return <Link to={toUrl} key={i}>
             <SearchResult searchAllResult={searchResult} />
