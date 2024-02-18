@@ -1,10 +1,6 @@
 import dotenv from 'dotenv'
 import extractSc2Info from './index'
 
-process.on('unhandledRejection', (reason) => {
-    throw reason
-})
-
 dotenv.config()
 
 const unitQuestions = [
