@@ -21,6 +21,7 @@ html {
     --accent: #F2C94C;
     --neutral: #C4C4C4;
     --previewBorder: #195889;
+    --previewBorderSelected: var(--accent);
     --previewBackground: #040517;
 }
 

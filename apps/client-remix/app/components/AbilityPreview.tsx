@@ -5,9 +5,10 @@ import Preview from './Preview'
 
 type Props = {
     ability: XmlJsonElement
+    isSelected?: boolean
 }
 
-const AbilityPreview: React.FC<Props> = ({ ability }) => {
+const AbilityPreview: React.FC<Props> = ({ ability, isSelected }) => {
     const abilityCommandAttributes = ability
         .elements?.find(e => e?.name === "command")
         ?.attributes ?? {}
@@ -26,7 +27,7 @@ const AbilityPreview: React.FC<Props> = ({ ability }) => {
     const iconUrl = `https://sharedklgoyistorage.blob.core.windows.net/sc2-balancedata-icons/${abilityMetaAttributes?.icon ?? ''}.png`
 
     return (
-        <Preview name={name} iconUrl={iconUrl} />
+        <Preview name={name} iconUrl={iconUrl} isSelected={isSelected} />
     )
 }
 

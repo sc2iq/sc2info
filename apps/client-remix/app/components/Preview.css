@@ -9,6 +9,10 @@
     margin-bottom: 1em;
 }
 
+.preview--selected {
+    border-color: var(--previewBorderSelected);
+}
+
 .preview__picture {
     padding: 0.5em;
     padding-bottom: 0;

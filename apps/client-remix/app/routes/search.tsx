@@ -1,10 +1,10 @@
-import { ActionArgs, LoaderArgs, redirect } from '@remix-run/node'
-import { Form, Link, NavLink, useActionData, useLoaderData, useOutletContext } from '@remix-run/react'
+import { LoaderArgs } from '@remix-run/node'
+import { Form, Link, NavLink, useLoaderData } from '@remix-run/react'
 import React from 'react'
 import SearchResult from '~/components/SearchResult'
 import { IGenericSearchItem, getFuseObject } from '~/helpers/search'
 import Fuse from 'fuse.js'
-import { XmlJsonElement } from '~/utilities'
+import { XmlJsonElement, convertCamelCaseToSpacedCase } from '~/utilities'
 
 let fuseInstance: Fuse<IGenericSearchItem> | undefined = undefined
 
@@ -79,17 +79,23 @@ export default function Index() {
       </Form>
     </div>
 
-    <h3>Results for: '{}'</h3>
+    <h3>Results for: '{ }'</h3>
     <section>
       <div className="search-all-list">
         {searchResults.map((searchResult, i) => {
 
-          let path = 'units'
+          let toUrl = `/units/${searchResult.item.name}`
           if (searchResult.item.type === 'ability') {
-            path = 'abilities'
+            let name = convertCamelCaseToSpacedCase(searchResult.item.name ?? '')
+            name = name.replace(/\s/g, '').replace('%20', '').toLowerCase()
+
+            toUrl = `/abilities#${name}`
+          }
+          else if (searchResult.item.type === 'building') {
+            toUrl = `/buildings/${searchResult.item.name}`
           }
 
-          return <Link to={`/${path}/${searchResult.item.name}`} key={i}>
+          return <Link to={toUrl} key={i}>
             <SearchResult searchAllResult={searchResult} />
           </Link>
         })}

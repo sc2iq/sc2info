@@ -4,12 +4,13 @@ import IconImage from './IconImage'
 type Props = {
     iconUrl: string
     name: string
+    isSelected?: boolean
 }
 
-const Preview: React.FC<Props> = ({ iconUrl, name }) => {
+const Preview: React.FC<Props> = ({ iconUrl, name, isSelected = false }) => {
     return (
         <>
-            <div className="preview">
+            <div className={`preview ${isSelected ? 'preview--selected' : ''}`}>
                 <div className="preview__picture">
                     <IconImage url={iconUrl} />
                 </div>

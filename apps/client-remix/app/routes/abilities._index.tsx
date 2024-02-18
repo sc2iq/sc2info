@@ -1,8 +1,7 @@
-import { NavLink, useOutletContext } from "@remix-run/react"
+import { Link, NavLink, useLocation, useOutletContext } from "@remix-run/react"
 import AbilityPreview from "~/components/AbilityPreview"
-import { getRaceFromString } from "~/helpers"
 import { loader as rootLoader } from "~/root"
-import { XmlJsonElement, groupByRace } from "~/utilities"
+import { XmlJsonElement, convertCamelCaseToSpacedCase, groupByRace } from "~/utilities"
 
 export default function Abilities() {
     const context = useOutletContext<Awaited<ReturnType<typeof rootLoader>>>()
@@ -10,8 +9,9 @@ export default function Abilities() {
         .elements?.find(e => e?.name === "command")
         ?.elements?.find(e => e?.name === "meta")
         ?.attributes ?? {}
-        
+
     const { terran, zerg, protoss } = groupByRace(context.balanceData.abilities, getMetaAttributes)
+    const { hash } = useLocation()
 
     return <>
         <h1>
@@ -22,27 +22,51 @@ export default function Abilities() {
                 <div>
                     <h2>Terran</h2>
                     <div className="ability-preview-list">
-                        {terran.map((ability, i) =>
-                            <AbilityPreview ability={ability} key={i} />
-                        )}
+                        {terran.map((ability, i) => {
+                            let name = convertCamelCaseToSpacedCase(ability.attributes?.id ?? '')
+                            name = name.replace(/\s/g, '').replace('%20', '').toLowerCase()
+                            const isSelected = name == hash.replace('#', '')
+
+                            return (
+                                <Link to={`#${name}`} id={name} key={i}>
+                                    <AbilityPreview ability={ability} isSelected={isSelected} />
+                                </Link>
+                            )
+                        })}
                     </div>
                 </div>
 
                 <div>
                     <h2>Zerg</h2>
                     <div className="ability-preview-list">
-                        {zerg.map((ability, i) =>
-                            <AbilityPreview ability={ability} key={i} />
-                        )}
+                        {zerg.map((ability, i) => {
+                            let name = convertCamelCaseToSpacedCase(ability.attributes?.id ?? '')
+                            name = name.replace(/\s/g, '').replace('%20', '').toLowerCase()
+                            const isSelected = name == hash.replace('#', '')
+
+                            return (
+                                <Link to={`#${name}`} id={name} key={i}>
+                                    <AbilityPreview ability={ability} isSelected={isSelected} />
+                                </Link>
+                            )
+                        })}
                     </div>
                 </div>
 
                 <div>
                     <h2>Protoss</h2>
                     <div className="ability-preview-list">
-                        {protoss.map((ability, i) =>
-                            <AbilityPreview ability={ability} key={i} />
-                        )}
+                        {protoss.map((ability, i) => {
+                            let name = convertCamelCaseToSpacedCase(ability.attributes?.id ?? '')
+                            name = name.replace(/\s/g, '').replace('%20', '').toLowerCase()
+                            const isSelected = name == hash.replace('#', '')
+
+                            return (
+                                <Link to={`#${name}`} id={name} key={i}>
+                                    <AbilityPreview ability={ability} isSelected={isSelected} />
+                                </Link>
+                            )
+                        })}
                     </div>
                 </div>
             </div>
