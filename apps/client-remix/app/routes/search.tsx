@@ -1,5 +1,5 @@
 import { LoaderArgs } from '@remix-run/node'
-import { Form, Link, NavLink, useLoaderData } from '@remix-run/react'
+import { Form, Link, NavLink, useLoaderData, useLocation } from '@remix-run/react'
 import React from 'react'
 import SearchResult from '~/components/SearchResult'
 import { IGenericSearchItem, getFuseObject } from '~/helpers/search'
@@ -50,13 +50,9 @@ export default function Index() {
     }
   }
 
-  console.log({ loaderData })
-  const searchQuery = loaderData?.searchQuery ?? ''
-  // if (searchQuery.length > 0 && formRef.current) {
-  //   console.log(`Set form to ${searchQuery}`)
-  //   formRef.current.value = searchQuery
-  // }
-
+  const { search } = useLocation()
+  const searchParams = new URLSearchParams(search)
+  const query = searchParams.get('query') ?? ''
   const searchResults = loaderData?.searchResults ?? []
 
   return <>
@@ -79,7 +75,7 @@ export default function Index() {
       </Form>
     </div>
 
-    <h3>Results for: '{ }'</h3>
+    <h3>Results for: '{query}'</h3>
     <section>
       <div className="search-all-list">
         {searchResults.map((searchResult, i) => {
