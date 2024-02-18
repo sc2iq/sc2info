@@ -1,4 +1,4 @@
-import type { LinksFunction, LoaderArgs, LoaderFunction } from "@remix-run/node"
+import { type LinksFunction, type LoaderArgs } from "@remix-run/node"
 import React from 'react'
 import {
   Links,
@@ -27,8 +27,8 @@ import componentSearchResultStyles from '~/components/SearchResult.css'
 import componentUnitFullStyles from '~/components/UnitFull.css'
 import componentUpgradeFullStyles from '~/components/UpgradeFull.css'
 import componentWeaponFullStyles from '~/components/WeaponFull.css'
-import { XmlJsonElement } from '~/utilities'
-import type { ShouldRevalidateFunction } from "@remix-run/react";
+import type { ShouldRevalidateFunction } from "@remix-run/react"
+import { XmlJsonElement } from "./utilities"
 
 export const links: LinksFunction = () => ([
   { rel: 'stylesheet', href: resetStyles },
@@ -95,30 +95,28 @@ let balanceData: Record<string, XmlJsonElement[]> | undefined = undefined
 export const loader = async (args: LoaderArgs) => {
   if (typeof balanceData === 'undefined') {
     const jsonFileUrl = process.env.BALANCE_DATA_JSON_URL!
-    console.log(`Root: Downloading: ${jsonFileUrl}`)
+    console.log(`Downloading: ${jsonFileUrl}`)
     const jsonFileResponse = await fetch(jsonFileUrl)
-    const jsonContent: Record<string, XmlJsonElement[]> = await jsonFileResponse.json()
-    console.log(`Root: Complete!`)
-    balanceData = jsonContent
-    console.log(`Root: typeof balanceData: `, typeof balanceData)
+    balanceData = await jsonFileResponse.json()
+    console.log(`Complete!`)
+    console.groupEnd()
   }
 
   const iconsContainerUrl = process.env.ICONS_CONTAINER_URL
-  
+
   return {
     iconsContainerUrl,
     balanceData,
   }
 }
 
-
 export const shouldRevalidate: ShouldRevalidateFunction = () => {
-  return false;
-};
+  return false
+}
 
 export default function App() {
   const loaderData = useLoaderData<typeof loader>()
-  
+
   return <AppBase>
     <Outlet context={loaderData} />
   </AppBase>

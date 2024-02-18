@@ -4,7 +4,7 @@ import React from 'react'
 import SearchResult from '~/components/SearchResult'
 import { IGenericSearchItem, getFuseObject } from '~/helpers/search'
 import Fuse from 'fuse.js'
-import { XmlJsonElement, convertCamelCaseToSpacedCase } from '~/utilities'
+import { XmlJsonElement } from '~/utilities'
 
 let fuseInstance: Fuse<IGenericSearchItem> | undefined = undefined
 
@@ -15,15 +15,15 @@ export const loader = async ({ request }: LoaderArgs) => {
 
   if (url.searchParams.get('intent') === 'search') {
     const searchQuery = url.searchParams.get('query') ?? ''
-    console.log('Search', { searchQuery })
-
     if (searchQuery.length >= minSearchQuery) {
       if (typeof fuseInstance === 'undefined') {
+        console.group('Search')
         const jsonFileUrl = process.env.BALANCE_DATA_JSON_URL!
-        console.log(`Search: Downloading: ${jsonFileUrl}`)
+        console.log(`Downloading: ${jsonFileUrl}`)
         const jsonFileResponse = await fetch(jsonFileUrl)
         const balanceData: Record<string, XmlJsonElement[]> = await jsonFileResponse.json()
-        console.log(`Search: Complete!`)
+        console.log(`Complete!`)
+        console.groupEnd()
         fuseInstance = getFuseObject(balanceData)
         console.log(`fuseIntance type: `, typeof fuseInstance)
       }
