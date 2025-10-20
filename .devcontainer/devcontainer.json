@@ -2,11 +2,15 @@
     "name": "SC2INFO",
     "image": "mcr.microsoft.com/devcontainers/typescript-node:1-20-bullseye",
     "features": {
-        "ghcr.io/devcontainers/features/azure-cli:1": {},
+        "ghcr.io/devcontainers/features/azure-cli:1": {
+            "installBicep": true,
+        },
         "ghcr.io/azure/azure-dev/azd:0": {},
         "ghcr.io/devcontainers/features/powershell:1": {},
-        "ghcr.io/devcontainers/features/common-utils:2": {},
-        "ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {},
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "configureZshAsDefaultShell": true,
+        },
+        "ghcr.io/devcontainers/features/github-cli": {},
         "ghcr.io/eitsupi/devcontainer-features/jq-likes:2": {},
         "ghcr.io/devcontainers/features/docker-in-docker": {},
     },
@@ -35,8 +39,8 @@
         ".devcontainer/devcontainer.env"
     ],
     "postCreateCommand": "bash .devcontainer/postCreateCommand.sh",
-    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace/dummyOne/sc2infoDev,type=bind",
-    "workspaceFolder": "/workspace/dummyOne/sc2infoDev",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace/dummyOne/sc2info,type=bind",
+    "workspaceFolder": "/workspace/dummyOne/sc2info",
     "mounts": [
         {
             "source": "${localWorkspaceFolder}/../../shared-resources",

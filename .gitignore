@@ -1,8 +1,10 @@
-node_modules
-build
+node_modules/
+build/
 
 balancedata/
 
 .env
+
+!.devcontainer/devcontainer.env
 
 debug.log
