@@ -41,7 +41,7 @@ https://learn.microsoft.com/en-us/azure/azure-functions/functions-reference-node
 - [{rand-guid}](https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-expressions-patterns#create-guids)
 - [{DateTime}](https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-expressions-patterns#current-time)
 
-### Dynamic Output Name with Node 
+### Dynamic Output Name with Node
 
 https://github.com/Azure/azure-functions-host/issues/85
 
