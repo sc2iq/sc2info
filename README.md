@@ -32,13 +32,13 @@ E.g. "How much does a marine cost?" -> `{ type: unit, unit: marine, features: ['
 
 ### 3. Question Generator (HTTP portion)
 
-Sends the 
+Sends the
 
 #### KB Creator
 
 Reads a file output by the generator such as 'qnaKnowledgeBase.json' and creates a new KB.
 
-#### LUIS Model Creator 
+#### LUIS Model Creator
 
 Reads a file  output by the generator such as 'sc2info-bot.lu' and creates a new model.
 
@@ -83,3 +83,18 @@ This repository uses npm@7 for package consolidation
 See Announcement: https://github.blog/2020-10-13-presenting-v7-0-0-of-the-npm-cli/
 Arborist Deep Dive: https://blog.npmjs.org/post/618653678433435649/npm-v7-series-arborist-deep-dive
 See Workspaces RFC: https://github.com/npm/rfcs/blob/latest/implemented/0026-workspaces.md
+
+## Deployment
+
+### Setup Context
+
+```bash
+az login
+az account set -n "063c6fc2-7c81-47a7-8304-878a3bb4529b"
+az account show --query "name"
+az acr login --name sharedzkpwxzacr
+```
+
+```pwsh
+./scripts/deploy.ps1
+```
