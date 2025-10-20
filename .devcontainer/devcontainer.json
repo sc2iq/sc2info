@@ -26,11 +26,15 @@
                 }
             },
             "extensions": [
-                "EditorConfig.EditorConfig",
-                "GitHub.copilot-chat",
+                "dotenv.dotenv-vscode",
                 "eamodio.gitlens",
+                "EditorConfig.EditorConfig",
+                "foxundermoon.shell-format",
+                "GitHub.copilot-chat",
+                "ms-azuretools.vscode-bicep",
                 "ms-azuretools.vscode-docker",
-                "ms-azuretools.vscode-azurefunctions"
+                "ms-azuretools.vscode-azurefunctions",
+                "ms-vscode.powershell",
             ]
         }
     },
@@ -38,7 +42,9 @@
         "--env-file",
         ".devcontainer/devcontainer.env"
     ],
-    "postCreateCommand": "bash .devcontainer/postCreateCommand.sh",
+    "onCreateCommand": "bash ./.devcontainer/onCreateCommand.sh",
+    "postCreateCommand": "bash ./.devcontainer/postCreateCommand.sh",
+    "postStartCommand": "bash ./.devcontainer/postStartCommand.sh",
     "workspaceMount": "source=${localWorkspaceFolder},target=/workspace/dummyOne/sc2info,type=bind",
     "workspaceFolder": "/workspace/dummyOne/sc2info",
     "mounts": [
