@@ -23,7 +23,7 @@ var registryPasswordName = 'container-registry-password'
 @secure()
 param registryPassword string
 
-resource containerApp 'Microsoft.App/containerapps@2022-03-01' = {
+resource containerApp 'Microsoft.App/containerApps@2025-02-02-preview' = {
   name: name
   location: location
   properties: {

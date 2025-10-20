@@ -2,11 +2,11 @@
 
 /// <reference lib="dom" />
 
-import { categorizeUnits } from './postProcess'
-import yargs from 'yargs'
-import fs from 'fs'
-import * as unit from './unit'
 import { config } from 'dotenv-flow'
+import fs from 'fs'
+import yargs from 'yargs'
+import { categorizeUnits } from './postProcess'
+import * as unit from './unit'
 
 export {
     unit

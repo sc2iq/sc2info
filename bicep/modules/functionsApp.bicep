@@ -14,7 +14,7 @@ resource applicationInsightsResource 'Microsoft.Insights/components@2020-02-02' 
   scope: resourceGroup('shared')
 }
 
-resource functionsAppResource 'Microsoft.Web/sites@2022-09-01' = {
+resource functionsAppResource 'Microsoft.Web/sites@2024-11-01' = {
   name: name
   location: location
   tags: {

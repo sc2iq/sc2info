@@ -6,16 +6,16 @@ param uniqueRgString string
 @maxLength(24)
 param storageAccountName string = '${resourceGroup().name}${uniqueRgString}storage'
 
-resource storageAccount 'Microsoft.Storage/storageAccounts@2022-05-01' existing = {
+resource storageAccount 'Microsoft.Storage/storageAccounts@2025-01-01' existing = {
   name: storageAccountName
 }
 
-resource blobService 'Microsoft.Storage/storageAccounts/blobServices@2022-09-01' existing = {
+resource blobService 'Microsoft.Storage/storageAccounts/blobServices@2025-01-01' existing = {
   parent: storageAccount
   name: 'default'
 }
 
-resource zipContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2022-09-01' = {
+resource zipContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2025-01-01' = {
   parent: blobService
   name: 'sc2-balancedata-zip'
   properties: {
@@ -23,7 +23,7 @@ resource zipContainer 'Microsoft.Storage/storageAccounts/blobServices/containers
   }
 }
 
-resource xmlContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2022-09-01' = {
+resource xmlContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2025-01-01' = {
   parent: blobService
   name: 'sc2-balancedata-xml'
   properties: {
@@ -31,7 +31,7 @@ resource xmlContainer 'Microsoft.Storage/storageAccounts/blobServices/containers
   }
 }
 
-resource jsonContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2022-09-01' = {
+resource jsonContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2025-01-01' = {
   parent: blobService
   name: 'sc2-balancedata-json'
   properties: {
@@ -39,7 +39,7 @@ resource jsonContainer 'Microsoft.Storage/storageAccounts/blobServices/container
   }
 }
 
-resource jsonProcessedContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2022-09-01' = {
+resource jsonProcessedContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2025-01-01' = {
   parent: blobService
   name: 'sc2-balancedata-json-processed'
   properties: {
@@ -47,7 +47,7 @@ resource jsonProcessedContainer 'Microsoft.Storage/storageAccounts/blobServices/
   }
 }
 
-resource iconsContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2022-09-01' = {
+resource iconsContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2025-01-01' = {
   parent: blobService
   name: 'sc2-balancedata-icons'
   properties: {

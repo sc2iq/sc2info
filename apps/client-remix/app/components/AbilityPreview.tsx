@@ -1,6 +1,5 @@
 import React from 'react'
 import { XmlJsonElement, convertCamelCaseToSpacedCase } from '../utilities'
-import IconImage from './IconImage'
 import Preview from './Preview'
 
 type Props = {
