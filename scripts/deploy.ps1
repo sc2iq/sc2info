@@ -7,14 +7,15 @@ $scriptDir = Split-Path $scriptPath
 $currentDir = $scriptDir
 $repoRoot = $null
 while ($currentDir -and -not $repoRoot) {
-    if (Test-Path (Join-Path $currentDir "README.md")) {
-        $repoRoot = $currentDir
-    } else {
-        $currentDir = Split-Path $currentDir
-    }
+  if (Test-Path (Join-Path $currentDir "README.md")) {
+    $repoRoot = $currentDir
+  }
+  else {
+    $currentDir = Split-Path $currentDir
+  }
 }
 if (-not $repoRoot) {
-    throw "Could not find repo root (no README.md found in parent directories)."
+  throw "Could not find repo root (no README.md found in parent directories)."
 }
 
 echo "Script Path: $scriptPath"
@@ -57,9 +58,9 @@ $balanceDataUploaderContainerName = "$sc2infoResourceGroupName-balancedata-uploa
 $balanceDataUploaderImageTag = $(Get-Date -Format "yyyyMMddhhmm")
 $balanceDataUploaderImageName = "$($sharedResourceVars.registryUrl)/${balanceDataUploaderContainerName}:${balanceDataUploaderImageTag}"
 
-$infoContainerName = "$sc2infoResourceGroupName-app"
-$infoImageTag = $(Get-Date -Format "yyyyMMddhhmm")
-$infoImageName = "$($sharedResourceVars.registryUrl)/${infoContainerName}:${infoImageTag}"
+$infoAppContainerName = "$sc2infoResourceGroupName-app"
+$infoAppImageTag = $(Get-Date -Format "yyyyMMddhhmm")
+$infoAppImageName = "$($sharedResourceVars.registryUrl)/${infoAppContainerName}:${infoAppImageTag}"
 
 $data = [ordered]@{
   "storageConnectionString"      = "$($storageConnectionString.Substring(0, 30))..."
@@ -73,7 +74,7 @@ $data = [ordered]@{
   "iconsContainerUrl"            = $iconsContainerUrl
 
   "balanceDataUploaderImageName" = $balanceDataUploaderImageName
-  "infoImageName"                = $infoImageName
+  "infoAppImageName"             = $infoAppImageName
 
   "containerAppsEnvResourceId"   = $($sharedResourceVars.containerAppsEnvResourceId)
   "registryUrl"                  = $($sharedResourceVars.registryUrl)
@@ -179,21 +180,21 @@ else {
   Write-Output $clientUrl
 }
 
-Write-Step "Build $infoImageName Image (What-If: $($WhatIf))"
-docker build -t $infoImageName "$repoRoot/apps/client-remix"
+Write-Step "Build $infoAppImageName Image (What-If: $($WhatIf))"
+docker build -t $infoAppImageName "$repoRoot/apps/client-remix"
 
 if ($WhatIf -eq $False) {
-  Write-Step "Push $infoImageName Image (What-If: $($WhatIf))"
-  docker push $infoImageName
+  Write-Step "Push $infoAppImageName Image (What-If: $($WhatIf))"
+  docker push $infoAppImageName
 }
 else {
-  Write-Step "Skipping Push $infoImageName Image (What-If: $($WhatIf))"
+  Write-Step "Skipping Push $infoAppImageName Image (What-If: $($WhatIf))"
 }
 
-Write-Step "Get Top Image from $($sharedResourceVars.registryUrl) respository $infoContainerName to Verify Push (What-If: $($WhatIf))"
-az acr repository show-tags --name $($sharedResourceVars.registryUrl)  --repository $infoContainerName --orderby time_desc --top 1 -o tsv
+Write-Step "Get Top Image from $($sharedResourceVars.registryUrl) respository $infoAppContainerName to Verify Push (What-If: $($WhatIf))"
+az acr repository show-tags --name $($sharedResourceVars.registryUrl)  --repository $infoAppContainerName --orderby time_desc --top 1 -o tsv
 
-Write-Step "Deploy $infoContainerName Container App (What-If: $($WhatIf))"
+Write-Step "Deploy $infoAppContainerName Container App (What-If: $($WhatIf))"
 $infoBicepContainerDeploymentFilePath = "$repoRoot/bicep/modules/infoViewerContainerApp.bicep"
 
 if ($WhatIf -eq $True) {
@@ -204,8 +205,8 @@ if ($WhatIf -eq $True) {
     registryUrl=$($sharedResourceVars.registryUrl) `
     registryUsername=$($sharedResourceVars.registryUsername) `
     registryPassword=$($sharedResourceVars.registryPassword) `
-    imageName=$infoImageName `
-    containerName=$infoContainerName `
+    imageName=$infoAppImageName `
+    containerName=$infoAppContainerName `
     balanceDataJsonUrl=$balanceDataJsonUrl `
     iconsContainerUrl=$iconsContainerUrl `
     --what-if
@@ -218,8 +219,8 @@ else {
       registryUrl=$($sharedResourceVars.registryUrl) `
       registryUsername=$($sharedResourceVars.registryUsername) `
       registryPassword=$($sharedResourceVars.registryPassword) `
-      imageName=$infoImageName `
-      containerName=$infoContainerName `
+      imageName=$infoAppImageName `
+      containerName=$infoAppContainerName `
       balanceDataJsonUrl=$balanceDataJsonUrl `
       iconsContainerUrl=$iconsContainerUrl `
       --query "properties.outputs.fqdn.value" `
