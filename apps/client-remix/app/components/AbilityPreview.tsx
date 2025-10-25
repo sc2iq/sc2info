@@ -1,5 +1,8 @@
+import { useOutletContext } from '@remix-run/react'
 import React from 'react'
-import { XmlJsonElement, convertCamelCaseToSpacedCase } from '../utilities'
+import type { loader as rootLoader } from "~/root"
+import type { XmlJsonElement } from '../utilities'
+import { convertCamelCaseToSpacedCase } from '../utilities'
 import Preview from './Preview'
 
 type Props = {
@@ -23,7 +26,8 @@ const AbilityPreview: React.FC<Props> = ({ ability, isSelected }) => {
     //     name += ` - ${commandName}`
     // }
 
-    const iconUrl = `https://sharedklgoyistorage.blob.core.windows.net/sc2-balancedata-icons/${abilityMetaAttributes?.icon ?? ''}.png`
+    const context = useOutletContext<Awaited<ReturnType<typeof rootLoader>>>()
+    const iconUrl = `${context.iconsContainerUrl}/${abilityMetaAttributes?.icon ?? ''}.png`
 
     return (
         <Preview name={name} iconUrl={iconUrl} isSelected={isSelected} />

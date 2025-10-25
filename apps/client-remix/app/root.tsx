@@ -1,5 +1,4 @@
 import { type LinksFunction, type LoaderArgs } from "@remix-run/node"
-import React from 'react'
 import {
   Links,
   LiveReload,
@@ -8,27 +7,30 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  V2_MetaFunction,
   isRouteErrorResponse,
   useLoaderData,
   useRouteError,
 } from "@remix-run/react"
+import React from 'react'
 
-import resetStyles from '~/styles/reset.css'
-import rootStyles from '~/styles/root.css'
-import indexStyles from '~/styles/index.css'
-import askStyles from '~/styles/ask.css'
-import browseStyles from '~/styles/browse.css'
-import searchStyles from '~/styles/search.css'
-import abilitiesStyles from '~/styles/abilities.css'
-import componentPreviewStyles from '~/components/Preview.css'
+import type {
+  ShouldRevalidateFunction,
+  V2_MetaFunction
+} from "@remix-run/react"
 import componentFuseMatchStyles from '~/components/FuseMatch.css'
+import componentPreviewStyles from '~/components/Preview.css'
 import componentSearchResultStyles from '~/components/SearchResult.css'
 import componentUnitFullStyles from '~/components/UnitFull.css'
 import componentUpgradeFullStyles from '~/components/UpgradeFull.css'
 import componentWeaponFullStyles from '~/components/WeaponFull.css'
-import type { ShouldRevalidateFunction } from "@remix-run/react"
-import { XmlJsonElement } from "./utilities"
+import abilitiesStyles from '~/styles/abilities.css'
+import askStyles from '~/styles/ask.css'
+import browseStyles from '~/styles/browse.css'
+import indexStyles from '~/styles/index.css'
+import resetStyles from '~/styles/reset.css'
+import rootStyles from '~/styles/root.css'
+import searchStyles from '~/styles/search.css'
+import type { XmlJsonElement } from "./utilities"
 
 export const links: LinksFunction = () => ([
   { rel: 'stylesheet', href: resetStyles },
@@ -150,7 +152,7 @@ export const AppBase: React.FC<React.PropsWithChildren> = ({ children }) => {
         </main>
         <footer>
           <div className="container sc2info-footer">
-            SC2INFO - StarCraft 2 Info on units, buildings, weapons, and more.  &nbsp;&nbsp;<a href="https://github.com/sc2iq/sc2info/issues/new" target="_blank">Contact</a>
+            SC2INFO - StarCraft 2 Info on units, buildings, weapons, and more.  &nbsp;&nbsp;<a href="https://github.com/sc2iq/sc2info/issues/new" target="_blank" rel="noreferrer">Contact</a>
           </div>
         </footer>
         <ScrollRestoration />
