@@ -35,7 +35,7 @@ $inputs = @{
 Write-Hash "Inputs" $inputs
 
 $sharedResourceGroupName = "shared"
-$sharedRgString = 'klgoyi'
+$sharedRgString = 'zkpwxz'
 $resourceGroupLocation = "westus3"
 $sc2infoResourceGroupName = "sc2-info"
 
