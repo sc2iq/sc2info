@@ -90,10 +90,12 @@ See Workspaces RFC: https://github.com/npm/rfcs/blob/latest/implemented/0026-wor
 
 ```bash
 az login
-az account set -n "063c6fc2-7c81-47a7-8304-878a3bb4529b"
-az account show --query "name"
-az acr login --name sharedzkpwxzacr
+az account set -n "Matt Mazzola - Personal Projects Recovered"
+az account show --query "name" -o tsv
+az acr login --name sharedklgoyiacr
 ```
+
+### What If Deployment
 
 ```pwsh
 ./scripts/deploy.ps1
