@@ -25,6 +25,9 @@ echo "Repo Root: $repoRoot"
 $sharedModulePath = Resolve-Path "$repoRoot/../../shared-resources/pipelines/scripts/common.psm1"
 $localModulePath = Resolve-Path "$repoRoot/scripts/common.psm1"
 
+echo "Shared Module Path: $sharedModulePath"
+echo "Local Module Path: $localModulePath"
+
 Import-Module $sharedModulePath -Force
 Import-Module $localModulePath -Force
 
@@ -35,7 +38,7 @@ $inputs = @{
 Write-Hash "Inputs" $inputs
 
 $sharedResourceGroupName = "shared"
-$sharedRgString = 'zkpwxz'
+$sharedRgString = 'klgoyi'
 $resourceGroupLocation = "westus3"
 $sc2infoResourceGroupName = "sc2-info"
 
