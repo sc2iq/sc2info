@@ -1,10 +1,10 @@
-import React from 'react'
-import RaceImg from './RaceImg'
-import { Race, XmlJsonElement } from '~/utilities'
-import IconImage from './IconImage'
 import { useOutletContext } from '@remix-run/react'
+import React from 'react'
 import { getRaceFromString } from '~/helpers'
-import { loader as rootLoader } from "~/root"
+import type { loader as rootLoader } from "~/root"
+import type { Race, XmlJsonElement } from '~/utilities'
+import IconImage from './IconImage'
+import RaceImg from './RaceImg'
 
 type Props = {
     building: XmlJsonElement

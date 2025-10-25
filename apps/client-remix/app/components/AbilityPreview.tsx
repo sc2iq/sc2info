@@ -11,9 +11,9 @@ type Props = {
 }
 
 const AbilityPreview: React.FC<Props> = ({ ability, isSelected }) => {
-    const abilityCommandAttributes = ability
-        .elements?.find(e => e?.name === "command")
-        ?.attributes ?? {}
+    // const abilityCommandAttributes = ability
+    //     .elements?.find(e => e?.name === "command")
+    //     ?.attributes ?? {}
 
     const abilityMetaAttributes = ability
         .elements?.find(e => e?.name === "command")
