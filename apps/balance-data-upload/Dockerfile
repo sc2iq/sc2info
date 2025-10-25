@@ -49,7 +49,6 @@ COPY --from=build /myapp/start.sh /myapp/start.sh
 
 USER node
 
-ARG AZURE_STORAGE_CONNECTION_STRING
 ENV AZURE_STORAGE_BLOB_ZIP_CONTAINER_NAME=sc2-balancedata-zip
 ENV AZURE_STORAGE_BLOB_XML_CONTAINER_NAME=sc2-balancedata-xml
 ENV AZURE_STORAGE_BLOB_JSON_CONTAINER_NAME=sc2-balancedata-json
