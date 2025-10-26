@@ -54,8 +54,8 @@ $iconsContainerUrl = $(Get-EnvVarFromFile $envFilePath "ICONS_CONTAINER_URL")
 
 Write-Step "Fetch params from Azure"
 $storageConnectionString = $(az storage account show-connection-string -g $sharedResourceGroupName -n $($sharedResourceNames.storageAccount) --query "connectionString" -o tsv)
-$sharedResourceVars = Get-SharedResourceDeploymentVars $sharedResourceGroupName $sharedRgString
 
+$sharedResourceVars = Get-SharedResourceDeploymentVars $sharedResourceGroupName $sharedRgString
 
 $balanceDataUploaderContainerName = "$sc2infoResourceGroupName-balancedata-uploader"
 $balanceDataUploaderImageTag = $(Get-Date -Format "yyyyMMddhhmm")
