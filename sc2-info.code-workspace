@@ -17,6 +17,6 @@
       }
     ],
     "settings": {
-      "powershell.cwd": "/workspace/dummyOne/sc2infoDev"
+      "powershell.cwd": "/workspace/dummyOne/sc2info"
     }
   }
