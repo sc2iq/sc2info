@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+
+name: sc2info
+
+metadata:
+    template: azd-init@1.21.2
+
+services:
+    balance-data-upload:
+        project: apps/balance-data-upload
+        host: containerapp
+        language: docker
+        docker:
+            path: Dockerfile
+
+    client:
+        project: apps/client-remix
+        host: containerapp
+        language: docker
+        docker:
+            path: Dockerfile
+
+resources:
+    balance-data-upload:
+        type: host.containerapp
+        port: 8080
+
+    client:
+        type: host.containerapp
+        port: 8080
+
