@@ -1,5 +1,6 @@
 param name string = '${resourceGroup().name}-balancedata-uploader'
 param location string = resourceGroup().location
+param tags object = {}
 
 param managedEnvironmentResourceId string
 
@@ -17,7 +18,6 @@ var uploadPasswordSecretName = 'upload-password'
 @secure()
 param uploadPassword string
 
-param registryUrl string
 param registryUsername string
 var registryPasswordName = 'container-registry-password'
 @secure()
@@ -26,6 +26,7 @@ param registryPassword string
 resource containerApp 'Microsoft.App/containerApps@2025-02-02-preview' = {
   name: name
   location: location
+  tags: tags
   properties: {
     managedEnvironmentId: managedEnvironmentResourceId
     configuration: {
@@ -36,7 +37,7 @@ resource containerApp 'Microsoft.App/containerApps@2025-02-02-preview' = {
       }
       registries: [
         {
-          server: registryUrl
+          server: '${registryUsername}.azurecr.io'
           username: registryUsername
           passwordSecretRef: registryPasswordName
         }
@@ -99,4 +100,5 @@ resource containerApp 'Microsoft.App/containerApps@2025-02-02-preview' = {
   }
 }
 
-output fqdn string = containerApp.properties.configuration.ingress.fqdn
+output name string = containerApp.name
+output appUrl string = 'https://${containerApp.properties.configuration.ingress.fqdn}'

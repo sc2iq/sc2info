@@ -1,0 +1,45 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "environmentName": {
+      "value": "${AZURE_ENV_NAME}"
+    },
+    "location": {
+      "value": "${AZURE_LOCATION}"
+    },
+    "resourceGroupName": {
+      "value": "${AZURE_RESOURCE_GROUP}"
+    },
+    "sharedResourceGroupName": {
+      "value": "${SHARED_RESOURCE_GROUP}"
+    },
+    "sharedContainerAppsEnvironmentName": {
+      "value": "${SHARED_CONTAINER_APPS_ENVIRONMENT_NAME}"
+    },
+    "sharedAcrName": {
+      "value": "${SHARED_ACR_NAME}"
+    },
+    "balanceDataJsonUrl": {
+      "value": "${BALANCE_DATA_JSON_URL}"
+    },
+    "iconsContainerUrl": {
+      "value": "${ICONS_CONTAINER_URL}"
+    },
+    "storageAccountConnectionString": {
+      "value": "${AZURE_STORAGE_CONNECTION_STRING}"
+    },
+    "uploadPassword": {
+      "value": "${UPLOAD_PASSWORD}"
+    },
+    "blobContainerZip": {
+      "value": "${AZURE_STORAGE_BLOB_ZIP_CONTAINER_NAME}"
+    },
+    "blobContainerJson": {
+      "value": "${AZURE_STORAGE_BLOB_JSON_CONTAINER_NAME}"
+    },
+    "blobContainerXml": {
+      "value": "${AZURE_STORAGE_BLOB_XML_CONTAINER_NAME}"
+    }
+  }
+}

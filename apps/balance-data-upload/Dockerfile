@@ -1,19 +1,19 @@
 # base node image
-FROM node:16-bullseye-slim AS base
+FROM node:18-bullseye-slim AS base
 
-# set for base and all layer that inherit from it
-ENV NODE_ENV="production"
 
 # Install all node_modules, including dev dependencies
 FROM base AS deps
 
 WORKDIR /myapp
 
-ADD package.json ./
-RUN npm install --production=false
+ADD package.json package-lock.json ./
+RUN npm ci
 
 # Setup production node_modules
-FROM base AS production-deps
+FROM deps AS production-deps
+
+ENV NODE_ENV="production"
 
 WORKDIR /myapp
 
@@ -22,7 +22,7 @@ ADD package.json ./
 RUN npm prune --production
 
 # Build the app
-FROM base AS build
+FROM deps AS build
 
 WORKDIR /myapp
 
@@ -32,11 +32,13 @@ ADD . .
 RUN npm run build
 
 # Finally, build the production image with minimal footprint
-FROM base
+FROM build
 
 ENV PORT="8080"
-
 ENV NODE_ENV="production"
+ENV AZURE_STORAGE_BLOB_ZIP_CONTAINER_NAME=sc2-balancedata-zip
+ENV AZURE_STORAGE_BLOB_XML_CONTAINER_NAME=sc2-balancedata-xml
+ENV AZURE_STORAGE_BLOB_JSON_CONTAINER_NAME=sc2-balancedata-json
 
 WORKDIR /myapp
 
@@ -48,9 +50,5 @@ COPY --from=build /myapp/package.json /myapp/package.json
 COPY --from=build /myapp/start.sh /myapp/start.sh
 
 USER node
-
-ENV AZURE_STORAGE_BLOB_ZIP_CONTAINER_NAME=sc2-balancedata-zip
-ENV AZURE_STORAGE_BLOB_XML_CONTAINER_NAME=sc2-balancedata-xml
-ENV AZURE_STORAGE_BLOB_JSON_CONTAINER_NAME=sc2-balancedata-json
 
 ENTRYPOINT [ "sh", "./start.sh" ]
