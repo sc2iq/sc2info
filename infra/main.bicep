@@ -69,6 +69,9 @@ module infoViewerContainerApp 'modules/infoViewerContainerApp.bicep' = {
   }
 }
 
+param balanceDataUploadContainerAppName string = '${resourceGroupName}-balancedata-uploader'
+param balanceDataUploadContainerAppImageName string = ''
+
 @secure()
 param storageAccountConnectionString string
 
@@ -83,12 +86,12 @@ module balanceDataUploaderContainerApp 'modules/balanceDataUploaderContainerApp.
   name: 'balanceDataUploaderContainerAppModule'
   scope: rg
   params: {
-    name: clientContainerAppName
+    name: balanceDataUploadContainerAppName
     location: location
-    tags: union(tags, { 'azd-service-name': 'client' })
-    imageName: !empty(clientContainerAppImageName) ? clientContainerAppImageName : defaultImageName
+    tags: union(tags, { 'azd-service-name': 'balance-data-upload' })
+    imageName: !empty(balanceDataUploadContainerAppImageName) ? balanceDataUploadContainerAppImageName : defaultImageName
     managedEnvironmentResourceId: sharedContainerAppsEnv.id
-    containerName: clientContainerAppName
+    containerName: balanceDataUploadContainerAppName
     registryUsername: sharedAcr.name
     registryPassword: sharedAcr.listCredentials().passwords[0].value
     storageAccountConnectionString: storageAccountConnectionString

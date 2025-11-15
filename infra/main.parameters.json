@@ -11,9 +11,6 @@
     "resourceGroupName": {
       "value": "${AZURE_RESOURCE_GROUP}"
     },
-    "containerAppName": {
-      "value": "${SERVICE_CLIENT_NAME}"
-    },
     "sharedResourceGroupName": {
       "value": "${SHARED_RESOURCE_GROUP}"
     },
